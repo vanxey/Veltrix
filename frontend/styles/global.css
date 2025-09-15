@@ -1,13 +1,19 @@
-/* Import Tailwind base styles */
 @import "tailwindcss";
 
-/* Optional: custom theme variables for colors, fonts, etc. */
-@theme {
-  --color-primary: #3490dc;
+/* Define theme values (variables) */
+:root {
   --font-body: 'Inter', sans-serif;
+  --color-primary: #3490dc;
+  /* you can add more custom color / spacing variables here */
 }
 
-/* You can also add additional global CSS if needed */
+/* Map CSS variables into Tailwind theme constructs */
+@theme inline {
+  --font-sans: var(--font-body);
+  --color-blue-primary: var(--color-primary);
+}
+
+/* Global styles */
 body {
   font-family: var(--font-body);
 }
