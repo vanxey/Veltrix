@@ -52,6 +52,7 @@ export default function Journaling() {
   };
 
   return (
+    // bg-[url(/gradient.svg)] bg-contain
     <div className="grid">
       <div className={`grid ${isBlurred ? 'blur-sm' : ''} transition-all duration-300 grid-rows-[auto_1fr_1fr]`}>
         <Header/>
