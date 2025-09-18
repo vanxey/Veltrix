@@ -37,7 +37,7 @@ export default function TradeTable({trades, onDelete}) {
                     <td className="border-blue-700 p-3 hover:opacity-85">
                         <button
                         onClick={() => onDelete(index)}
-                        className="text-red-600 font-semibold text-center"
+                        className="text-red-600 font-semibold text-center cursor-default hover:opacity-50 hover:cursor-pointer"
                         >
                         ✖
                         </button>
