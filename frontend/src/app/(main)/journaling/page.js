@@ -9,6 +9,7 @@ import { useState } from "react"
 export default function Journaling() {
   const [isVisible, setIsVisible] = useState(false)
   const [isBlurred, setIsBlurred] = useState(false)
+  const [isOpen, setIsOpen] = useState(false)
 
     const [trades, setTrades] = useState([
     {
@@ -64,6 +65,7 @@ export default function Journaling() {
           
             <Button
                 onOpen={()=>{
+                  setIsOpen(true)
                   setIsVisible(true)
                   setIsBlurred(true)
                 }}
@@ -77,8 +79,10 @@ export default function Journaling() {
           onClose={()=>{
             setIsVisible(false)
             setIsBlurred(false)
+            setIsOpen(false)
           }}
           onSave={handleSaveTrade}
+          isOpen={isOpen}
         />}
     </div>
   );
