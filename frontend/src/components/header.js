@@ -16,7 +16,7 @@ return(
             </div>
             <div className="text-base flex justify-end items-center gap-4">
                 <Link href="/login">Login</Link>
-                <Button text="Get started"/>
+                <Button text="Get started"/> 
             </div>
         </div>
     </nav>
