@@ -7,27 +7,88 @@ export default function PopUp({ onClose, onSave, isOpen}) {
     direction: "",
     entry: "",
     exit: "",
+    entry_date: "",
+    exit_date: "",
     size: "",
     pnl: "",
     outcome: "",
-    session: "",
+    session_id: null,
     strategy: "",
-    reviewed: "❌",
+    is_reviewed: false,
     notes: "",
-    // stopLoss: "",
-    // takeProfit: "",
-    // dateTime: "",
-    // screenshot: "",
+    stopLoss: "",
+    takeProfit: "", 
+    dateTime: "",
+    screenshot: "",
   });
 
-  const handleChange = (e) => {
-    setForm({ ...form, [e.target.name]: e.target.value });
-  };
+  const [sessions, setSessions] = useState([]);
+  useEffect(() => {
+    fetch("http://localhost:4000/session")
+      .then(res => res.json())
+      .then(data => setSessions(data))
+      .catch(err => console.error(err));
+  }, []);
 
-  const handleSubmit = (e) => {
-    e.preventDefault();
-    onSave(form);
-  };
+    const handleChange = (e) => {
+      const { name, value, type, checked } = e.target
+
+      let finalValue = value;
+      if (name === "session_id") {
+          finalValue = e.target.options[e.target.selectedIndex].value
+          //console.log(finalValue)
+          //console.log(form.session_id)
+      }
+
+      setForm({
+        ...form,
+        [name]: type === "checkbox" ? checked : finalValue,
+      })
+    }
+
+  const handleSubmit = async (e) => {
+      e.preventDefault()
+
+      const tradeData = {
+        user_id: null,
+        asset: form.asset,
+        direction: form.direction,
+        entry_date: form.dateTime || new Date().toISOString(),
+        entry_price: Number(form.entry),
+        exit_price: Number(form.exit) || null,
+        size: Number(form.size),
+        pnl: Number(form.pnl) || null,
+        outcome: form.outcome || null,
+        session_id: form.session_id || null,
+        strategy: form.strategy || null,
+        is_reviewed: form.is_reviewed ? true : false,
+        notes: form.notes || null,
+        stop_loss: Number(form.stopLoss) || null,
+        take_profit: Number(form.takeProfit) || null,
+        screenshot_url: null,
+      }
+
+      try {
+        const response = await fetch("http://localhost:4000/trades", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify(tradeData),
+        })
+
+        if (!response.ok) {
+          const error = await response.json()
+          console.error("Failed to create trade:", error)
+          return
+        }
+
+        const result = await response.json()
+        console.log("Trade created:", result)
+        onSave(result)
+        onClose()
+      } catch (err) {
+        console.error("Network error:", err)
+      }
+  }
 
   useEffect(()=>{
     isOpen ? document.body.classList.add("overflow-hidden"): document.body.classList.remove("overflow-hidden")
@@ -87,9 +148,9 @@ export default function PopUp({ onClose, onSave, isOpen}) {
                   value={form.direction}
                   onChange={handleChange}
                 >
-                  <option>Direction</option>
-                  <option>Buy</option>
-                  <option>Sell</option>
+                  <option key="direction-default" value="">Direction</option>
+                  <option key="buy" value="Buy">Buy</option>
+                  <option key="sell" value="Sell">Sell</option>
                 </select>
               </div>
 
@@ -120,6 +181,36 @@ export default function PopUp({ onClose, onSave, isOpen}) {
                   onChange={handleChange}
                   placeholder="Exit Price"
                   className="border border-gray-300 p-2 h-10 rounded-lg w-full focus:outline-none focus:ring-2 focus:ring-blue-400"
+                />
+              </div>
+
+              <div className="flex flex-col">
+                <label className="block text-gray-500 font-medium text-sm">
+                  Entry Date:
+                </label>
+
+                <input
+                  disabled
+                  type="date"
+                  name="entry_date"
+                  value={form.entryDate}
+                  onChange={handleChange}
+                  className="border border-gray-300 p-2 h-10 rounded-lg w-auto focus:outline-none focus:ring-2 focus:ring-blue-400"
+                />
+              </div>
+
+              <div className="flex flex-col">
+                <label className="block text-gray-500 font-medium text-sm">
+                  Exit Date:
+                </label>
+
+                <input
+                  disabled
+                  type="date"
+                  name="exit_date"
+                  value={form.exitDate}
+                  onChange={handleChange}
+                  className="border border-gray-300 p-2 h-10 rounded-lg w-auto focus:outline-none focus:ring-2 focus:ring-blue-400"
                 />
               </div>
 
@@ -187,17 +278,18 @@ export default function PopUp({ onClose, onSave, isOpen}) {
                   Session:
                 </label>
 
-                <select
-                  className="border border-gray-300 h-10 rounded-lg w-full focus:outline-none focus:ring-2 focus:ring-blue-400"
-                  name="session"
-                  value={form.session}
-                  onChange={handleChange}
-                >
-                  <option>Session</option>
-                  <option>London</option>
-                  <option>New York</option>
-                  <option>Asia</option>
-                </select>
+              <select
+                className="border border-gray-300 h-10 rounded-lg w-full focus:outline-none focus:ring-2 focus:ring-blue-400"
+                name="session_id"
+                value={form.session_id}
+                onChange={handleChange}
+              >
+                <option key="default-session" value="">Select Session</option>
+                {sessions.map(s => (
+                  <option key={s.session_id} value={s.session_id}>{s.name}</option>
+                ))}
+              </select>
+
               </div>
               <div className="flex flex-col">
                 <label className="block text-gray-500 font-medium text-sm">
@@ -213,6 +305,7 @@ export default function PopUp({ onClose, onSave, isOpen}) {
                   className="border border-gray-300 p-2 h-10 rounded-lg w-full focus:outline-none focus:ring-2 focus:ring-blue-400"
                 />
               </div>
+
               <div className="flex flex-col">
                 <label className="block text-gray-500 font-medium text-sm">
                   Outcome:
@@ -224,12 +317,13 @@ export default function PopUp({ onClose, onSave, isOpen}) {
                   value={form.outcome}
                   onChange={handleChange}
                 >
-                  <option>Outcome</option>
-                  <option>Win</option>
-                  <option>Loss</option>
-                  <option>BE</option>
+                     <option key="outcome-default" value="">Outcome</option>
+                      <option key="win" value="Win">Win</option>
+                      <option key="loss" value="Loss">Loss</option>
+                      <option key="be" value="BE">BE</option>
                 </select>
               </div>
+
               <div className="flex flex-col">
                 <label className="block text-gray-500 font-medium text-sm">
                   PnL ($ or %):
@@ -259,6 +353,7 @@ export default function PopUp({ onClose, onSave, isOpen}) {
                   className="border border-gray-300 p-2 h-10 rounded-lg w-full focus:outline-none focus:ring-2 focus:ring-blue-400"
                 />
               </div>
+
               <div className="grid grid-cols-1 grid-rows-1">
                 <div className="flex flex-col">
                   <label className="block text-gray-500 font-medium text-sm">
@@ -275,6 +370,20 @@ export default function PopUp({ onClose, onSave, isOpen}) {
                   ></textarea>
                 </div>
               </div>
+              <div className="flex justify-end items-center gap-2 mt-2">
+                    <input
+                      type="checkbox"
+                      name="is_reviewed"
+                      checked={form.is_reviewed}
+                      onChange={(e) =>
+                        setForm({ ...form, is_reviewed: e.target.checked })
+                      }
+                      className="h-5 w-5"
+                    />
+                    <label className="text-gray-500 font-medium text-sm">
+                      Reviewed
+                    </label>
+                  </div>
               <div className="flex pt-1">
                 <Button size="md" type="submit" text="Save Trade" />
               </div>

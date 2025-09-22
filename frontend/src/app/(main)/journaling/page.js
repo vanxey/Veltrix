@@ -4,53 +4,69 @@ import Button from "@/components/ui/button";
 import PopUp from "@/components/popup";
 import TradeTable from "@/components/tradeTable";
 import Header from "@/components/header";
-import { useState } from "react"
+import { useState,useEffect } from "react"
 
 export default function Journaling() {
   const [isVisible, setIsVisible] = useState(false)
   const [isBlurred, setIsBlurred] = useState(false)
   const [isOpen, setIsOpen] = useState(false)
 
-    const [trades, setTrades] = useState([
-    {
-      // asset: "EUR/USD",
-      // direction: "Buy",
-      // entry: "1.0500",
-      // exit: "1.0600",
-      // size: "1 lot",
-      // pnl: "+100",
-      // outcome: "Win",
-      // session: "London",
-      // strategy: "Breakout",
-      // reviewed: "✅",
-      // notes: "Good setup",
-      asset: "GBP/USD",
-      direction: "Sell",
-      entry: "1.2450",
-      exit: "1.2380",
-      size: "2",
-      pnl: "140",
-      outcome: "Win",
-      session: "New York",
-      strategy: "Pullback",
-      reviewed: "✅",
-      notes: "Good confluence with 200 EMA + key resistance zone. Could have held longer.",
-      // stopLoss: "1.2480",
-      // takeProfit: "1.2350",
-      // dateTime: "2025-09-17T14:30",
-      // screenshot: null,  placeholder — would normally be a File or URL
-    },
-  ]);
+   const [trades, setTrades] = useState([]);
+      useEffect(() => {
+        fetch("http://localhost:4000/trade")
+          .then(res => res.json())
+          .then(data => setTrades(data))
+          .catch(err => console.error(err));
+      }, [])
 
-    const handleDeleteTrade = (index) =>{
-      setTrades(trades.filter((_, i) => i !== index));
-    }
+  // not dynamic
+  //   const [trades, setTrades] = useState([
+  //   {
+  //     // asset: "GBP/USD",
+  //     // direction: "Sell",
+  //     // entry: "1.2450",
+  //     // exit: "1.2380",
+  //     // size: "2",
+  //     // pnl: "140",
+  //     // outcome: "Win",
+  //     // session: "New York",
+  //     // strategy: "Pullback",
+  //     // reviewed: "✅",
+  //     // notes: "Good confluence with 200 EMA + key resistance zone. Could have held longer.",
+  //     // stopLoss: "1.2480",
+  //     // takeProfit: "1.2350",
+  //     // dateTime: "2025-09-17T14:30",
+  //     // screenshot: null,  placeholder — would normally be a File or URL
+  //   },
+  // ]);
 
-    const handleSaveTrade = (trade) => {
-    setTrades([...trades, trade]);
-    setIsVisible(false);
-    setIsBlurred(false);
-  };
+    const handleDeleteTrade = async (tradeId) =>{
+      // console.log(tradeId)
+      // trades.filter(trade => console.log(trade.trade_id))
+      try {
+        const response = await fetch(`http://localhost:4000/trade/${tradeId}`, {
+          method: "DELETE",
+        })
+
+        if (!response.ok) {
+          const error = await response.json();
+          console.error("Failed to delete trade:", error);
+          return
+        }
+
+        console.log(`Trade with ID ${tradeId} deleted successfully.`);
+  
+        setTrades(trades.filter(trade => trade.trade_id != tradeId));
+        } catch (err) {
+          console.error("Network error:", err);
+        }
+      }
+
+      const handleSaveTrade = (trades) => {
+        setTrades([...trades, trades]);
+        setIsVisible(false);
+        setIsBlurred(false);
+      }
 
   return (
     // bg-[url(/gradient.svg)] bg-contain

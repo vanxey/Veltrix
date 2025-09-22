@@ -1,9 +1,7 @@
-
 export default function TradeTable({trades, onDelete}) {
     const categories = ["Asset", "Direction", "Entry", "Exit", "Size", "PnL", "Outcome", "Session", "Strategy", "Reviewed", "Notes","Delete"]
-    const columns = ["asset","direction","entry","exit","size","pnl","outcome","session","strategy","reviewed","notes"];
+    const columns = ["asset","direction","entry_price","exit_prive","size","pnl","outcome","session_id","strategy","is_reviewed","notes"];
 
-    // add Stop Loss, Take Profit, Date Time in future
   return (
     <div className="overflow-x-auto rounded-lg shadow-lg p-4">
               <table className="min-w-full border border-gray-200 text-sm rounded-lg overflow-hidden">
@@ -11,15 +9,14 @@ export default function TradeTable({trades, onDelete}) {
                   <tr>
                     {
                         categories.map((category)=>(
-                            // console.log(category)
                             <th key={category} className="border-b border-gray-700 p-3 text-left">{category}</th>
                         ))          
                     }
                   </tr>
                 </thead>
                 <tbody className="bg-white">
-                {trades.map((trade, index) => (
-                    <tr key={index} className="hover:bg-gray-50 transition-colors">
+                {trades.map((trade) => (
+                    <tr key={trade.trade_id} className="hover:bg-gray-50 transition-colors">
                     {columns.map((col) => (
                         <td
                         key={col}
@@ -29,14 +26,22 @@ export default function TradeTable({trades, onDelete}) {
                                 ? "text-red-600"
                                 : "text-green-600"
                             : ""
-                        }`}
-                        >
+                        }
+                        
+                        `}
+                        >  {
+                            col === "is_reviewed"
+                            ? trade[col] === false
+                                ? "❌"
+                                : "✅"
+                            : ""
+                        }
                         {trade[col]}
                         </td>
                     ))}
                     <td className="border-blue-700 p-3 hover:opacity-85">
                         <button
-                        onClick={() => onDelete(index)}
+                        onClick={() => onDelete(trade.trade_id)}
                         className="text-red-600 font-semibold text-center cursor-default hover:opacity-50 hover:cursor-pointer"
                         >
                         ✖
