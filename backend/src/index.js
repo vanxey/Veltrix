@@ -109,8 +109,9 @@ app.post('/trades', async (req, res) => {
       asset,
       direction,
       entry_date,
-      entry_price,
-      exit_price = null,
+      exit_date,
+      // entry_price,
+      // exit_price = null,
       size,
       pnl = null,
       outcome = null,
@@ -118,28 +119,30 @@ app.post('/trades', async (req, res) => {
       strategy = null,
       is_reviewed = false,
       notes = null,
-      stop_loss = null,
-      take_profit = null,
+      // stop_loss = null,
+      // take_profit = null,
       screenshot_url = null
     } = req.body;
 
-    if (!asset || !direction || !entry_date || !entry_price || !size) {
+    if (!asset || !direction || !entry_date || !exit_date || !size || !strategy || !outcome || !pnl || !session_id) {
       return res.status(400).json({ error: 'Missing required fields' });
     }
 
     const sql = `
       INSERT INTO trade (
-        user_id, asset, direction, entry_date, entry_price, exit_price,
+        user_id, asset, direction, entry_date, exit_date,
         size, pnl, outcome, session_id, strategy, is_reviewed, notes,
-        stop_loss, take_profit, screenshot_url
-      ) VALUES ($1,$2,$3,$4,$5,$6,$7,$8,$9,$10,$11,$12,$13,$14,$15,$16)
+        screenshot_url
+      ) VALUES ($1,$2,$3,$4,$5,$6,$7,$8,$9,$10,$11,$12,$13)
       RETURNING *;
     `;
 
+    //removed entry_price, exit_price, stop_loss, take_profit,
+
     const { rows } = await pool.query(sql, [
-      user_id, asset, direction, entry_date, entry_price, exit_price,
+      user_id, asset, direction, entry_date, exit_date,
       size, pnl, outcome, session_id, strategy, is_reviewed, notes,
-      stop_loss, take_profit, screenshot_url
+      screenshot_url
     ]);
 
     res.status(201).json(rows[0]);
