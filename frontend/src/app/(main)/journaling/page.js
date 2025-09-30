@@ -62,8 +62,8 @@ export default function Journaling() {
         }
       }
 
-      const handleSaveTrade = (trades) => {
-        setTrades([...trades, trades]);
+      const handleSaveTrade = (newTrades) => {
+        setTrades(trades => [...trades, newTrades]);
         setIsVisible(false);
         setIsBlurred(false);
       }

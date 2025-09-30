@@ -1,6 +1,7 @@
 export default function TradeTable({trades, onDelete}) {
     const categories = ["Asset", "Direction", "Entry", "Exit", "Size", "PnL", "Outcome", "Session", "Strategy", "Reviewed", "Notes","Delete"]
-    const columns = ["asset","direction","entry_price","exit_prive","size","pnl","outcome","session_id","strategy","is_reviewed","notes"];
+    const columns = ["asset","direction","entry_date", "exit_date", "size","pnl","outcome","session_id","strategy","is_reviewed","notes"];
+    //removed crolumns: "entry_price","exit_price",
 
   return (
     <div className="overflow-x-auto rounded-lg shadow-lg p-4">
@@ -35,6 +36,10 @@ export default function TradeTable({trades, onDelete}) {
                                 ? "❌"
                                 : "✅"
                             : ""
+                        }
+                        {
+                            col === "pnl" && (col = `$${trade[col]}`)
+                        
                         }
                         {trade[col]}
                         </td>

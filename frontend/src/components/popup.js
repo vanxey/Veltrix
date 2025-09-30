@@ -2,11 +2,14 @@ import { useState, useEffect } from "react";
 import Button from "./ui/button";
 
 export default function PopUp({ onClose, onSave, isOpen}) {
+  // const dateOpenedPopup = new Date(Date.now()).toJSON().substring(0, 16)
+  // console.log(dateOpenedPopup) 
+
   const [form, setForm] = useState({
     asset: "",
     direction: "",
-    entry: "",
-    exit: "",
+    // entry: "",
+    // exit: "",
     entry_date: "",
     exit_date: "",
     size: "",
@@ -16,9 +19,8 @@ export default function PopUp({ onClose, onSave, isOpen}) {
     strategy: "",
     is_reviewed: false,
     notes: "",
-    stopLoss: "",
-    takeProfit: "", 
-    dateTime: "",
+    // stopLoss: "",
+    // takeProfit: "", 
     screenshot: "",
   });
 
@@ -53,9 +55,10 @@ export default function PopUp({ onClose, onSave, isOpen}) {
         user_id: null,
         asset: form.asset,
         direction: form.direction,
-        entry_date: form.dateTime || new Date().toISOString(),
-        entry_price: Number(form.entry),
-        exit_price: Number(form.exit) || null,
+        entry_date: form.entry_date,
+        exit_date: form.exit_date,
+        // entry_price: Number(form.entry),
+        // exit_price: Number(form.exit) || null,
         size: Number(form.size),
         pnl: Number(form.pnl) || null,
         outcome: form.outcome || null,
@@ -63,10 +66,11 @@ export default function PopUp({ onClose, onSave, isOpen}) {
         strategy: form.strategy || null,
         is_reviewed: form.is_reviewed ? true : false,
         notes: form.notes || null,
-        stop_loss: Number(form.stopLoss) || null,
-        take_profit: Number(form.takeProfit) || null,
+        // stop_loss: Number(form.stopLoss) || null,
+        // take_profit: Number(form.takeProfit) || null,
         screenshot_url: null,
       }
+      console.log(tradeData)
 
       try {
         const response = await fetch("http://localhost:4000/trades", {
@@ -154,7 +158,7 @@ export default function PopUp({ onClose, onSave, isOpen}) {
                 </select>
               </div>
 
-              <div className="flex flex-col">
+              {/* <div className="flex flex-col">
                 <label className="block text-gray-500 font-medium text-sm">
                   Entry:
                 </label>
@@ -182,7 +186,7 @@ export default function PopUp({ onClose, onSave, isOpen}) {
                   placeholder="Exit Price"
                   className="border border-gray-300 p-2 h-10 rounded-lg w-full focus:outline-none focus:ring-2 focus:ring-blue-400"
                 />
-              </div>
+              </div> */}
 
               <div className="flex flex-col">
                 <label className="block text-gray-500 font-medium text-sm">
@@ -190,10 +194,10 @@ export default function PopUp({ onClose, onSave, isOpen}) {
                 </label>
 
                 <input
-                  disabled
+                  // disabled
                   type="date"
                   name="entry_date"
-                  value={form.entryDate}
+                  value={form.entry_date}
                   onChange={handleChange}
                   className="border border-gray-300 p-2 h-10 rounded-lg w-auto focus:outline-none focus:ring-2 focus:ring-blue-400"
                 />
@@ -205,10 +209,10 @@ export default function PopUp({ onClose, onSave, isOpen}) {
                 </label>
 
                 <input
-                  disabled
+                  // disabled
                   type="date"
                   name="exit_date"
-                  value={form.exitDate}
+                  value={form.exit_date}
                   onChange={handleChange}
                   className="border border-gray-300 p-2 h-10 rounded-lg w-auto focus:outline-none focus:ring-2 focus:ring-blue-400"
                 />
@@ -229,7 +233,7 @@ export default function PopUp({ onClose, onSave, isOpen}) {
                 />
               </div>
 
-              <div className="flex flex-col">
+              {/* <div className="flex flex-col">
                 <label className="block text-gray-500 font-medium text-sm">
                   Stop Loss:
                 </label>
@@ -258,10 +262,10 @@ export default function PopUp({ onClose, onSave, isOpen}) {
                   placeholder="Take Profit (optional)"
                   className="border border-gray-300 p-2 h-10 rounded-lg w-full focus:outline-none focus:ring-2 focus:ring-blue-400"
                 />
-              </div>
-              <div className="flex flex-col">
+              </div> */}
+              {/* <div className="flex flex-col">
                 <label className="block text-gray-500 font-medium text-sm">
-                  Date & Time:
+                  Date & Time of Journal:
                 </label>
 
                 <input
@@ -272,7 +276,7 @@ export default function PopUp({ onClose, onSave, isOpen}) {
                   onChange={handleChange}
                   className="border border-gray-300 p-2 h-10 rounded-lg w-auto focus:outline-none focus:ring-2 focus:ring-blue-400"
                 />
-              </div>
+              </div> */}
               <div className="flex flex-col">
                 <label className="block text-gray-500 font-medium text-sm">
                   Session:
@@ -326,7 +330,7 @@ export default function PopUp({ onClose, onSave, isOpen}) {
 
               <div className="flex flex-col">
                 <label className="block text-gray-500 font-medium text-sm">
-                  PnL ($ or %):
+                  PnL ($):
                 </label>
 
                 <input
@@ -334,7 +338,7 @@ export default function PopUp({ onClose, onSave, isOpen}) {
                   name="pnl"
                   value={form.pnl}
                   onChange={handleChange}
-                  placeholder="PnL ($ or %)"
+                  placeholder="PnL ($)"
                   className="border border-gray-300 p-2 h-10 rounded-lg w-full focus:outline-none focus:ring-2 focus:ring-blue-400"
                 />
               </div>
@@ -348,8 +352,8 @@ export default function PopUp({ onClose, onSave, isOpen}) {
                   disabled
                   type="file"
                   name="file"
-                  // value={form.file}
-                  // onChange={handleChange}
+                  value={form.file}
+                  onChange={handleChange}
                   className="border border-gray-300 p-2 h-10 rounded-lg w-full focus:outline-none focus:ring-2 focus:ring-blue-400"
                 />
               </div>
