@@ -6,7 +6,7 @@ const COLUMN_CONFIG = [
   { header: "Size", key: "size", type: "number" },
   { header: "PnL", key: "pnl", type: "currency" },
   { header: "Outcome", key: "outcome" },
-  { header: "Session", key: "name", type: "session" },
+  { header: "Session", key: "session_name", type: "session" },
   { header: "Strategy", key: "strategy" },
   { header: "Profit/Loss", key: "is_reviewed", type: "review_status" },
   { header: "Notes", key: "notes" },
