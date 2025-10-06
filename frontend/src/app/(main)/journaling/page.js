@@ -75,7 +75,7 @@ export default function Journaling() {
         <Header/>
           <div className="w-full h-full p-5 grid gap-4 grid-rows-[auto_1fr_1fr] ">
             <div className=" flex content-center">
-              <h2 className="text-2xl font-semibold text-black p-2">📊 Trade Log</h2>
+              <h2 className="text-2xl font-semibold text-black p-2">Trade Log</h2>
             </div>
             <TradeTable trades={trades} onDelete={handleDeleteTrade}/>
           

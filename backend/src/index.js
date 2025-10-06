@@ -37,7 +37,12 @@ app.get('/session', async (_req, res) => {
 
 app.get('/trade', async (_req, res) => {
     try {
-        const { rows } = await pool.query('SELECT * FROM "trade"');
+        const { rows } = await pool.query(`
+          SELECT trade.trade_id, trade.asset, trade.entry_date, trade.exit_date, trade.size, trade.pnl, trade.outcome, trade.strategy, trade.is_reviewed, trade.notes,
+          session.name AS session_name
+          FROM trade
+          JOIN session ON trade.session_id = session.session_id
+        `);
         res.json(rows);
     } catch (err) {
         console.error('GET /trade error:', err);
@@ -124,9 +129,9 @@ app.post('/trades', async (req, res) => {
       screenshot_url = null
     } = req.body;
 
-    if (!asset || !direction || !entry_date || !exit_date || !size || !strategy || !outcome || !pnl || !session_id) {
-      return res.status(400).json({ error: 'Missing required fields' });
-    }
+    // if (!asset || !direction || !entry_date || !exit_date || !size || !strategy || !outcome || !pnl || !session_id) {
+    //   return res.status(400).json({ error: 'Missing required fields' });
+    // }
 
     const sql = `
       INSERT INTO trade (
