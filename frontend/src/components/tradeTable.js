@@ -34,6 +34,9 @@ const formatCellValue = (key, value, trade) => {
       displayValue = value === true ? 'Profit' : 'Loss';
       className = value === true ? 'text-green-600' : 'text-red-600';
       break;
+    case 'direction':
+      displayValue = value === 'buy' ? 'Long' : 'Short';
+      break;
     default:
       displayValue = value;
       break;

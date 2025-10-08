@@ -34,7 +34,7 @@ export default function PopUp({ onClose, onSave, isOpen}) {
 
     const handleChange = (e) => {
       const { name, value, type, checked } = e.target
-
+      // console.log(e.target.value)
       let finalValue = value;
       if (name === "session_id") {
           finalValue = e.target.options[e.target.selectedIndex].value
@@ -106,7 +106,7 @@ export default function PopUp({ onClose, onSave, isOpen}) {
     <div className="w-full h-full grid place-items-center fixed inset-0 z-50">
       <div className="grid grid-rows-[auto_1fr] bg-gray-800 text-gray-50 max-w-full md:max-w-5xl lg:max-w-6xl w-full max-h-full md:max-h-9/10 py-5 px-10 sm:rounded-xl overflow-auto">
         <div className="flex flex-row justify-between py-4">
-          <div className="font-semi text-xl">📈 Add Trade</div>
+          <div className="font-semi text-xl">Add Trade</div>
           <svg
             className="opacity-100 hover:opacity-80"
             onClick={onClose}
@@ -153,8 +153,8 @@ export default function PopUp({ onClose, onSave, isOpen}) {
                   onChange={handleChange}
                 >
                   <option key="direction-default" value="">Direction</option>
-                  <option key="buy" value="Buy">Buy</option>
-                  <option key="sell" value="Sell">Sell</option>
+                  <option key="buy" value="Buy">Long</option>
+                  <option key="sell" value="Sell">Short</option>
                 </select>
               </div>
 
