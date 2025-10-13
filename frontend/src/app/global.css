@@ -1,1 +1,9 @@
 @import "tailwindcss";
+
+@layer base {
+
+    select,
+    option {
+        @apply bg-gray-800 text-white;
+    }
+}
