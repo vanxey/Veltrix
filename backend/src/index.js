@@ -15,9 +15,6 @@ app.use(express.json());
 
 app.get('/', (_req, res) => res.send('Veltrix Backend Running'));
 
-app.listen(4000, () => {
-  console.log("Server running on port 4000");
-});
 
 // Test DB: list users
 app.get('/users', async (_req, res) => {
@@ -69,8 +66,7 @@ app.delete('/trade/:id', async (req, res) => {
   }
 });
 
-const PORT = process.env.PORT || 4000;
-app.listen(PORT, () => console.log(`Backend running at http://localhost:${PORT}`));
+
 
 // Create trade
 // app.post('/trades', async (req, res) => {
@@ -171,6 +167,8 @@ app.post('/trades', async (req, res) => {
 //         res.status(500).json({ error: 'Server error' });
 //     }
 // });
-app.listen(PORT, () =>
-  console.log(`✅ Veltrix backend running on port ${PORT}`)
-);
+const PORT = process.env.PORT || 10000;
+app.listen(PORT, () => {
+  console.log(`✅ Veltrix backend running on port ${PORT}`);
+});
+
