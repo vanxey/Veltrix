@@ -6,8 +6,9 @@ const pool = require('./db');
 
 const app = express();
 app.use(cors({
-  origin: ["https://veltrix-1.onrender.com"],  // your frontend’s render URL
+  origin: ["https://veltrix-1.onrender.com"],
   methods: ["GET", "POST", "PUT", "DELETE"],
+  allowedHeaders: ["Content-Type", "Authorization"],
   credentials: true,
 }));
 app.use(express.json());
@@ -68,7 +69,7 @@ app.delete('/trade/:id', async (req, res) => {
   }
 });
 
-const PORT = Number(process.env.PORT || 4000);
+const PORT = process.env.PORT || 4000;
 app.listen(PORT, () => console.log(`Backend running at http://localhost:${PORT}`));
 
 // Create trade
@@ -170,3 +171,6 @@ app.post('/trades', async (req, res) => {
 //         res.status(500).json({ error: 'Server error' });
 //     }
 // });
+app.listen(PORT, () =>
+  console.log(`✅ Veltrix backend running on port ${PORT}`)
+);
