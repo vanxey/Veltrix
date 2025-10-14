@@ -124,9 +124,10 @@ app.post('/trades', async (req, res) => {
       screenshot_url = null
     } = req.body;
 
-    if (!asset || !direction || !entry_date || !entry_price || !size) {
+    if (!asset || !direction || !entry_date || !size) {
       return res.status(400).json({ error: 'Missing required fields' });
     }
+
 
     const sql = `
       INSERT INTO trade (
