@@ -13,7 +13,7 @@ export default function Journaling() {
 
   const [trades, setTrades] = useState([]);
   useEffect(() => {
-    fetch("http://localhost:4000/trade")
+    fetch("https://veltrix-4c53.onrender.com/trade")
       .then(res => res.json())
       .then(data => setTrades(data))
       .catch(err => console.error(err));
@@ -44,9 +44,10 @@ export default function Journaling() {
     // console.log(tradeId)
     // trades.filter(trade => console.log(trade.trade_id))
     try {
-      const response = await fetch(`http://localhost:4000/trade/${tradeId}`, {
+      const response = await fetch(`https://veltrix-4c53.onrender.com/trade/${tradeId}`, {
         method: "DELETE",
       })
+
 
       if (!response.ok) {
         const error = await response.json();
