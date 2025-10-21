@@ -146,7 +146,7 @@ app.post('/trades', async (req, res) => {
 //         res.status(500).json({ error: 'Server error' });
 //     }
 // });
-const PORT = process.env.PORT || 10000;
+const PORT = process.env.PORT || 5432;
 app.listen(PORT, () => {
   console.log(`✅ Veltrix backend running on port ${PORT}`);
 });
