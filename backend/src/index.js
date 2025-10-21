@@ -8,6 +8,7 @@ console.log(`✅ Loaded ${envFile}`);
 const express = require('express');
 const cors = require('cors');
 const pool = require('./db');
+const test = require('./db');
 
 const app = express();
 app.use(cors({
@@ -34,6 +35,7 @@ app.get('/users', async (_req, res) => {
 
 app.get('/session', async (_req, res) => {
   try {
+    console.log(test)
     const { rows } = await pool.query('SELECT * FROM "session"');
     res.json(rows);
   } catch (err) {
@@ -146,8 +148,10 @@ app.post('/trades', async (req, res) => {
 //         res.status(500).json({ error: 'Server error' });
 //     }
 // });
-const PORT = process.env.PORT || 5432;
+const PORT = process.env.PORT || 4000;
 app.listen(PORT, () => {
   console.log(`✅ Veltrix backend running on port ${PORT}`);
+  console.log(process.env.NODE_ENV)
+  console.log(process.env.PORT)
 });
 
