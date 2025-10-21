@@ -139,6 +139,7 @@ export default function PopUp({ onClose, onSave, isOpen}) {
                   onChange={handleChange}
                   placeholder="Asset / Pair"
                   className="border border-gray-300 p-2 h-10 rounded-lg w-full focus:outline-none focus:ring-2 focus:ring-blue-400"
+                  required
                 />
               </div>
 
@@ -151,6 +152,7 @@ export default function PopUp({ onClose, onSave, isOpen}) {
                   name="direction"
                   value={form.direction}
                   onChange={handleChange}
+                  required
                 >
                   <option key="direction-default" value="">Direction</option>
                   <option key="buy" value="Buy">Long</option>
@@ -200,6 +202,7 @@ export default function PopUp({ onClose, onSave, isOpen}) {
                   value={form.entry_date}
                   onChange={handleChange}
                   className="border border-gray-300 p-2 h-10 rounded-lg w-auto focus:outline-none focus:ring-2 focus:ring-blue-400"
+                  required
                 />
               </div>
 
@@ -215,6 +218,7 @@ export default function PopUp({ onClose, onSave, isOpen}) {
                   value={form.exit_date}
                   onChange={handleChange}
                   className="border border-gray-300 p-2 h-10 rounded-lg w-auto focus:outline-none focus:ring-2 focus:ring-blue-400"
+                  required
                 />
               </div>
 
@@ -230,6 +234,7 @@ export default function PopUp({ onClose, onSave, isOpen}) {
                   onChange={handleChange}
                   placeholder="Position Size"
                   className="border border-gray-300 p-2 h-10 rounded-lg w-full focus:outline-none focus:ring-2 focus:ring-blue-400"
+                  required
                 />
               </div>
 
@@ -287,6 +292,7 @@ export default function PopUp({ onClose, onSave, isOpen}) {
                 name="session_id"
                 value={form.session_id}
                 onChange={handleChange}
+                required
               >
                 <option key="default-session" value="">Select Session</option>
                 {sessions.map(s => (
@@ -307,6 +313,7 @@ export default function PopUp({ onClose, onSave, isOpen}) {
                   onChange={handleChange}
                   placeholder="Strategy Tag"
                   className="border border-gray-300 p-2 h-10 rounded-lg w-full focus:outline-none focus:ring-2 focus:ring-blue-400"
+                  required
                 />
               </div>
 
@@ -320,6 +327,7 @@ export default function PopUp({ onClose, onSave, isOpen}) {
                   name="outcome"
                   value={form.outcome}
                   onChange={handleChange}
+                  required
                 >
                      <option key="outcome-default" value="">Outcome</option>
                       <option key="win" value="Win">Win</option>
@@ -340,6 +348,7 @@ export default function PopUp({ onClose, onSave, isOpen}) {
                   onChange={handleChange}
                   placeholder="PnL ($)"
                   className="border border-gray-300 p-2 h-10 rounded-lg w-full focus:outline-none focus:ring-2 focus:ring-blue-400"
+                  required
                 />
               </div>
             </div>
