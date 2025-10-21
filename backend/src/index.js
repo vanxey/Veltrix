@@ -8,7 +8,6 @@ console.log(`✅ Loaded ${envFile}`);
 const express = require('express');
 const cors = require('cors');
 const pool = require('./db');
-const test = require('./db');
 
 const app = express();
 app.use(cors({
@@ -35,7 +34,6 @@ app.get('/users', async (_req, res) => {
 
 app.get('/session', async (_req, res) => {
   try {
-    console.log(test)
     const { rows } = await pool.query('SELECT * FROM "session"');
     res.json(rows);
   } catch (err) {
