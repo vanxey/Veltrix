@@ -38,13 +38,18 @@ app.get('/session', async (_req, res) => {
 });
 
 app.get('/trade', async (_req, res) => {
-  try {
-    const { rows } = await pool.query('SELECT * FROM "trade"');
-    res.json(rows);
-  } catch (err) {
-    console.error('GET /trade error:', err);
-    res.status(500).json({ error: 'Database error' });
-  }
+    try {
+        const { rows } = await pool.query(`
+          SELECT trade.trade_id, trade.asset, trade.entry_date, trade.exit_date, trade.size, trade.pnl, trade.outcome, trade.strategy, trade.is_reviewed, trade.notes,
+          session.name AS session_name
+          FROM trade
+          JOIN session ON trade.session_id = session.session_id
+        `);
+        res.json(rows);
+    } catch (err) {
+        console.error('GET /trade error:', err);
+        res.status(500).json({ error: 'Database error' });
+    }
 });
 
 app.delete('/trade/:id', async (req, res) => {
@@ -68,41 +73,6 @@ app.delete('/trade/:id', async (req, res) => {
 
 
 
-// Create trade
-// app.post('/trades', async (req, res) => {
-//     try {
-//         const {
-//             user_id = null,          // you can pass null for now
-//             asset,
-//             direction,
-//             entry_date,              // ISO string, e.g. "2025-09-15T10:00:00"
-//             entry_price,
-//             size,
-//             notes = null,
-//             screenshot_url = null,
-//         } = req.body;
-
-//         if (!asset || !direction || !entry_date || !entry_price || !size) {
-//             return res.status(400).json({ error: 'Missing required fields' });
-//         }
-
-//         const sql = `
-//       INSERT INTO trade (
-//         user_id, asset, direction, entry_date, entry_price, size, notes, screenshot_url
-//       ) VALUES ($1,$2,$3,$4,$5,$6,$7,$8)
-//       RETURNING *;
-//     `;
-//         const { rows } = await pool.query(sql, [
-//             user_id, asset, direction, entry_date, entry_price, size, notes, screenshot_url
-//         ]);
-//         res.status(201).json(rows[0]);
-//     } catch (e) {
-//         console.error('POST /trades', e);
-//         res.status(500).json({ error: 'Server error' });
-//     }
-// });
-
-
 app.post('/trades', async (req, res) => {
   try {
     const {
@@ -110,8 +80,9 @@ app.post('/trades', async (req, res) => {
       asset,
       direction,
       entry_date,
-      entry_price,
-      exit_price = null,
+      exit_date,
+      // entry_price,
+      // exit_price = null,
       size,
       pnl = null,
       outcome = null,
@@ -119,29 +90,31 @@ app.post('/trades', async (req, res) => {
       strategy = null,
       is_reviewed = false,
       notes = null,
-      stop_loss = null,
-      take_profit = null,
+      // stop_loss = null,
+      // take_profit = null,
       screenshot_url = null
     } = req.body;
 
-    if (!asset || !direction || !entry_date || !size) {
-      return res.status(400).json({ error: 'Missing required fields' });
-    }
+    // if (!asset || !direction || !entry_date || !exit_date || !size || !strategy || !outcome || !pnl || !session_id) {
+    //   return res.status(400).json({ error: 'Missing required fields' });
+    // }
 
 
     const sql = `
       INSERT INTO trade (
-        user_id, asset, direction, entry_date, entry_price, exit_price,
+        user_id, asset, direction, entry_date, exit_date,
         size, pnl, outcome, session_id, strategy, is_reviewed, notes,
-        stop_loss, take_profit, screenshot_url
-      ) VALUES ($1,$2,$3,$4,$5,$6,$7,$8,$9,$10,$11,$12,$13,$14,$15,$16)
+        screenshot_url
+      ) VALUES ($1,$2,$3,$4,$5,$6,$7,$8,$9,$10,$11,$12,$13)
       RETURNING *;
     `;
 
+    //removed entry_price, exit_price, stop_loss, take_profit,
+
     const { rows } = await pool.query(sql, [
-      user_id, asset, direction, entry_date, entry_price, exit_price,
+      user_id, asset, direction, entry_date, exit_date,
       size, pnl, outcome, session_id, strategy, is_reviewed, notes,
-      stop_loss, take_profit, screenshot_url
+      screenshot_url
     ]);
 
     res.status(201).json(rows[0]);

@@ -1,7 +1,7 @@
 import { useState, useEffect } from "react";
 import Button from "./ui/button";
 
-export default function PopUp({ onClose, onSave, isOpen }) {
+export default function PopUp({ onClose, onSave, isOpen}) {
   // const dateOpenedPopup = new Date(Date.now()).toJSON().substring(0, 16)
   // console.log(dateOpenedPopup) 
 
@@ -50,22 +50,67 @@ export default function PopUp({ onClose, onSave, isOpen }) {
     })();
   }, []);
 
+    const handleChange = (e) => {
+      const { name, value, type, checked } = e.target
+      // console.log(e.target.value)
+      let finalValue = value;
+      if (name === "session_id") {
+          finalValue = e.target.options[e.target.selectedIndex].value
+          //console.log(finalValue)
+          //console.log(form.session_id)
+      }
 
-  const handleChange = (e) => {
-    const { name, value, type, checked } = e.target
-    // console.log(e.target.value)
-    let finalValue = value;
-    if (name === "session_id") {
-      finalValue = e.target.options[e.target.selectedIndex].value
-      //console.log(finalValue)
-      //console.log(form.session_id)
+      setForm({
+        ...form,
+        [name]: type === "checkbox" ? checked : finalValue,
+      })
     }
 
-    setForm({
-      ...form,
-      [name]: type === "checkbox" ? checked : finalValue,
-    })
-  }
+  // const handleSubmit = async (e) => {
+  //     e.preventDefault()
+
+  //     const tradeData = {
+  //       user_id: null,
+  //       asset: form.asset,
+  //       direction: form.direction,
+  //       entry_date: form.entry_date,
+  //       exit_date: form.exit_date,
+  //       // entry_price: Number(form.entry),
+  //       // exit_price: Number(form.exit) || null,
+  //       size: Number(form.size),
+  //       pnl: Number(form.pnl) || null,
+  //       outcome: form.outcome || null,
+  //       session_id: form.session_id || null,
+  //       strategy: form.strategy || null,
+  //       is_reviewed: form.is_reviewed ? true : false,
+  //       notes: form.notes || null,
+  //       // stop_loss: Number(form.stopLoss) || null,
+  //       // take_profit: Number(form.takeProfit) || null,
+  //       screenshot_url: null,
+  //     }
+  //     console.log(tradeData)
+
+  //     try {
+  //       const response = await fetch("http://localhost:4000/trades", {
+  //         method: "POST",
+  //         headers: { "Content-Type": "application/json" },
+  //         body: JSON.stringify(tradeData),
+  //       })
+
+  //       if (!response.ok) {
+  //         const error = await response.json()
+  //         console.error("Failed to create trade:", error)
+  //         return
+  //       }
+
+  //       const result = await response.json()
+  //       console.log("Trade created:", result)
+  //       onSave(result)
+  //       onClose()
+  //     } catch (err) {
+  //       console.error("Network error:", err)
+  //     }
+  // }
 
   const handleSubmit = async (e) => {
     e.preventDefault()

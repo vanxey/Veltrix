@@ -73,23 +73,23 @@ export default function Journaling() {
     // bg-[url(/gradient.svg)] bg-contain
     <div className="grid">
       <div className={`grid ${isBlurred ? 'blur-sm' : ''} transition-all duration-300 grid-rows-[auto_1fr_1fr]`}>
-        <Header />
-        <div className="w-full h-full p-5 grid gap-4 grid-rows-[auto_1fr_1fr] ">
-          <div className=" flex content-center">
-            <h2 className="text-2xl font-semibold text-black p-2">Trade Log</h2>
-          </div>
-          <TradeTable trades={trades} onDelete={handleDeleteTrade} />
-
-          <Button
-            onOpen={() => {
-              setIsOpen(true)
-              setIsVisible(true)
-              setIsBlurred(true)
-            }}
-            text="Add Journal"
-          />
-
-
+        <Header/>
+          <div className="w-full h-full p-5 grid gap-4 grid-rows-[auto_1fr_1fr] ">
+            <div className=" flex content-center">
+              <h2 className="text-2xl font-semibold text-black p-2">Trade Log</h2>
+            </div>
+            <TradeTable trades={trades} onDelete={handleDeleteTrade}/>
+          
+            <Button
+                onOpen={()=>{
+                  setIsOpen(true)
+                  setIsVisible(true)
+                  setIsBlurred(true)
+                }}
+                text="Add Journal"
+                />
+            
+        
         </div>
       </div>
       {isVisible && <PopUp
