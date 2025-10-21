@@ -1,4 +1,9 @@
-require('dotenv').config();
+const dotenv = require('dotenv');
+
+const envFile = process.env.NODE_ENV === 'development' ? '.env.local' : '.env';
+dotenv.config({ path: envFile });
+
+console.log(`✅ Loaded ${envFile}`);
 
 const express = require('express');
 const cors = require('cors');
