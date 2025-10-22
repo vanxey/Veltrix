@@ -4,13 +4,8 @@
   "main": "src/index.js",
   "license": "ISC",
   "scripts": {
-<<<<<<< HEAD
-    "start": "node src/index.js",
-    "dev": "node src/index.js"
-=======
   "start": "cross-env NODE_ENV=production node src/index.js",
-  "dev": "cross-env NODE_ENV=development nodemon src/index.js"
->>>>>>> merge-fix
+  "dev": "cross-env NODE_ENV=development node src/index.js"
   },
   "dependencies": {
     "bcryptjs": "^3.0.2",
