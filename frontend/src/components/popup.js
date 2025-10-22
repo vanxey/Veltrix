@@ -1,9 +1,11 @@
 import { useState, useEffect } from "react";
 import Button from "./ui/button";
 
-export default function PopUp({ onClose, onSave, isOpen}) {
+export default function PopUp({ onClose, onSave, isOpen }) {
   // const dateOpenedPopup = new Date(Date.now()).toJSON().substring(0, 16)
   // console.log(dateOpenedPopup) 
+  const envFile = process.env.NODE_ENV === 'development' ? '.env.local' : '.env';
+  const fetchURL = envFile === ".env.local" ? "http://localhost:4000" : "https://veltrix-4c53.onrender.com" 
 
   const [form, setForm] = useState({
     asset: "",
@@ -29,7 +31,7 @@ export default function PopUp({ onClose, onSave, isOpen}) {
     (async () => {
       try {
         const res = await fetch(
-          `${process.env.NEXT_PUBLIC_API_BASE_URL ?? "https://veltrix-4c53.onrender.com"}/session`
+          `${process.env.NEXT_PUBLIC_API_BASE_URL ?? fetchURL}/session`
         );
         const json = await res.json();
 
@@ -48,69 +50,24 @@ export default function PopUp({ onClose, onSave, isOpen}) {
         setSessions([]);
       }
     })();
-  }, []);
+  }, [fetchURL]);
 
-    const handleChange = (e) => {
-      const { name, value, type, checked } = e.target
-      // console.log(e.target.value)
-      let finalValue = value;
-      if (name === "session_id") {
-          finalValue = e.target.options[e.target.selectedIndex].value
-          //console.log(finalValue)
-          //console.log(form.session_id)
-      }
 
-      setForm({
-        ...form,
-        [name]: type === "checkbox" ? checked : finalValue,
-      })
+  const handleChange = (e) => {
+    const { name, value, type, checked } = e.target
+    // console.log(e.target.value)
+    let finalValue = value;
+    if (name === "session_id") {
+      finalValue = e.target.options[e.target.selectedIndex].value
+      //console.log(finalValue)
+      //console.log(form.session_id)
     }
 
-  // const handleSubmit = async (e) => {
-  //     e.preventDefault()
-
-  //     const tradeData = {
-  //       user_id: null,
-  //       asset: form.asset,
-  //       direction: form.direction,
-  //       entry_date: form.entry_date,
-  //       exit_date: form.exit_date,
-  //       // entry_price: Number(form.entry),
-  //       // exit_price: Number(form.exit) || null,
-  //       size: Number(form.size),
-  //       pnl: Number(form.pnl) || null,
-  //       outcome: form.outcome || null,
-  //       session_id: form.session_id || null,
-  //       strategy: form.strategy || null,
-  //       is_reviewed: form.is_reviewed ? true : false,
-  //       notes: form.notes || null,
-  //       // stop_loss: Number(form.stopLoss) || null,
-  //       // take_profit: Number(form.takeProfit) || null,
-  //       screenshot_url: null,
-  //     }
-  //     console.log(tradeData)
-
-  //     try {
-  //       const response = await fetch("http://localhost:4000/trades", {
-  //         method: "POST",
-  //         headers: { "Content-Type": "application/json" },
-  //         body: JSON.stringify(tradeData),
-  //       })
-
-  //       if (!response.ok) {
-  //         const error = await response.json()
-  //         console.error("Failed to create trade:", error)
-  //         return
-  //       }
-
-  //       const result = await response.json()
-  //       console.log("Trade created:", result)
-  //       onSave(result)
-  //       onClose()
-  //     } catch (err) {
-  //       console.error("Network error:", err)
-  //     }
-  // }
+    setForm({
+      ...form,
+      [name]: type === "checkbox" ? checked : finalValue,
+    })
+  }
 
   const handleSubmit = async (e) => {
     e.preventDefault()
@@ -137,7 +94,7 @@ export default function PopUp({ onClose, onSave, isOpen}) {
     console.log(tradeData)
 
     try {
-      const response = await fetch("https://veltrix-4c53.onrender.com/trades", {
+      const response = await fetch(`${fetchURL}/trades`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(tradeData),
@@ -204,6 +161,7 @@ export default function PopUp({ onClose, onSave, isOpen}) {
                   onChange={handleChange}
                   placeholder="Asset / Pair"
                   className="border border-gray-300 p-2 h-10 rounded-lg w-full focus:outline-none focus:ring-2 focus:ring-blue-400"
+                  required
                 />
               </div>
 
@@ -216,6 +174,7 @@ export default function PopUp({ onClose, onSave, isOpen}) {
                   name="direction"
                   value={form.direction}
                   onChange={handleChange}
+                  required
                 >
                   <option key="direction-default" value="">Direction</option>
                   <option key="buy" value="Buy">Long</option>
@@ -265,6 +224,7 @@ export default function PopUp({ onClose, onSave, isOpen}) {
                   value={form.entry_date}
                   onChange={handleChange}
                   className="border border-gray-300 p-2 h-10 rounded-lg w-auto focus:outline-none focus:ring-2 focus:ring-blue-400"
+                  required
                 />
               </div>
 
@@ -280,6 +240,7 @@ export default function PopUp({ onClose, onSave, isOpen}) {
                   value={form.exit_date}
                   onChange={handleChange}
                   className="border border-gray-300 p-2 h-10 rounded-lg w-auto focus:outline-none focus:ring-2 focus:ring-blue-400"
+                  required
                 />
               </div>
 
@@ -295,6 +256,7 @@ export default function PopUp({ onClose, onSave, isOpen}) {
                   onChange={handleChange}
                   placeholder="Position Size"
                   className="border border-gray-300 p-2 h-10 rounded-lg w-full focus:outline-none focus:ring-2 focus:ring-blue-400"
+                  required
                 />
               </div>
 
@@ -372,6 +334,7 @@ export default function PopUp({ onClose, onSave, isOpen}) {
                   onChange={handleChange}
                   placeholder="Strategy Tag"
                   className="border border-gray-300 p-2 h-10 rounded-lg w-full focus:outline-none focus:ring-2 focus:ring-blue-400"
+                  required
                 />
               </div>
 
@@ -385,6 +348,7 @@ export default function PopUp({ onClose, onSave, isOpen}) {
                   name="outcome"
                   value={form.outcome}
                   onChange={handleChange}
+                  required
                 >
                   <option key="outcome-default" value="">Outcome</option>
                   <option key="win" value="Win">Win</option>
@@ -405,6 +369,7 @@ export default function PopUp({ onClose, onSave, isOpen}) {
                   onChange={handleChange}
                   placeholder="PnL ($)"
                   className="border border-gray-300 p-2 h-10 rounded-lg w-full focus:outline-none focus:ring-2 focus:ring-blue-400"
+                  required
                 />
               </div>
             </div>
