@@ -1,7 +1,7 @@
 import { useState, useEffect } from "react";
 import Button from "./ui/button";
 
-export default function PopUp({ onClose, onSave, isOpen}) {
+export default function PopUp({ onClose, onSave, isOpen }) {
   // const dateOpenedPopup = new Date(Date.now()).toJSON().substring(0, 16)
   // console.log(dateOpenedPopup) 
 
@@ -26,79 +26,99 @@ export default function PopUp({ onClose, onSave, isOpen}) {
 
   const [sessions, setSessions] = useState([]);
   useEffect(() => {
-    fetch("http://localhost:4000/session")
-      .then(res => res.json())
-      .then(data => setSessions(data))
-      .catch(err => console.error(err));
+    (async () => {
+      try {
+        const res = await fetch(
+          `${process.env.NEXT_PUBLIC_API_BASE_URL ?? "https://veltrix-4c53.onrender.com"}/session`
+        );
+        const json = await res.json();
+
+        // Handle common API shapes
+        const list = Array.isArray(json) ? json : (json.rows || json.sessions || []);
+
+        // Normalize field names to what the UI expects
+        const normalized = list.map(s => ({
+          session_id: s.session_id ?? s.id,
+          name: s.name ?? s.session_name ?? s.title ?? `Session ${s.session_id || s.id}`,
+        }));
+
+        setSessions(normalized);
+      } catch (e) {
+        console.error("Failed to load sessions:", e);
+        setSessions([]);
+      }
+    })();
   }, []);
 
-    const handleChange = (e) => {
-      const { name, value, type, checked } = e.target
-      // console.log(e.target.value)
-      let finalValue = value;
-      if (name === "session_id") {
-          finalValue = e.target.options[e.target.selectedIndex].value
-          //console.log(finalValue)
-          //console.log(form.session_id)
-      }
 
-      setForm({
-        ...form,
-        [name]: type === "checkbox" ? checked : finalValue,
-      })
+  const handleChange = (e) => {
+    const { name, value, type, checked } = e.target
+    // console.log(e.target.value)
+    let finalValue = value;
+    if (name === "session_id") {
+      finalValue = e.target.options[e.target.selectedIndex].value
+      //console.log(finalValue)
+      //console.log(form.session_id)
     }
 
-  const handleSubmit = async (e) => {
-      e.preventDefault()
-
-      const tradeData = {
-        user_id: null,
-        asset: form.asset || "",
-        direction: form.direction || "",
-        entry_date: form.entry_date || null,
-        exit_date: form.exit_date || null,
-        // entry_price: Number(form.entry),
-        // exit_price: Number(form.exit) || null,
-        size: Number(form.size) || null,
-        pnl: Number(form.pnl) || null,
-        outcome: form.outcome || "",
-        session_id: form.session_id || "",
-        strategy: form.strategy || "",
-        is_reviewed: form.is_reviewed ? true : false,
-        notes: form.notes || "",
-        // stop_loss: Number(form.stopLoss) || null,
-        // take_profit: Number(form.takeProfit) || null,
-        screenshot_url: "",
-      }
-      console.log(tradeData)
-
-      try {
-        const response = await fetch("http://localhost:4000/trades", {
-          method: "POST",
-          headers: { "Content-Type": "application/json" },
-          body: JSON.stringify(tradeData),
-        })
-
-        if (!response.ok) {
-          const error = await response.json()
-          console.error("Failed to create trade:", error)
-          return
-        }
-
-        const result = await response.json()
-        console.log("Trade created:", result)
-        onSave(result)
-        onClose()
-      } catch (err) {
-        console.error("Network error:", err)
-      }
+    setForm({
+      ...form,
+      [name]: type === "checkbox" ? checked : finalValue,
+    })
   }
 
-  useEffect(()=>{
-    isOpen ? document.body.classList.add("overflow-hidden"): document.body.classList.remove("overflow-hidden")
+  const handleSubmit = async (e) => {
+    e.preventDefault()
 
-    return()=>document.body.classList.remove("overflow-hidden")
-  },[isOpen]) 
+    const tradeData = {
+      user_id: null,
+      asset: form.asset,
+      direction: form.direction,
+      entry_date: form.entry_date,
+      exit_date: form.exit_date,
+      // entry_price: Number(form.entry),
+      // exit_price: Number(form.exit) || null,
+      size: Number(form.size),
+      pnl: Number(form.pnl) || null,
+      outcome: form.outcome || null,
+      session_id: form.session_id || null,
+      strategy: form.strategy || null,
+      is_reviewed: form.is_reviewed ? true : false,
+      notes: form.notes || null,
+      // stop_loss: Number(form.stopLoss) || null,
+      // take_profit: Number(form.takeProfit) || null,
+      screenshot_url: null,
+    }
+    console.log(tradeData)
+
+    try {
+      const response = await fetch("https://veltrix-4c53.onrender.com/trades", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(tradeData),
+      })
+
+
+      if (!response.ok) {
+        const error = await response.json()
+        console.error("Failed to create trade:", error)
+        return
+      }
+
+      const result = await response.json()
+      console.log("Trade created:", result)
+      onSave(result)
+      onClose()
+    } catch (err) {
+      console.error("Network error:", err)
+    }
+  }
+
+  useEffect(() => {
+    isOpen ? document.body.classList.add("overflow-hidden") : document.body.classList.remove("overflow-hidden")
+
+    return () => document.body.classList.remove("overflow-hidden")
+  }, [isOpen])
 
   if (!isOpen) return null
 
@@ -287,18 +307,17 @@ export default function PopUp({ onClose, onSave, isOpen}) {
                   Session:
                 </label>
 
-              <select
-                className="border border-gray-300 h-10 rounded-lg w-full focus:outline-none focus:ring-2 focus:ring-blue-400"
-                name="session_id"
-                value={form.session_id}
-                onChange={handleChange}
-                required
-              >
-                <option key="default-session" value="">Select Session</option>
-                {sessions.map(s => (
-                  <option key={s.session_id} value={s.session_id}>{s.name}</option>
-                ))}
-              </select>
+                <select
+                  className="border border-gray-300 h-10 rounded-lg w-full focus:outline-none focus:ring-2 focus:ring-blue-400"
+                  name="session_id"
+                  value={form.session_id}
+                  onChange={handleChange}
+                >
+                  <option key="default-session" value="">Select Session</option>
+                  {sessions.map(s => (
+                    <option key={s.session_id} value={s.session_id}>{s.name}</option>
+                  ))}
+                </select>
 
               </div>
               <div className="flex flex-col">
@@ -329,10 +348,10 @@ export default function PopUp({ onClose, onSave, isOpen}) {
                   onChange={handleChange}
                   required
                 >
-                     <option key="outcome-default" value="">Outcome</option>
-                      <option key="win" value="Win">Win</option>
-                      <option key="loss" value="Loss">Loss</option>
-                      <option key="be" value="BE">BE</option>
+                  <option key="outcome-default" value="">Outcome</option>
+                  <option key="win" value="Win">Win</option>
+                  <option key="loss" value="Loss">Loss</option>
+                  <option key="be" value="BE">BE</option>
                 </select>
               </div>
 
@@ -384,19 +403,19 @@ export default function PopUp({ onClose, onSave, isOpen}) {
                 </div>
               </div>
               <div className="flex justify-end items-center gap-2 mt-2">
-                    <input
-                      type="checkbox"
-                      name="is_reviewed"
-                      checked={form.is_reviewed}
-                      onChange={(e) =>
-                        setForm({ ...form, is_reviewed: e.target.checked })
-                      }
-                      className="h-5 w-5"
-                    />
-                    <label className="text-gray-500 font-medium text-sm">
-                      Reviewed
-                    </label>
-                  </div>
+                <input
+                  type="checkbox"
+                  name="is_reviewed"
+                  checked={form.is_reviewed}
+                  onChange={(e) =>
+                    setForm({ ...form, is_reviewed: e.target.checked })
+                  }
+                  className="h-5 w-5"
+                />
+                <label className="text-gray-500 font-medium text-sm">
+                  Reviewed
+                </label>
+              </div>
               <div className="flex pt-1">
                 <Button size="md" type="submit" text="Save Trade" />
               </div>
