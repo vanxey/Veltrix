@@ -4,6 +4,8 @@ import Button from "./ui/button";
 export default function PopUp({ onClose, onSave, isOpen }) {
   // const dateOpenedPopup = new Date(Date.now()).toJSON().substring(0, 16)
   // console.log(dateOpenedPopup) 
+  const envFile = process.env.NODE_ENV === 'development' ? '.env.local' : '.env';
+  const fetchURL = envFile === ".env.local" ? "http://localhost:4000" : "https://veltrix-4c53.onrender.com" 
 
   const [form, setForm] = useState({
     asset: "",
@@ -29,7 +31,7 @@ export default function PopUp({ onClose, onSave, isOpen }) {
     (async () => {
       try {
         const res = await fetch(
-          `${process.env.NEXT_PUBLIC_API_BASE_URL ?? "https://veltrix-4c53.onrender.com"}/session`
+          `${process.env.NEXT_PUBLIC_API_BASE_URL ?? fetchURL}/session`
         );
         const json = await res.json();
 
@@ -48,7 +50,7 @@ export default function PopUp({ onClose, onSave, isOpen }) {
         setSessions([]);
       }
     })();
-  }, []);
+  }, [fetchURL]);
 
 
   const handleChange = (e) => {
@@ -92,7 +94,7 @@ export default function PopUp({ onClose, onSave, isOpen }) {
     console.log(tradeData)
 
     try {
-      const response = await fetch("https://veltrix-4c53.onrender.com/trades", {
+      const response = await fetch(`${fetchURL}/trades`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(tradeData),

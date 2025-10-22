@@ -10,14 +10,16 @@ export default function Journaling() {
   const [isVisible, setIsVisible] = useState(false)
   const [isBlurred, setIsBlurred] = useState(false)
   const [isOpen, setIsOpen] = useState(false)
+  const envFile = process.env.NODE_ENV === 'development' ? '.env.local' : '.env';
+  const fetchURL = envFile === ".env.local" ? "http://localhost:4000" : "https://veltrix-4c53.onrender.com"  
 
   const [trades, setTrades] = useState([]);
   useEffect(() => {
-    fetch("https://veltrix-4c53.onrender.com/trade")
+    fetch(`${fetchURL}/trade`)
       .then(res => res.json())
       .then(data => setTrades(data))
       .catch(err => console.error(err));
-  }, [])
+  }, [fetchURL])
 
   // not dynamic
   //   const [trades, setTrades] = useState([
@@ -44,7 +46,7 @@ export default function Journaling() {
     // console.log(tradeId)
     // trades.filter(trade => console.log(trade.trade_id))
     try {
-      const response = await fetch(`https://veltrix-4c53.onrender.com/trade/${tradeId}`, {
+      const response = await fetch(`${fetchURL}/trade/${tradeId}`, {
         method: "DELETE",
       })
 
