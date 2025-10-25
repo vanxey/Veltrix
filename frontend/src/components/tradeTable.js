@@ -52,6 +52,7 @@ export default function TradeTable({ trades, onDelete }) {
   const [filterText, setFilterText] = useState('');
   
   const headers = COLUMN_CONFIG.map(col => col.header);
+
   const filteredAndSortedTrades = useMemo(() => {
     let filtered = trades;
 
@@ -81,6 +82,30 @@ export default function TradeTable({ trades, onDelete }) {
 
     return filtered;
   }, [trades, filterText, sortKey]);
+
+  function highlightMatch(text, query) {
+    if (!query) return text; // nothing to highlight
+    if (typeof text !== "string") text = String(text);
+
+    const lowerText = text.toLowerCase();
+    const lowerQuery = query.toLowerCase();
+    const start = lowerText.indexOf(lowerQuery);
+
+    if (start === -1) return text; // no match
+
+    const end = start + query.length;
+
+    return (
+      <>
+        {text.slice(0, start)}
+        <span className="bg-blue-300 font-semibold">
+          {text.slice(start, end)}
+        </span>
+        {text.slice(end)}
+      </>
+    );
+  }
+
 
     return (
         <div className="overflow-x-auto rounded-lg shadow-lg p-4">
@@ -145,6 +170,7 @@ export default function TradeTable({ trades, onDelete }) {
                                 }
 
                                 const { displayValue, className } = formatCellValue(key, trade[key], trade);
+                                const highlighted = highlightMatch(displayValue, filterText);
                                 
                                 //console.log(trade)
                                 return (
@@ -152,7 +178,7 @@ export default function TradeTable({ trades, onDelete }) {
                                         key={key}
                                         className={`border-b border-gray-200 p-3 ${className}`}
                                     >
-                                        {displayValue}
+                                        {highlighted}
                                     </td>
                                 );
                             })}
