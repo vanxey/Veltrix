@@ -7,7 +7,7 @@ export default function Analytics(){
              <div className="flex flex-col w-full">
                 <div className="flex bg-gray-200 w-auto h-fit m-5 rounded-xl justify-end">
 
-                    <div className="grid grid-cols-6 gap-2 w-1/2 h-fit justify-center py-2">
+                    <div className="grid grid-cols-6 gap-2 w-auto h-fit py-2 justify-items-center">
                                     <Button className="text-xs py-0 px-5" text="1W" border/>
                                     <Button className="text-xs py-0 px-5" text="1M" />
                                     <Button className="text-xs py-0 px-5" text="3M" border/>
