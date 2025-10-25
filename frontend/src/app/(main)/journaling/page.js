@@ -21,27 +21,6 @@ export default function Journaling() {
       .catch(err => console.error(err));
   }, [fetchURL])
 
-  // not dynamic
-  //   const [trades, setTrades] = useState([
-  //   {
-  //     // asset: "GBP/USD",
-  //     // direction: "Sell",
-  //     // entry: "1.2450",
-  //     // exit: "1.2380",
-  //     // size: "2",
-  //     // pnl: "140",
-  //     // outcome: "Win",
-  //     // session: "New York",
-  //     // strategy: "Pullback",
-  //     // reviewed: "✅",
-  //     // notes: "Good confluence with 200 EMA + key resistance zone. Could have held longer.",
-  //     // stopLoss: "1.2480",
-  //     // takeProfit: "1.2350",
-  //     // dateTime: "2025-09-17T14:30",
-  //     // screenshot: null,  placeholder — would normally be a File or URL
-  //   },
-  // ]);
-
   const handleDeleteTrade = async (tradeId) => {
     // console.log(tradeId)
     // trades.filter(trade => console.log(trade.trade_id))
