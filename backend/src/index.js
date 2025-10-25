@@ -45,7 +45,7 @@ app.get('/session', async (_req, res) => {
 app.get('/trade', async (_req, res) => {
     try {
         const { rows } = await pool.query(`
-          SELECT trade.trade_id, trade.asset, trade.entry_date, trade.exit_date, trade.size, trade.pnl, trade.outcome, trade.strategy, trade.is_reviewed, trade.notes,
+          SELECT trade.trade_id, trade.asset, trade.entry_date, trade.exit_date, trade.size, trade.pnl, trade.outcome, trade.strategy, trade.is_reviewed, trade.notes, trade.created_at,
           session.name AS session_name
           FROM trade
           JOIN session ON trade.session_id = session.session_id

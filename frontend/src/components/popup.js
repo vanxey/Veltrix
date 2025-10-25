@@ -7,6 +7,7 @@ export default function PopUp({ onClose, onSave, isOpen }) {
   const envFile = process.env.NODE_ENV === 'development' ? '.env.local' : '.env';
   const fetchURL = envFile === ".env.local" ? "http://localhost:4000" : "https://veltrix-4c53.onrender.com" 
 
+
   const [form, setForm] = useState({
     asset: "",
     direction: "",
@@ -27,6 +28,7 @@ export default function PopUp({ onClose, onSave, isOpen }) {
   });
 
   const [sessions, setSessions] = useState([]);
+
   useEffect(() => {
     (async () => {
       try {
@@ -114,6 +116,7 @@ export default function PopUp({ onClose, onSave, isOpen }) {
     } catch (err) {
       console.error("Network error:", err)
     }
+    window.location.reload(false)
   }
 
   useEffect(() => {
@@ -314,6 +317,7 @@ export default function PopUp({ onClose, onSave, isOpen }) {
                   name="session_id"
                   value={form.session_id}
                   onChange={handleChange}
+                  required
                 >
                   <option key="default-session" value="">Select Session</option>
                   {sessions.map(s => (

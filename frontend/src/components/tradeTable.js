@@ -13,6 +13,7 @@ const COLUMN_CONFIG = [
     { header: "Profit/Loss", key: "is_reviewed", type: "review_status" },
     { header: "Notes", key: "notes" },
     { header: "Delete", key: "delete_action" },
+    { header: "Created", key: "created_at" },
 ];
 
 const formatCellValue = (key, value, trade) => {
@@ -51,16 +52,16 @@ export default function TradeTable({ trades, onDelete }) {
   const [sortKey, setSortKey] = useState('');
   const [filterText, setFilterText] = useState('');
   
-  const headers = COLUMN_CONFIG.map(col => col.header);
+  const headers = COLUMN_CONFIG.filter(col => !["created_at"].includes(col.key)).map(col => col.header);
 
   const filteredAndSortedTrades = useMemo(() => {
-    let filtered = trades;
-
+    let filtered = trades
     if (filterText.trim() !== "") {
       const lower = filterText.toLowerCase();
       filtered = trades.filter(trade =>
         COLUMN_CONFIG.some(({ key }) => {
           if (["delete_action"].includes(key)) return false;
+          if (["created_at"].includes(key)) return false;
           const val = trade[key];
           return val && String(val).toLowerCase().includes(lower);
         })
@@ -78,6 +79,16 @@ export default function TradeTable({ trades, onDelete }) {
         }
         return String(aVal || "").localeCompare(String(bVal || ""));
       });
+    } else{
+      filtered = [...filtered].sort((a, b) => {
+        const aVal = a["created_at"];
+        const bVal = b["created_at"];
+        // console.log(sortKey)
+        if (COLUMN_CONFIG.find(c => c.key === sortKey)?.type === "date") {
+          return new Date(bVal) - new Date(aVal);
+        }
+        return String(aVal || "").localeCompare(String(bVal || ""));
+      })
     }
 
     return filtered;
@@ -154,7 +165,9 @@ export default function TradeTable({ trades, onDelete }) {
                 <tbody className="bg-white">
                     {filteredAndSortedTrades.map((trade) => (
                         <tr key={trade.trade_id} className="hover:bg-gray-50 transition-colors">
-                            {COLUMN_CONFIG.map(({ key }) => {
+                            {COLUMN_CONFIG
+                            .filter((col) => !["created_at"].includes(col.key))
+                            .map(({ key }) => {
                                 if (key === "delete_action") {
                                     return (
                                         <td key={key} className="border-b border-gray-200 p-3 text-center">
