@@ -11,7 +11,7 @@ export default function Journaling() {
   const [isBlurred, setIsBlurred] = useState(false)
   const [isOpen, setIsOpen] = useState(false)
   const envFile = process.env.NODE_ENV === 'development' ? '.env.local' : '.env';
-  const fetchURL = envFile === ".env.local" ? "http://localhost:4000" : "https://veltrix-4c53.onrender.com"  
+  const fetchURL = envFile === ".env.local" ? "http://localhost:4000" : "https://veltrix2-backend.onrender.com"  
 
   const [trades, setTrades] = useState([]);
   useEffect(() => {

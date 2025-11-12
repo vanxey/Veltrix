@@ -5,7 +5,7 @@ export default function PopUp({ onClose, onSave, isOpen }) {
   // const dateOpenedPopup = new Date(Date.now()).toJSON().substring(0, 16)
   // console.log(dateOpenedPopup) 
   const envFile = process.env.NODE_ENV === 'development' ? '.env.local' : '.env';
-  const fetchURL = envFile === ".env.local" ? "http://localhost:4000" : "https://veltrix-4c53.onrender.com" 
+  const fetchURL = envFile === ".env.local" ? "http://localhost:4000" : "https://veltrix2-backend.onrender.com" 
 
 
   const [form, setForm] = useState({
