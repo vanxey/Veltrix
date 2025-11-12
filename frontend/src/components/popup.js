@@ -1,12 +1,10 @@
 import { useState, useEffect } from "react";
 import Button from "./ui/button";
+import { FETCH_URL } from "@/lib/constants";
 
 export default function PopUp({ onClose, onSave, isOpen }) {
   // const dateOpenedPopup = new Date(Date.now()).toJSON().substring(0, 16)
   // console.log(dateOpenedPopup) 
-  const envFile = process.env.NODE_ENV === 'development' ? '.env.local' : '.env';
-  const fetchURL = envFile === ".env.local" ? "http://localhost:4000" : "https://veltrix2-backend.onrender.com" 
-
 
   const [form, setForm] = useState({
     asset: "",
@@ -33,7 +31,7 @@ export default function PopUp({ onClose, onSave, isOpen }) {
     (async () => {
       try {
         const res = await fetch(
-          `${process.env.NEXT_PUBLIC_API_BASE_URL ?? fetchURL}/session`
+          `${process.env.NEXT_PUBLIC_API_BASE_URL ?? FETCH_URL}/session`
         );
         const json = await res.json();
 
@@ -52,7 +50,7 @@ export default function PopUp({ onClose, onSave, isOpen }) {
         setSessions([]);
       }
     })();
-  }, [fetchURL]);
+  }, []);
 
 
   const handleChange = (e) => {
@@ -96,7 +94,7 @@ export default function PopUp({ onClose, onSave, isOpen }) {
     console.log(tradeData)
 
     try {
-      const response = await fetch(`${fetchURL}/trades`, {
+      const response = await fetch(`${FETCH_URL}/trades`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(tradeData),

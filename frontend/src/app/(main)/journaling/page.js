@@ -5,27 +5,26 @@ import PopUp from "@/components/popup";
 import TradeTable from "@/components/tradeTable";
 import Header from "@/components/header";
 import { useState, useEffect } from "react"
+import { FETCH_URL } from "@/lib/constants";
 
 export default function Journaling() {
   const [isVisible, setIsVisible] = useState(false)
   const [isBlurred, setIsBlurred] = useState(false)
-  const [isOpen, setIsOpen] = useState(false)
-  const envFile = process.env.NODE_ENV === 'development' ? '.env.local' : '.env';
-  const fetchURL = envFile === ".env.local" ? "http://localhost:4000" : "https://veltrix2-backend.onrender.com"  
+  const [isOpen, setIsOpen] = useState(false) 
 
   const [trades, setTrades] = useState([]);
   useEffect(() => {
-    fetch(`${fetchURL}/trade`)
+    fetch(`${FETCH_URL}/trade`)
       .then(res => res.json())
       .then(data => setTrades(data))
       .catch(err => console.error(err));
-  }, [fetchURL])
+  }, [])
 
   const handleDeleteTrade = async (tradeId) => {
     // console.log(tradeId)
     // trades.filter(trade => console.log(trade.trade_id))
     try {
-      const response = await fetch(`${fetchURL}/trade/${tradeId}`, {
+      const response = await fetch(`${FETCH_URL}/trade/${tradeId}`, {
         method: "DELETE",
       })
 
