@@ -18,7 +18,7 @@
     "cross-env": "^10.1.0"
   },
   "scripts": {
-    "start": "cross-env NODE_ENV=production node src/index.js",
+    "start": "npx cross-env NODE_ENV=production node src/index.js",
     "dev": "cross-env NODE_ENV=development node src/index.js"
   }
 }
