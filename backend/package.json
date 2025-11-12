@@ -3,6 +3,10 @@
   "version": "1.0.0",
   "main": "src/index.js",
   "license": "ISC",
+  "devDependencies": {
+    "cross-env": "^10.1.0",
+    "nodemon": "^3.1.10"
+  },
   "scripts": {
     "start": "cross-env NODE_ENV=production node src/index.js",
     "dev": "cross-env NODE_ENV=development node src/index.js"
@@ -15,9 +19,5 @@
     "passport": "^0.7.0",
     "passport-local": "^1.0.0",
     "pg": "^8.16.3"
-  },
-  "devDependencies": {
-    "cross-env": "^10.1.0",
-    "nodemon": "^3.1.10"
   }
 }
