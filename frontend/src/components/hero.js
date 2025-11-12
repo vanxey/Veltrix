@@ -13,8 +13,8 @@ export default function Hero(){
             insights.
             </p></div>
           <div className="flex flex-row gap-5">
-            <Button text="Eplore Services ->"/>
-            <Button text="View Pricing" border/>
+            <Button variant="primary">Explore Services -{">"}</Button>
+            <Button variant="secondary">View Pricing</Button>
           </div>
         </div>
       </div>

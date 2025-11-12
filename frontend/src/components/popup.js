@@ -421,7 +421,7 @@ export default function PopUp({ onClose, onSave, isOpen }) {
                 </label>
               </div>
               <div className="flex pt-1">
-                <Button size="md" type="submit" text="Save Trade" />
+                <Button size="md" type="submit">Save Trade</Button>
               </div>
             </div>
           </form>

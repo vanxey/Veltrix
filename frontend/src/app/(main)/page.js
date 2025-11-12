@@ -1,4 +1,4 @@
-import Card from "@/components/card";
+import Card from "@/components/ui/card";
 import Header from "@/components/header";
 import Hero from "@/components/hero";
 import Button from "@/components/ui/button";
@@ -127,7 +127,7 @@ export default function Home() {
 
           </div>
           <div className="flex justify-center">
-            <Button className="text-md p-1" text="Start Free Trial ->" />
+            <Button variant="primary" size="md" className="p-1">Start Free Trial {"->"}</Button>
           </div>
         </div>
       </div>

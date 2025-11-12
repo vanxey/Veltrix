@@ -20,7 +20,10 @@ export default function News(){
                     <div className="text-4xl font-black py-1">Forex Calendar</div>
                     <div className="text-sm text-gray-500 font-semibold">Economic events & market news</div>
                 </div>
-                <Button onOpen={handleClick} text="Filter" icon={<svg xmlns="http://www.w3.org/2000/svg" width="10" height="10" viewBox="0 0 20 20"><path fill="#fff" d="m8.398 14.605l1.323 1.143c.29.251.323.691.075.984a.688.688 0 0 1-.976.075l-1.565-1.352a.7.7 0 0 1-.242-.53V7.938L1.171 1.155C.78.703 1.1 0 1.694 0h16.612c.594 0 .912.704.523 1.155l-5.85 6.784v11.363c0 .386-.31.698-.692.698a.695.695 0 0 1-.692-.698V7.678a.7.7 0 0 1 .17-.458l5.023-5.825H3.21L8.228 7.22a.7.7 0 0 1 .17.458v6.927Z"/></svg>}/>
+                <Button onClick={handleClick} className="flex items-center gap-2">
+                  <svg xmlns="http://www.w3.org/2000/svg" width="10" height="10" viewBox="0 0 20 20"><path fill="#fff" d="m8.398 14.605l1.323 1.143c.29.251.323.691.075.984a.688.688 0 0 1-.976.075l-1.565-1.352a.7.7 0 0 1-.242-.53V7.938L1.171 1.155C.78.703 1.1 0 1.694 0h16.612c.594 0 .912.704.523 1.155l-5.85 6.784v11.363c0 .386-.31.698-.692.698a.695.695 0 0 1-.692-.698V7.678a.7.7 0 0 1 .17-.458l5.023-5.825H3.21L8.228 7.22a.7.7 0 0 1 .17.458v6.927Z"/></svg>
+                  Filter
+                </Button>
                 
                 </div>
 
@@ -31,9 +34,9 @@ export default function News(){
                         <div className="flex flex-col gap-2">
                             <div className="flex text-sm">Impact level</div>
                             <div className="flex gap-2">
-                                <Button className="px-5 text-gray-100 border-gray-500 bg-gray-700 hover:border-amber-300 hover:bg-gray-700" text="Low" size="sm" border/>
-                                <Button className="px-5 text-gray-100 border-gray-500 bg-gray-700 hover:border-orange-500 hover:bg-gray-700" text="Medium" size="sm" border/>
-                                <Button className="px-5 text-gray-100 border-gray-500 bg-gray-700 hover:border-red-500 hover:bg-gray-700" text="High" size="sm" border/>
+                                <Button variant="tertiary" size="sm" className="px-5 hover:border-amber-300">Low</Button>
+                                <Button variant="tertiary" size="sm" className="px-5 hover:border-orange-500">Medium</Button>
+                                <Button variant="tertiary" size="sm" className="px-5 hover:border-red-500">High</Button>
                             </div>
                         </div>
                     </div>

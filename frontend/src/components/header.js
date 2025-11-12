@@ -20,8 +20,8 @@ return(
                     <Link href="/news">News</Link>
                 </nav>
                 <div className="text-base justify-end items-center gap-4 hidden md:flex">
-                    <Link href="/login">Login</Link>
-                    <Button size="sm" text="Get started"/> 
+                    <Link href="/">Login</Link>
+                    <Button size="sm">Get started</Button>
                 </div>
                 <button
                 onClick={() => setIsMobile(!isMobile)}

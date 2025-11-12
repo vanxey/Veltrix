@@ -61,13 +61,13 @@ export default function Journaling() {
           <TradeTable trades={trades} onDelete={handleDeleteTrade} />
 
           <Button
-            onOpen={() => {
+            onClick={() => {
               setIsOpen(true)
               setIsVisible(true)
               setIsBlurred(true)
             }}
-            text="Add Journal"
-          />
+            variant="primary"
+          >Add Journal</Button>
 
 
         </div>
