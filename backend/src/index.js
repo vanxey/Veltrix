@@ -11,7 +11,7 @@ const pool = require('./db');
 
 const app = express();
 app.use(cors({
-  origin: ["https://veltrix-1-g724.onrender.com", "http://localhost:3000"],
+  origin: [process.env.LOCAL_FRONTEND_IP_URL, process.env.FRONTEND_URL],
   methods: ["GET", "POST", "PUT", "DELETE"],
   allowedHeaders: ["Content-Type", "Authorization"],
   credentials: true,

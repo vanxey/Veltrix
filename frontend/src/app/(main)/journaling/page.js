@@ -13,6 +13,7 @@ export default function Journaling() {
   const [isOpen, setIsOpen] = useState(false) 
 
   const [trades, setTrades] = useState([]);
+  console.log(FETCH_URL)
   useEffect(() => {
     fetch(`${FETCH_URL}/trade`)
       .then(res => res.json())
