@@ -9,7 +9,6 @@ export default function News(){
         filterTab === false ? setFilterTab(true) : setFilterTab(false)
         console.log(filterTab)
     }
-
     return(
         <div className="grid grid-rows-[auto_1fr] max-w-screen h-auto">
             <Header />
