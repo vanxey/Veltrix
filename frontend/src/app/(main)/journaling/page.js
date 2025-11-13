@@ -2,7 +2,7 @@
 
 import Button from "@/components/ui/button"
 import PopUp from "@/components/popup"
-import TradeTable from "@/components/tradeTable"
+import TradeTable from "@/components/trade_table/trade_table"
 import Header from "@/components/header"
 import { useState } from "react"
 import { useTrades } from "@/hooks/useTrades" 

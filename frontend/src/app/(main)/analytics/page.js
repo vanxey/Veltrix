@@ -1,11 +1,11 @@
 import Header from "@/components/header"
 import Button from "@/components/ui/button"
-import SM_Card_Analytics from "@/components/sm_card_analytics"
-import MD_card_analytics from "@/components/md_card_analytics"
-import Table_card_analytics from "@/components/table_card_analytics"
-import Calendar_analytics from "@/components/calendar_analytics"
+import SM_Card_Analytics from "@/components/analytics/sm_card_analytics"
+import MD_card_analytics from "@/components/analytics/md_card_analytics"
+import Table_card_analytics from "@/components/analytics/table_card_analytics"
+import Calendar_analytics from "@/components/analytics/calendar_analytics"
 
-import Table_card_analytics_copy from "@/components/table_card_analytics_dynamic"
+import Table_card_analytics_copy from "@/components/analytics/table_card_analytics_dynamic"
 export default function Analytics(){
     return(
         <div className="grid grid-rows-[auto_1fr] w-full">

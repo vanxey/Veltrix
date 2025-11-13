@@ -1,5 +1,4 @@
-import { jsx } from "react/jsx-runtime";
-import Button from "./ui/button";
+import Button from "../ui/button";
 
     const getTableKeys = (rows) =>{
         if(!Array.isArray(rows) || rows.length === 0) return []
