@@ -8,8 +8,8 @@ console.log(`✅ Loaded ${envFile}`);
 const express = require('express');
 const cors = require('cors');
 const pool = require('./db');
-
 const app = express();
+
 app.use(cors({
   origin: [process.env.LOCAL_FRONTEND_IP_URL, process.env.FRONTEND_URL],
   methods: ["GET", "POST", "PUT", "DELETE"],
@@ -20,8 +20,6 @@ app.use(express.json());
 
 app.get('/', (_req, res) => res.send('Veltrix Backend Running'));
 
-
-// Test DB: list users
 app.get('/users', async (_req, res) => {
   try {
     const { rows } = await pool.query('SELECT * FROM users ORDER BY created_at DESC');
@@ -60,7 +58,6 @@ app.get('/trade', async (_req, res) => {
 app.delete('/trade/:id', async (req, res) => {
   try {
     const { id } = req.params;
-    // Add this line to check the ID received from the frontend
     console.log('Backend received DELETE request for ID:', id);
 
     const { rowCount } = await pool.query('DELETE FROM "trade" WHERE trade_id = $1', [id]);
@@ -76,8 +73,6 @@ app.delete('/trade/:id', async (req, res) => {
   }
 });
 
-
-
 app.post('/trades', async (req, res) => {
   try {
     const {
@@ -86,8 +81,6 @@ app.post('/trades', async (req, res) => {
       direction,
       entry_date,
       exit_date,
-      // entry_price,
-      // exit_price = null,
       size,
       pnl = null,
       outcome = null,
@@ -95,9 +88,11 @@ app.post('/trades', async (req, res) => {
       strategy = null,
       is_reviewed = false,
       notes = null,
+       screenshot_url = null
+      // entry_price,
+      // exit_price = null,
       // stop_loss = null,
       // take_profit = null,
-      screenshot_url = null
     } = req.body;
 
     // if (!asset || !direction || !entry_date || !exit_date || !size || !strategy || !outcome || !pnl || !session_id) {
@@ -114,7 +109,7 @@ app.post('/trades', async (req, res) => {
       RETURNING *;
     `;
 
-    //removed entry_price, exit_price, stop_loss, take_profit,
+    //removed entry_price, exit_price, stop_loss, take_profit, (can be added again later on)
 
     const { rows } = await pool.query(sql, [
       user_id, asset, direction, entry_date, exit_date,
@@ -129,23 +124,6 @@ app.post('/trades', async (req, res) => {
   }
 });
 
-
-// List trades (latest first)
-// app.get('/trades', async (req, res) => {
-//     try {
-//         const { user_id } = req.query;
-//         const base = `SELECT * FROM trade`;
-//         const where = user_id ? ` WHERE user_id = $1` : ``;
-//         const order = ` ORDER BY created_at DESC NULLS LAST`;
-//         const sql = base + where + order;
-
-//         const { rows } = await pool.query(sql, user_id ? [user_id] : []);
-//         res.json(rows);
-//     } catch (e) {
-//         console.error('GET /trades', e);
-//         res.status(500).json({ error: 'Server error' });
-//     }
-// });
 const PORT = process.env.PORT || 4000;
 app.listen(PORT, () => {
   console.log(`✅ Veltrix backend running on port ${PORT}`);

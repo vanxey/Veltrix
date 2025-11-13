@@ -37,7 +37,7 @@ export function useTrades() {
 
       } catch (err) {
         console.error("Failed to load data:", err)
-        setData(prev => ({ ...prev, isLoading: false, error: err }))
+        setData(prev => ({ ...prev, isLoading: false, error: err.message }))
       }
     }
 

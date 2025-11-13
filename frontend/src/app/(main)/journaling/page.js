@@ -11,7 +11,7 @@ export default function Journaling() {
   const [isVisible, setIsVisible] = useState(false)
   const [isBlurred, setIsBlurred] = useState(false)
   
-  const { trades, sessions, isLoading, deleteTrade, addTrade } = useTrades()
+  const { trades, sessions, isLoading, deleteTrade, addTrade, error} = useTrades()
 
   const handleSaveTrade = (newTrade) => {
     addTrade(newTrade) 
@@ -37,10 +37,17 @@ export default function Journaling() {
           <div className=" flex content-center">
             <h2 className="text-2xl font-semibold text-black p-2">Trade Log</h2>
           </div>
-          
-          {isLoading ? (
-            <div>Loading trades...</div>
-          ) : (
+          {isLoading && (
+            <div className="p-4 text-center text-gray-500">Loading trades...</div>
+          )}
+
+          {error && (
+            <div className="p-4 rounded-lg bg-red-100 text-red-700">
+              <strong>Error:</strong> {error}
+            </div>
+          )}
+
+          {!isLoading && !error && (
             <TradeTable trades={trades} onDelete={deleteTrade} />
           )}
 
