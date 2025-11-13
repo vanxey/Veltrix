@@ -4,6 +4,8 @@ import SM_Card_Analytics from "@/components/sm_card_analytics"
 import MD_card_analytics from "@/components/md_card_analytics"
 import Table_card_analytics from "@/components/table_card_analytics"
 import Calendar_analytics from "@/components/calendar_analytics"
+
+import Table_card_analytics_copy from "@/components/table_card_analytics_dynamic"
 export default function Analytics(){
     return(
         <div className="grid grid-rows-[auto_1fr] w-full">
@@ -71,7 +73,42 @@ export default function Analytics(){
                 </div>
 
                 <div className="flex w-auto h-auto gap-5 rounded-xl justify-between">
-                          <Table_card_analytics/>
+                    <Table_card_analytics />
+                          {/* <Table_card_analytics_copy 
+                            table_title="Top Performing Trades"
+                            table_description="Your best trades this month"
+                            button_txt="View All"
+                            table_data={[
+                                        {
+                                            "pair": "EUR/GBP",
+                                            "type": "Buy",
+                                            "entry_date": "Jun 7, 2024",
+                                            "lot_size": 1.2,
+                                            "p_and_l": "+$825"
+                                        },
+                                        {
+                                            "pair": "EUR/USD",
+                                            "type": "Buy",
+                                            "entry_date": "Jun 21, 2024",
+                                            "lot_size": 1.5,
+                                            "p_and_l": "+$695"
+                                        },
+                                        {
+                                            "pair": "USD/JPY",
+                                            "type": "Buy",
+                                            "entry_date": "Jun 5, 2024",
+                                            "lot_size": 1,
+                                            "p_and_l": "+$670"
+                                        },
+                                        {
+                                            "pair": "USD/CHF",
+                                            "type": "Sell",
+                                            "entry_date": "Jun 12, 2024",
+                                            "lot_size": 0.8,
+                                            "p_and_l": "+$540"
+                                        }
+                                        ]}
+                          /> */}
                 </div>
              </div>
              

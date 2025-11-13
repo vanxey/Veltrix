@@ -1,6 +1,26 @@
+import { jsx } from "react/jsx-runtime";
 import Button from "./ui/button";
 
-export default function Table_card_analytics({className=""}){
+const getTableKeys = (rows) =>{
+        if(!Array.isArray(rows) || rows.length === 0) return []
+        const table_keys = Object.keys(rows[0])
+
+        return table_keys 
+    }
+
+    const getTableData = (rows, table_keys) => {
+        return rows.map((row)=>{
+            return table_keys.map((key)=>{
+                return row[key]
+            })
+        })
+        
+    }
+
+export default function Table_card_analytics_copy({table_title, table_description,button_txt, table_data,className=""}){
+    const table_keys = getTableKeys(table_data)
+    const table_rows = getTableData(table_data, table_keys)
+          
     return (
         <div className={`flex flex-col h-auto w-full p-15 gap-5 bg-white rounded-xl
         shadow-xl border border-gray-100 
@@ -8,24 +28,36 @@ export default function Table_card_analytics({className=""}){
         `}>
             <div className="flex flex-row place-items-center">
                 <div className="flex flex-col grow gap-1">
-                    <div className="flex text-2xl font-bold">Top Performing Trades</div>
-                    <div className="flex text-sm text-gray-500 px-1">Your best trades this month</div>
+                    <div className="flex text-2xl font-bold">{table_title}</div>
+                    <div className="flex text-sm text-gray-500 px-1">{table_description}</div>
                 </div>
-                <Button variant="primary" size="sm" className="font-bold border-1 py-0 px-2 shadow-none">View All</Button>
+                <Button variant="primary" size="sm" className="font-bold border-1 py-0 px-2 shadow-none">{button_txt}</Button>
             </div>
             <div className="flex w-full">
+
                 <table className="w-full">
                     <thead>
                         <tr className="border-b border-slate-200">
-                        <th className="text-center py-3 px-4 text-sm font-semibold text-slate-600">Pair</th>
+                            {table_keys.map((key)=>(
+                                <th key={key} className="text-center py-3 px-4 text-sm font-semibold text-slate-600">{key}</th>
+                            ))}
+                        {/* <th className="text-center py-3 px-4 text-sm font-semibold text-slate-600">Pair</th>
                         <th className="text-center py-3 px-4 text-sm font-semibold text-slate-600">Type</th>
                         <th className="text-center py-3 px-4 text-sm font-semibold text-slate-600">Entry Date</th>
                         <th className="text-center py-3 px-4 text-sm font-semibold text-slate-600">Lot Size</th>
-                        <th className="text-center py-3 px-4 text-sm font-semibold text-slate-600">P&L</th>
+                        <th className="text-center py-3 px-4 text-sm font-semibold text-slate-600">P&L</th> */}
                         </tr>
                     </thead>
                  <tbody>
-                    <tr className="border-b border-slate-100 hover:bg-slate-50 transition-colors duration-150">
+                    {table_rows.map((row, rowIndex)=>(
+                        <tr key={rowIndex} className="border-b border-slate-100 hover:bg-slate-50 transition-colors duration-150">
+                        {row.map((cell, cellIndex)=>(
+                            <td key={cellIndex} className="py-4 px-4 text-center text-slate-700">{cell}</td>
+                        ))}
+                        </tr>
+                    ))}
+
+                    {/* <tr className="border-b border-slate-100 hover:bg-slate-50 transition-colors duration-150">
                         <td className="py-4 px-4 text-center"><div className="font-bold text-slate-900">EUR/GBP</div></td>
                         <td className="py-4 px-4 text-center"><div className="px-3 py-1 rounded-full text-xs font-semibold bg-emerald-100 text-emerald-700">Buy</div></td>
                         <td className="py-4 px-4 text-center text-slate-700">Jun 7, 2024</td>
@@ -54,7 +86,7 @@ export default function Table_card_analytics({className=""}){
                         <td className="py-4 px-4 text-center text-slate-700">Jun 12, 2024</td>
                         <td className="py-4 px-4 text-center text-slate-700">0.8</td>
                         <td className="py-4 px-4 text-center"><div className="font-bold text-emerald-600">+$540</div></td>
-                    </tr>
+                    </tr> */}
                 </tbody>
                     </table>
             </div>
