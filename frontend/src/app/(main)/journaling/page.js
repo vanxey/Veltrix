@@ -4,54 +4,32 @@ import Button from "@/components/ui/button";
 import PopUp from "@/components/popup";
 import TradeTable from "@/components/tradeTable";
 import Header from "@/components/header";
-import { useState, useEffect } from "react"
-import { FETCH_URL } from "@/lib/constants";
+import { useState } from "react";
+import { useTrades } from "@/hooks/useTrades";
 
 export default function Journaling() {
-  const [isVisible, setIsVisible] = useState(false)
-  const [isBlurred, setIsBlurred] = useState(false)
-  const [isOpen, setIsOpen] = useState(false) 
+  const [isVisible, setIsVisible] = useState(false);
+  const [isBlurred, setIsBlurred] = useState(false);
+  
+  const { trades, isLoading, deleteTrade, addTrade } = useTrades();
 
-  const [trades, setTrades] = useState([]);
-  console.log(FETCH_URL)
-  useEffect(() => {
-    fetch(`${FETCH_URL}/trade`)
-      .then(res => res.json())
-      .then(data => setTrades(data))
-      .catch(err => console.error(err));
-  }, [])
-
-  const handleDeleteTrade = async (tradeId) => {
-    // console.log(tradeId)
-    // trades.filter(trade => console.log(trade.trade_id))
-    try {
-      const response = await fetch(`${FETCH_URL}/trade/${tradeId}`, {
-        method: "DELETE",
-      })
-
-
-      if (!response.ok) {
-        const error = await response.json();
-        console.error("Failed to delete trade:", error);
-        return
-      }
-
-      console.log(`Trade with ID ${tradeId} deleted successfully.`);
-
-      setTrades(trades.filter(trade => trade.trade_id != tradeId));
-    } catch (err) {
-      console.error("Network error:", err);
-    }
-  }
-
-  const handleSaveTrade = (newTrades) => {
-    setTrades(trades => [...trades, newTrades]);
+  const handleSaveTrade = (newTrade) => {
+    addTrade(newTrade); 
     setIsVisible(false);
     setIsBlurred(false);
-  }
+  };
+
+  const openPopup = () => {
+    setIsVisible(true);
+    setIsBlurred(true);
+  };
+
+  const closePopup = () => {
+    setIsVisible(false);
+    setIsBlurred(false);
+  };
 
   return (
-    // bg-[url(/gradient.svg)] bg-contain
     <div className="grid">
       <div className={`grid ${isBlurred ? 'blur-sm' : ''} transition-all duration-300 grid-rows-[auto_1fr_1fr]`}>
         <Header />
@@ -59,29 +37,24 @@ export default function Journaling() {
           <div className=" flex content-center">
             <h2 className="text-2xl font-semibold text-black p-2">Trade Log</h2>
           </div>
-          <TradeTable trades={trades} onDelete={handleDeleteTrade} />
+          
+          {isLoading ? (
+            <div>Loading trades...</div>
+          ) : (
+            <TradeTable trades={trades} onDelete={deleteTrade} />
+          )}
 
-          <Button
-            onClick={() => {
-              setIsOpen(true)
-              setIsVisible(true)
-              setIsBlurred(true)
-            }}
-            variant="primary"
-          >Add Journal</Button>
-
-
+          <Button onClick={openPopup}>Add Journal</Button>
         </div>
       </div>
-      {isVisible && <PopUp
-        onClose={() => {
-          setIsVisible(false)
-          setIsBlurred(false)
-          setIsOpen(false)
-        }}
-        onSave={handleSaveTrade}
-        isOpen={isOpen}
-      />}
+      
+      {isVisible && (
+        <PopUp
+          isOpen={isVisible}
+          onClose={closePopup}
+          onSave={handleSaveTrade} 
+        />
+      )}
     </div>
   );
 }
