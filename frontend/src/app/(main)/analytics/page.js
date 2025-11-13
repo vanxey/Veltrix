@@ -73,8 +73,8 @@ export default function Analytics(){
                 </div>
 
                 <div className="flex w-auto h-auto gap-5 rounded-xl justify-between">
-                    <Table_card_analytics />
-                          {/* <Table_card_analytics_copy 
+                    {/* <Table_card_analytics /> */}
+                          <Table_card_analytics_copy 
                             table_title="Top Performing Trades"
                             table_description="Your best trades this month"
                             button_txt="View All"
@@ -108,7 +108,7 @@ export default function Analytics(){
                                             "p_and_l": "+$540"
                                         }
                                         ]}
-                          /> */}
+                          />
                 </div>
              </div>
              

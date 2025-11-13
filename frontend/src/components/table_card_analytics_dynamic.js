@@ -1,25 +1,63 @@
 import { jsx } from "react/jsx-runtime";
 import Button from "./ui/button";
 
-const getTableKeys = (rows) =>{
+    const getTableKeys = (rows) =>{
         if(!Array.isArray(rows) || rows.length === 0) return []
         const table_keys = Object.keys(rows[0])
 
         return table_keys 
     }
 
-    const getTableData = (rows, table_keys) => {
-        return rows.map((row)=>{
-            return table_keys.map((key)=>{
-                return row[key]
-            })
-        })
-        
-    }
 
 export default function Table_card_analytics_copy({table_title, table_description,button_txt, table_data,className=""}){
     const table_keys = getTableKeys(table_data)
-    const table_rows = getTableData(table_data, table_keys)
+
+    const formatHeader = (key) => {
+        if (key === 'p_and_l') return 'P & L'
+        const withSpaces = key.replace(/_/g, ' ')
+        return withSpaces.charAt(0).toUpperCase() + withSpaces.slice(1)
+    }
+    
+    const renderCell = (row, key) => {
+        const cellValue = row[key]
+        const baseClass = "py-4 px-4 text-center"
+
+        switch (key) {
+            case 'pair':
+                return (
+                    <td key={key} className={baseClass}>
+                        <div className="font-bold text-slate-900">{cellValue}</div>
+                    </td>
+                )
+                
+            case 'type':
+                const typeClass = cellValue === 'Buy'
+                    ? "bg-emerald-100 text-emerald-700"
+                    : "bg-rose-100 text-rose-700"
+                
+                return (
+                    <td key={key} className={baseClass}>
+                        <div className={`px-3 py-1 rounded-full text-xs font-semibold ${typeClass}`}>
+                            {cellValue}
+                        </div>
+                    </td>
+                )
+
+            case 'p_and_l':
+                return (
+                    <td key={key} className={baseClass}>
+                        <div className="font-bold text-emerald-600">{cellValue}</div>
+                    </td>
+                )
+
+            default:
+                return (
+                    <td key={key} className={`${baseClass} text-slate-700`}>
+                        {cellValue}
+                    </td>
+                )
+            }
+    }
           
     return (
         <div className={`flex flex-col h-auto w-full p-15 gap-5 bg-white rounded-xl
@@ -39,54 +77,16 @@ export default function Table_card_analytics_copy({table_title, table_descriptio
                     <thead>
                         <tr className="border-b border-slate-200">
                             {table_keys.map((key)=>(
-                                <th key={key} className="text-center py-3 px-4 text-sm font-semibold text-slate-600">{key}</th>
+                                <th key={key} className="text-center py-3 px-4 text-sm font-semibold text-slate-600">{formatHeader(key)}</th>
                             ))}
-                        {/* <th className="text-center py-3 px-4 text-sm font-semibold text-slate-600">Pair</th>
-                        <th className="text-center py-3 px-4 text-sm font-semibold text-slate-600">Type</th>
-                        <th className="text-center py-3 px-4 text-sm font-semibold text-slate-600">Entry Date</th>
-                        <th className="text-center py-3 px-4 text-sm font-semibold text-slate-600">Lot Size</th>
-                        <th className="text-center py-3 px-4 text-sm font-semibold text-slate-600">P&L</th> */}
                         </tr>
                     </thead>
                  <tbody>
-                    {table_rows.map((row, rowIndex)=>(
+                    {table_data.map((row, rowIndex)=>(
                         <tr key={rowIndex} className="border-b border-slate-100 hover:bg-slate-50 transition-colors duration-150">
-                        {row.map((cell, cellIndex)=>(
-                            <td key={cellIndex} className="py-4 px-4 text-center text-slate-700">{cell}</td>
-                        ))}
+                        {table_keys.map((key)=>( renderCell(row, key)))}
                         </tr>
                     ))}
-
-                    {/* <tr className="border-b border-slate-100 hover:bg-slate-50 transition-colors duration-150">
-                        <td className="py-4 px-4 text-center"><div className="font-bold text-slate-900">EUR/GBP</div></td>
-                        <td className="py-4 px-4 text-center"><div className="px-3 py-1 rounded-full text-xs font-semibold bg-emerald-100 text-emerald-700">Buy</div></td>
-                        <td className="py-4 px-4 text-center text-slate-700">Jun 7, 2024</td>
-                        <td className="py-4 px-4 text-center text-slate-700">1.2</td>
-                        <td className="py-4 px-4 text-center"><div className="font-bold text-emerald-600">+$825</div></td>
-                    </tr>
-                    <tr className="border-b border-slate-100 hover:bg-slate-50 transition-colors duration-150">
-                        <td className="py-4 px-4 text-center"><div className="font-bold text-slate-900">EUR/USD</div></td>
-                        <td className="py-4 px-4 text-center"><div className="px-3 py-1 rounded-full text-xs font-semibold bg-emerald-100 text-emerald-700">Buy</div></td>
-                        <td className="py-4 px-4 text-center text-slate-700">Jun 21, 2024</td>
-                        <td className="py-4 px-4 text-center text-slate-700">1.5</td>
-                        <td className="py-4 px-4 text-center"><div className="font-bold text-emerald-600">+$695</div></td>
-                    </tr>
-                    <tr className="border-b border-slate-100 hover:bg-slate-50 transition-colors duration-150">
-                        <td className="py-4 px-4 text-center"><div className="font-bold text-slate-900">USD/JPY</div></td>
-                        <td className="py-4 px-4 text-center"><div className="px-3 py-1 rounded-full text-xs font-semibold bg-emerald-100 text-emerald-700">Buy</div></td>
-                        <td className="py-4 px-4 text-center text-slate-700">Jun 5, 2024</td>
-                        <td className="py-4 px-4 text-center text-slate-700">1</td>
-                        <td className="py-4 px-4 text-center"><div className="font-bold text-emerald-600">+$670</div></td>
-                    </tr>
-                    <tr className="border-b border-slate-100 hover:bg-slate-50 transition-colors duration-150">
-                        <td className="py-4 px-4 text-center"><div className="font-bold text-slate-900">USD/CHF</div></td>
-                        <td className="py-4 px-4 text-center">
-                            <div className="px-3 py-1 rounded-full text-xs font-semibold bg-rose-100 text-rose-700">Sell</div>
-                        </td>
-                        <td className="py-4 px-4 text-center text-slate-700">Jun 12, 2024</td>
-                        <td className="py-4 px-4 text-center text-slate-700">0.8</td>
-                        <td className="py-4 px-4 text-center"><div className="font-bold text-emerald-600">+$540</div></td>
-                    </tr> */}
                 </tbody>
                     </table>
             </div>
