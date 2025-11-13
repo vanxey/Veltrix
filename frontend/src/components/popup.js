@@ -1,16 +1,11 @@
-import { useState, useEffect } from "react";
-import Button from "./ui/button";
-import { FETCH_URL } from "@/lib/constants";
+import { useState, useEffect } from "react"
+import Button from "./ui/button"
+import { FETCH_URL } from "@/lib/constants"
 
-export default function PopUp({ onClose, onSave, isOpen }) {
-  // const dateOpenedPopup = new Date(Date.now()).toJSON().substring(0, 16)
-  // console.log(dateOpenedPopup) 
-
+export default function PopUp({ onClose, onSave, isOpen, sessions = [] }) {
   const [form, setForm] = useState({
     asset: "",
     direction: "",
-    // entry: "",
-    // exit: "",
     entry_date: "",
     exit_date: "",
     size: "",
@@ -20,49 +15,15 @@ export default function PopUp({ onClose, onSave, isOpen }) {
     strategy: "",
     is_reviewed: false,
     notes: "",
-    // stopLoss: "",
-    // takeProfit: "", 
     screenshot: "",
-  });
-
-  const [sessions, setSessions] = useState([]);
-
-  useEffect(() => {
-    (async () => {
-      try {
-        const res = await fetch(
-          `${process.env.NEXT_PUBLIC_API_BASE_URL ?? FETCH_URL}/session`
-        );
-        const json = await res.json();
-
-        // Handle common API shapes
-        const list = Array.isArray(json) ? json : (json.rows || json.sessions || []);
-
-        // Normalize field names to what the UI expects
-        const normalized = list.map(s => ({
-          session_id: s.session_id ?? s.id,
-          name: s.name ?? s.session_name ?? s.title ?? `Session ${s.session_id || s.id}`,
-        }));
-
-        setSessions(normalized);
-      } catch (e) {
-        console.error("Failed to load sessions:", e);
-        setSessions([]);
-      }
-    })();
-  }, []);
-
+  })
 
   const handleChange = (e) => {
     const { name, value, type, checked } = e.target
-    // console.log(e.target.value)
-    let finalValue = value;
+    let finalValue = value
     if (name === "session_id") {
       finalValue = e.target.options[e.target.selectedIndex].value
-      //console.log(finalValue)
-      //console.log(form.session_id)
     }
-
     setForm({
       ...form,
       [name]: type === "checkbox" ? checked : finalValue,
@@ -78,8 +39,6 @@ export default function PopUp({ onClose, onSave, isOpen }) {
       direction: form.direction,
       entry_date: form.entry_date,
       exit_date: form.exit_date,
-      // entry_price: Number(form.entry),
-      // exit_price: Number(form.exit) || null,
       size: Number(form.size),
       pnl: Number(form.pnl) || null,
       outcome: form.outcome || null,
@@ -87,8 +46,6 @@ export default function PopUp({ onClose, onSave, isOpen }) {
       strategy: form.strategy || null,
       is_reviewed: form.is_reviewed ? true : false,
       notes: form.notes || null,
-      // stop_loss: Number(form.stopLoss) || null,
-      // take_profit: Number(form.takeProfit) || null,
       screenshot_url: null,
     }
     console.log(tradeData)
@@ -100,7 +57,6 @@ export default function PopUp({ onClose, onSave, isOpen }) {
         body: JSON.stringify(tradeData),
       })
 
-
       if (!response.ok) {
         const error = await response.json()
         console.error("Failed to create trade:", error)
@@ -109,17 +65,15 @@ export default function PopUp({ onClose, onSave, isOpen }) {
 
       const result = await response.json()
       console.log("Trade created:", result)
-      onSave(result)
+      onSave(result) 
       onClose()
     } catch (err) {
       console.error("Network error:", err)
     }
-    window.location.reload(false)
   }
 
   useEffect(() => {
     isOpen ? document.body.classList.add("overflow-hidden") : document.body.classList.remove("overflow-hidden")
-
     return () => document.body.classList.remove("overflow-hidden")
   }, [isOpen])
 
@@ -183,43 +137,12 @@ export default function PopUp({ onClose, onSave, isOpen }) {
                 </select>
               </div>
 
-              {/* <div className="flex flex-col">
-                <label className="block text-gray-500 font-medium text-sm">
-                  Entry:
-                </label>
-
-                <input
-                  type="number"
-                  name="entry"
-                  value={form.entry}
-                  onChange={handleChange}
-                  placeholder="Entry Price"
-                  className="border border-gray-300 p-2 h-10 rounded-lg w-full focus:outline-none focus:ring-2 focus:ring-blue-400"
-                />
-              </div>
-
-              <div className="flex flex-col">
-                <label className="block text-gray-500 font-medium text-sm">
-                  Exit:
-                </label>
-
-                <input
-                  type="number"
-                  name="exit"
-                  value={form.exit}
-                  onChange={handleChange}
-                  placeholder="Exit Price"
-                  className="border border-gray-300 p-2 h-10 rounded-lg w-full focus:outline-none focus:ring-2 focus:ring-blue-400"
-                />
-              </div> */}
-
               <div className="flex flex-col">
                 <label className="block text-gray-500 font-medium text-sm">
                   Entry Date:
                 </label>
 
                 <input
-                  // disabled
                   type="date"
                   name="entry_date"
                   value={form.entry_date}
@@ -235,7 +158,6 @@ export default function PopUp({ onClose, onSave, isOpen }) {
                 </label>
 
                 <input
-                  // disabled
                   type="date"
                   name="exit_date"
                   value={form.exit_date}
@@ -260,51 +182,7 @@ export default function PopUp({ onClose, onSave, isOpen }) {
                   required
                 />
               </div>
-
-              {/* <div className="flex flex-col">
-                <label className="block text-gray-500 font-medium text-sm">
-                  Stop Loss:
-                </label>
-
-                <input
-                  disabled
-                  type="number"
-                  name="stop_loss"
-                  value={form.stopLoss}
-                  onChange={handleChange}
-                  placeholder="Stop Loss (optional)"
-                  className="border border-gray-300 p-2 h-10 rounded-lg w-full focus:outline-none focus:ring-2 focus:ring-blue-400"
-                />
-              </div>
-              <div className="flex flex-col">
-                <label className="block text-gray-500 font-medium text-sm">
-                  Take Profit:
-                </label>
-
-                <input
-                  disabled
-                  type="number"
-                  name="takeProfit"
-                  value={form.takeProfit}
-                  onChange={handleChange}
-                  placeholder="Take Profit (optional)"
-                  className="border border-gray-300 p-2 h-10 rounded-lg w-full focus:outline-none focus:ring-2 focus:ring-blue-400"
-                />
-              </div> */}
-              {/* <div className="flex flex-col">
-                <label className="block text-gray-500 font-medium text-sm">
-                  Date & Time of Journal:
-                </label>
-
-                <input
-                  disabled
-                  type="datetime-local"
-                  name="dateTime"
-                  value={form.dateTime}
-                  onChange={handleChange}
-                  className="border border-gray-300 p-2 h-10 rounded-lg w-auto focus:outline-none focus:ring-2 focus:ring-blue-400"
-                />
-              </div> */}
+              
               <div className="flex flex-col">
                 <label className="block text-gray-500 font-medium text-sm">
                   Session:
@@ -428,5 +306,5 @@ export default function PopUp({ onClose, onSave, isOpen }) {
         </div>
       </div>
     </div>
-  );
+  )
 }

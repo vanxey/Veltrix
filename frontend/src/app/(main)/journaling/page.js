@@ -1,33 +1,33 @@
 'use client'
 
-import Button from "@/components/ui/button";
-import PopUp from "@/components/popup";
-import TradeTable from "@/components/tradeTable";
-import Header from "@/components/header";
-import { useState } from "react";
-import { useTrades } from "@/hooks/useTrades";
+import Button from "@/components/ui/button"
+import PopUp from "@/components/popup"
+import TradeTable from "@/components/tradeTable"
+import Header from "@/components/header"
+import { useState } from "react"
+import { useTrades } from "@/hooks/useTrades" 
 
 export default function Journaling() {
-  const [isVisible, setIsVisible] = useState(false);
-  const [isBlurred, setIsBlurred] = useState(false);
+  const [isVisible, setIsVisible] = useState(false)
+  const [isBlurred, setIsBlurred] = useState(false)
   
-  const { trades, isLoading, deleteTrade, addTrade } = useTrades();
+  const { trades, sessions, isLoading, deleteTrade, addTrade } = useTrades()
 
   const handleSaveTrade = (newTrade) => {
-    addTrade(newTrade); 
-    setIsVisible(false);
-    setIsBlurred(false);
-  };
+    addTrade(newTrade) 
+    setIsVisible(false)
+    setIsBlurred(false)
+  }
 
   const openPopup = () => {
-    setIsVisible(true);
-    setIsBlurred(true);
-  };
+    setIsVisible(true)
+    setIsBlurred(true)
+  }
 
   const closePopup = () => {
-    setIsVisible(false);
-    setIsBlurred(false);
-  };
+    setIsVisible(false)
+    setIsBlurred(false)
+  }
 
   return (
     <div className="grid">
@@ -52,9 +52,10 @@ export default function Journaling() {
         <PopUp
           isOpen={isVisible}
           onClose={closePopup}
-          onSave={handleSaveTrade} 
+          onSave={handleSaveTrade}
+          sessions={sessions}
         />
       )}
     </div>
-  );
+  )
 }
