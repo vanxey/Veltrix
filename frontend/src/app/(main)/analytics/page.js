@@ -3,7 +3,7 @@ import Button from "@/components/ui/button"
 import SM_Card_Analytics from "@/components/analytics/sm_card_analytics"
 import MD_card_analytics from "@/components/analytics/md_card_analytics"
 import Table_card_analytics from "@/components/analytics/table_card_analytics"
-import Calendar from "@/components/calendar"
+import Calendar from "@/components/analytics/calendar_analytics"
 
 import Table_card_analytics_copy from "@/components/analytics/table_card_analytics_dynamic"
 export default function Analytics(){

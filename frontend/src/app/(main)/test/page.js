@@ -1,5 +1,5 @@
 'use client'
-import Calendar from "@/components/calendar"
+import Calendar from "@/components/analytics/calendar_analytics"
 
 export default function Test() {
     return (
