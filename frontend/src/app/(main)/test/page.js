@@ -7,7 +7,7 @@ export default function Test() {
 
     return (
         <div>
-            <Calendar />
+            <Calendar cardTitle="Trading Calendar" cardDescription="View Trades by day" />
         </div>
     )
 }
