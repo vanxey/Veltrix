@@ -119,8 +119,8 @@ export default function Calendar ({
     }, [currentCalendarData])
 
     return (
-        <div className="h-screen py-10 px-20 lg:px-70 bg-blue-100 grid grid-cols-1 grid-rows-1 place-content-center place-items-center">
-            <div className="h-full w-full bg-white shadow-2xl flex flex-col rounded-2xl overflow-hidden">
+        <div className="h-auto w-auto rounded-2xl grid grid-cols-1 grid-rows-1 place-content-center place-items-center">
+            <div className="h-full w-full pb-5 bg-white shadow-lg border-gray-200 flex flex-col rounded-2xl overflow-hidden">
                 <div className="grid grid-cols-2 w-full px-5 h-20 bg-gray-800 py-5">
                     <div className="flex flex-col place-content-center">
                         <div className="text-lg font-bold text-white">{cardTitle}</div>

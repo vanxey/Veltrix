@@ -3,12 +3,12 @@ import Button from "@/components/ui/button"
 import SM_Card_Analytics from "@/components/analytics/sm_card_analytics"
 import MD_card_analytics from "@/components/analytics/md_card_analytics"
 import Table_card_analytics from "@/components/analytics/table_card_analytics"
-import Calendar_analytics from "@/components/analytics/calendar_analytics"
+import Calendar from "@/components/calendar"
 
 import Table_card_analytics_copy from "@/components/analytics/table_card_analytics_dynamic"
 export default function Analytics(){
     return(
-        <div className="grid grid-rows-[auto_1fr] w-full">
+        <div className="grid grid-rows-[auto_1fr] w-screen">
              <Header />
              <div className="flex flex-col max-w-screen my-5 mx-auto gap-10">
                 <div className="flex bg-white shadow-md border border-gray-100 w-auto h-fit rounded-xl justify-end m-0">
@@ -58,7 +58,7 @@ export default function Analytics(){
                 </div>
 
                 <div className="grid grid-cols-1 lg:grid-cols-[1fr_auto] w-auto h-auto gap-10 rounded-xl justify-between">
-                    <Calendar_analytics />
+                    <Calendar cardTitle="Trading Calendar" cardDescription="View Trades by day" />
                     <MD_card_analytics
                         classname=""
                         title="Win Rate Analysis"
