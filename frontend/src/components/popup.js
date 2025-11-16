@@ -1,6 +1,5 @@
 import { useState, useEffect } from "react"
 import Button from "./ui/button"
-import { FETCH_URL } from "@/lib/constants"
 
 export default function PopUp({ onClose, onSave, isOpen, sessions = [] }) {
   const [form, setForm] = useState({
@@ -30,46 +29,9 @@ export default function PopUp({ onClose, onSave, isOpen, sessions = [] }) {
     })
   }
 
-  const handleSubmit = async (e) => {
+  const handleSubmit = (e) => {
     e.preventDefault()
-
-    const tradeData = {
-      user_id: null,
-      asset: form.asset,
-      direction: form.direction,
-      entry_date: form.entry_date,
-      exit_date: form.exit_date,
-      size: Number(form.size),
-      pnl: Number(form.pnl) || null,
-      outcome: form.outcome || null,
-      session_id: form.session_id || null,
-      strategy: form.strategy || null,
-      is_reviewed: form.is_reviewed ? true : false,
-      notes: form.notes || null,
-      screenshot_url: null,
-    }
-    console.log(tradeData)
-
-    try {
-      const response = await fetch(`${FETCH_URL}/trades`, {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(tradeData),
-      })
-
-      if (!response.ok) {
-        const error = await response.json()
-        console.error("Failed to create trade:", error)
-        return
-      }
-
-      const result = await response.json()
-      console.log("Trade created:", result)
-      onSave(result) 
-      onClose()
-    } catch (err) {
-      console.error("Network error:", err)
-    }
+    onSave(form)
   }
 
   useEffect(() => {

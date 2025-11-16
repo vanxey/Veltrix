@@ -60,12 +60,52 @@ export function useTrades() {
     loadData()
   }, [])
 
-  const addTrade = (newTrade) => {
-    const processedNewTrade = processTrade(newTrade)
-    setData(prev => ({
-      ...prev,
-      trades: [...prev.trades, processedNewTrade],
-    }))
+  const addTrade = async (form) => {
+    const tradeData = {
+      user_id: null,
+      asset: form.asset,
+      direction: form.direction,
+      entry_date: form.entry_date,
+      exit_date: form.exit_date,
+      size: Number(form.size),
+      pnl: Number(form.pnl) || null,
+      outcome: form.outcome || null,
+      session_id: form.session_id || null,
+      strategy: form.strategy || null,
+      is_reviewed: form.is_reviewed ? true : false,
+      notes: form.notes || null,
+      screenshot_url: null,
+    }
+
+    try {
+      const response = await fetch(`${FETCH_URL}/trades`, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(tradeData),
+      })
+
+      if (!response.ok) {
+        const error = await response.json()
+        console.error("Failed to create trade:", error)
+        throw new Error(error.message || 'Failed to create trade')
+      }
+
+      const result = await response.json()
+      console.log("Trade created:", result)
+      
+      const processedNewTrade = processTrade(result)
+      setData(prev => ({
+        ...prev,
+        error: null,
+        trades: [...prev.trades, processedNewTrade],
+      }))
+
+      return processedNewTrade
+    } catch (err) {
+      console.error("Network error:", err)
+      setData(prev => ({ ...prev, error: err.message }))
+      throw err
+    }
   }
 
   const deleteTrade = async (tradeId) => {
@@ -86,6 +126,7 @@ export function useTrades() {
 
     } catch (err) {
       console.error("Network error:", err)
+      setData(prev => ({ ...prev, error: err.message }))
     }
   }
   

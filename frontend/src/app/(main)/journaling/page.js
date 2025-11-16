@@ -13,10 +13,14 @@ export default function Journaling() {
   
   const { trades, sessions, isLoading, deleteTrade, addTrade, error} = useTrades()
 
-  const handleSaveTrade = (newTrade) => {
-    addTrade(newTrade) 
-    setIsVisible(false)
-    setIsBlurred(false)
+  const handleSaveTrade = async (form) => {
+    try {
+      await addTrade(form) 
+      setIsVisible(false)
+      setIsBlurred(false)
+    } catch (err) {
+      console.error("Failed to save trade:", err)
+    }
   }
 
   const openPopup = () => {
