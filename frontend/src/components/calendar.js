@@ -1,126 +1,53 @@
 'use client'
-import { useState, useEffect, useMemo } from "react"
-import { FETCH_URL } from "@/lib/constants"
 
-const weekdays = ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday"]
-const abbreviated_weekdays = weekdays.map((e)=>e.substring(0,2))
+import { useState } from "react"
+import { useCalendarTrades } from "@/hooks/useCalendar"
+import { ABBREVIATED_WEEKDAYS, MONTHS, getDaysInMonthGrid } from "@/lib/calendar.utils"
 
-const months = {
-        0: ["January", 31],
-        1: ["February", 28],
-        2: ["March", 31],
-        3: ["April", 30],
-        4: ["May", 31],
-        5: ["June", 30],
-        6: ["July", 31],
-        7: ["August", 31],
-        8: ["September", 30],
-        9: ["Oktober", 31],
-        10: ["November", 30],
-        11: ["December", 31]
-    }
+export default function Calendar({ cardTitle, cardDescription }) {
+    const today = new Date()
+    const [currentMonth, setCurrentMonth] = useState(today.getMonth())
+    const [currentYear, setCurrentYear] = useState(today.getFullYear())
+    const [selectedField, setSelectedField] = useState(today.getDate())
 
-const getDays = (daysInMonth, daysFromMonday) =>{
-    const days = [
-        ...Array(daysFromMonday).fill(null),
-        ...Array.from({length: daysInMonth}, (_, i) => i + 1)
-    ]
+    const { tradesByDay, isLoading, error } = useCalendarTrades(currentYear, currentMonth)
 
-    return days
-}
-
-const getformattedCalendarData = (data) =>{
-                    const json = []
-    
-                    data.map((dt, i)=>{
-                        const pushData = {
-                            exit_date: dt.exit_date,
-                            pnl: dt.pnl,
-                            outcome: dt.outcome,
-                            tradeAmount: 1
-                        }
-    
-                        if(i > 0 && dt.exit_date == data[i - 1].exit_date){
-                            json[i - 1].pnl = String(parseInt(json[i - 1].pnl) + parseInt(dt.pnl))
-                            json[i - 1].tradeAmount = json[i - 1].tradeAmount + 1
-                        }else{
-                                json.push(pushData)
-                        }
-    
-                    })
-                    return json
-                }
-
-export default function Calendar ({
-    cardTitle,
-    cardDescription,
-}) {
-    const date = new Date()
-    const month = date.getMonth()
-    const year = date.getFullYear()
-    
-    const [currentMonth, setCurrentMonth] = useState(month)
-    const [currentYear, setCurrentYear] = useState(year)
-    const [selectedField, setSelectedField] = useState(date.getDate())
-    const [currentCalendarData, setCurrentCalendarData] = useState([])
-
-    const first_day_of_month = new Date(currentYear, currentMonth, 1)
-    const weekday_of_first_day = first_day_of_month.getDay() 
-    const days_of_month = getDays(months[currentMonth][1], weekday_of_first_day)
+    const firstDayOfMonth = new Date(currentYear, currentMonth, 1)
+    const weekdayOfFirstDay = (firstDayOfMonth.getDay() + 6) % 7
+    const daysInMonth = MONTHS[currentMonth][1]
+    const daysOfMonth = getDaysInMonthGrid(daysInMonth, weekdayOfFirstDay)
 
     const getNextMonth = () => {
-        if(currentMonth + 1 == 12){
+        if (currentMonth + 1 === 12) {
             setCurrentMonth(0)
             setCurrentYear(currentYear + 1)
-        }
-        else {
+        } else {
             setCurrentMonth(currentMonth + 1)
         }
     }
 
     const getPrevMonth = () => {
-        if(currentMonth - 1 == -1){
+        if (currentMonth - 1 === -1) {
             setCurrentMonth(11)
             setCurrentYear(currentYear - 1)
-        }
-        else {
+        } else {
             setCurrentMonth(currentMonth - 1)
         }
     }
 
     const formatMonth = () => {
-        return months[currentMonth][0]
+        return MONTHS[currentMonth][0]
     }
-
-    useEffect(()=>{
-        const fetchCalendarTrades = async () => {
-            try {
-                const queryDate = new Date(currentYear, currentMonth, 1).toISOString().split('T')[0]
-                const res = await fetch(`${FETCH_URL}/trade_calendar?date=${queryDate}`)
-                if (!res.ok) throw new Error('Failed to fetch');
-                const data = await res.json()
-                console.log(getformattedCalendarData(data))
-                
-                setCurrentCalendarData(getformattedCalendarData(data))
-
-                
-            } catch (error) {
-                console.error(error)
-            }
-        }
-        fetchCalendarTrades()
-    }, [currentMonth, currentYear])
     
-    const tradesByDay = useMemo(() => {
-        return new Map(currentCalendarData.map(trade => {
-            const day = new Date(trade.exit_date).getDate() 
-            return [day, trade]
-        }))
-    }, [currentCalendarData])
+    const formatPnl = (pnl) => {
+      const sign = pnl >= 0 ? "+" : "-"
+      return `${sign}${Math.abs(Math.floor(pnl))}$`
+    }
 
     return (
         <div className="h-auto w-auto rounded-2xl grid grid-cols-1 grid-rows-1 place-content-center place-items-center">
             <div className="h-full w-full pb-5 bg-white shadow-lg border-gray-200 flex flex-col rounded-2xl overflow-hidden">
+                
                 <div className="grid grid-cols-2 w-full px-5 h-20 bg-gray-800 py-5">
                     <div className="flex flex-col place-content-center">
                         <div className="text-lg font-bold text-white">{cardTitle}</div>
@@ -133,52 +60,58 @@ export default function Calendar ({
                     </div>
                 </div>
 
+                
                 <div className="grid grid-cols-7 w-full px-5 h-auto gap-1 place-content-center place-items-center">
-                    {
-                        abbreviated_weekdays.map((day)=>(
-                            <div key={day} className="flex text-xs font-bold text-slate-600 pb-2 pt-5">{day}</div>
-                        ))
-                    }
+                    {ABBREVIATED_WEEKDAYS.map((day) => (
+                        <div key={day} className="flex text-xs font-bold text-slate-600 pb-2 pt-5">{day}</div>
+                    ))}
 
-                    {
-                        days_of_month.map((day, index)=>(
-                            day === null
-                            ? (<div key={index} className="flex text-slate-600 place-content-center place-items-center">{day}</div>)
-                            : ( !tradesByDay.get(day)
-                                ?(<div key={index} onClick={()=>setSelectedField(day)} className={`flex flex-col text-slate-600 h-full w-full border-2 rounded-xl p-4 aspect-square 
-                                    hover:cursor-pointer hover:shadow-md hover:scale-105 transition-all duration-300 
-                                    ${day == selectedField ? "bg-blue-100 border-blue-500" : "border-slate-200"}
-                                    `}>
-                                        <div className={`flex w-6 h-6 text-sm font-semibold text-slate-500 rounded-3xl pl-1 pt-0.5
-                                            ${day == date.getDate() ? "bg-blue-500" : ""}
-                                            `}>
-                                                <div className={`flex h-full w-full text-sm font-semibold text-slate-500 justify-start
-                                                     ${day == date.getDate() ? "!text-white" : ""}
-                                                    `}>
-                                                    {day}
-                                                </div>
-                                            
+                    
+                    {isLoading && <div className="col-span-7 p-4 text-center text-gray-500">Loading trades...</div>}
+                    {error && <div className="col-span-7 p-4 text-center text-red-500">Error: {error}</div>}
+
+                    {!isLoading && !error && daysOfMonth.map((day, index) => {
+                        if (day === null) {
+                            return <div key={index} className="flex text-slate-600 place-content-center place-items-center"></div>
+                        }
+
+                        const tradeData = tradesByDay.get(day)
+                        const isSelected = day === selectedField
+                        const isToday = day === today.getDate() && currentMonth === today.getMonth() && currentYear === today.getFullYear()
+                        
+                        let dayClasses = "flex flex-col text-slate-600 h-full w-full border-2 rounded-xl p-4 aspect-square hover:cursor-pointer hover:shadow-md hover:scale-105 transition-all duration-300"
+                        
+                        if (tradeData) {
+                            dayClasses += (tradeData.outcome === 'Loss' ? " bg-red-200 border-red-300" : " bg-green-200 border-green-300")
+                        } else {
+                            dayClasses += " border-slate-200"
+                        }
+                        
+                        if (isSelected) {
+                            dayClasses += " !bg-blue-100 !border-blue-500"
+                        }
+
+                        return (
+                            <div key={index} onClick={() => setSelectedField(day)} className={dayClasses}>
+                                <div className={`flex w-6 h-6 text-sm font-semibold text-slate-500 rounded-3xl pl-1 pt-0.5 ${isToday ? "bg-blue-500" : ""}`}>
+                                    <div className={`flex h-full w-full text-sm font-semibold text-slate-500 justify-start ${isToday ? "!text-white" : ""}`}>
+                                        {day}
+                                    </div>
+                                </div>
+                                
+                                {tradeData && (
+                                    <div className="flex flex-col h-full text-xs mt-1">
+                                        <div className={tradeData.outcome === 'Loss' ? "text-red-600" : "text-green-600"}>
+                                            {formatPnl(tradeData.pnl)}
                                         </div>
-                                </div>)
-                                : (    
-                                    <div key={index} onClick={()=>setSelectedField(day)} className={`flex flex-col text-slate-600 h-full w-full border-2 rounded-xl p-4 aspect-square
-                                     hover:cursor-pointer hover:shadow-md hover:scale-105 transition-all duration-300 
-                                     ${['Win','BE'].includes(tradesByDay.get(day).outcome) ? "bg-green-200 border-green-300" : "bg-red-200 border-red-300"}
-                                     ${day == selectedField ? "!bg-blue-100 !border-blue-500" : ""}
-                                    `}>
-                                        <div className="flex h-full w-full text-sm font-semibold text-slate-500 justify-start">
-                                            {day}
-                                        </div>
-                                        <div className={`flex flex-col h-full text-xs`}>
-                                            <div className={`${['Win','BE'].includes(tradesByDay.get(day).outcome) ? "text-green-600" : "text-red-600"}`}>{`${['Win','BE'].includes(tradesByDay.get(day).outcome) ? "+" : "-"} ${Math.floor(tradesByDay.get(day).pnl)}$`}</div>
-                                            <div className="text-slate-500">{tradesByDay.get(day).tradeAmount > 1 ? `${tradesByDay.get(day).tradeAmount} trades` : `${tradesByDay.get(day).tradeAmount} trade`}</div>
+                                        <div className="text-slate-500">
+                                            {tradeData.tradeAmount > 1 ? `${tradeData.tradeAmount} trades` : `${tradeData.tradeAmount} trade`}
                                         </div>
                                     </div>
-                                )    
-                              
-                            )
-                        ))
-                    }
+                                )}
+                            </div>
+                        )
+                    })}
                 </div>
             </div>
         </div>

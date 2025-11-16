@@ -14,11 +14,11 @@ export default function Analytics(){
                 <div className="flex bg-white shadow-md border border-gray-100 w-auto h-fit rounded-xl justify-end m-0">
                     <div className="grid grid-cols-6 gap-2 w-auto h-fit py-2 px-2 justify-items-center m-0">
                                     <Button variant="secondary" size="sm" className="text-xs py-0 px-5 shadow-none">1W</Button>
-                                    <Button variant="primary" size="sm" className="text-xs py-0 px-5 shadow-none">1M</Button>
+                                    <Button variant="secondary" size="sm" className="text-xs py-0 px-5 shadow-none">1M</Button>
                                     <Button variant="secondary" size="sm" className="text-xs py-0 px-5 shadow-none">3M</Button>
                                     <Button variant="secondary" size="sm" className="text-xs py-0 px-5 shadow-none">6M</Button>
                                     <Button variant="secondary" size="sm" className="text-xs py-0 px-5 shadow-none">1Y</Button>
-                                    <Button variant="secondary" size="sm" className="text-xs py-0 px-5 shadow-none">ALL</Button>
+                                    <Button variant="primary" size="sm" className="text-xs py-0 px-5 shadow-none">ALL</Button>
                     </div>
                 </div>
 
