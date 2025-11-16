@@ -85,7 +85,7 @@ export default function TradeTable({ trades, onDelete }) {
       </div>
       
       <table className="min-w-full border border-gray-200 text-sm rounded-lg overflow-hidden">
-        <thead className="bg-gray-100">
+        <thead className="bg-gray-700 text-white font-semibold">
           <tr>
             {headers.map((header) => (
               <th key={header} className="border-b border-gray-200 p-3 text-left">

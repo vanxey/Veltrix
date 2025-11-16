@@ -3,6 +3,20 @@
 import { useState, useEffect } from "react"
 import { FETCH_URL } from "@/lib/constants"
 
+const processTrade = (trade) => {
+  let pnl = parseFloat(trade.pnl) || 0
+
+  if (trade.outcome === 'Loss') {
+    pnl = -Math.abs(pnl)
+  } else if (trade.outcome === 'Win') {
+    pnl = Math.abs(pnl)
+  } else if (trade.outcome === 'BE') {
+    pnl = 0
+  }
+  
+  return { ...trade, pnl }
+}
+
 export function useTrades() {
   const [data, setData] = useState({
     trades: [],
@@ -23,14 +37,16 @@ export function useTrades() {
         const sessionsData = await sessionsRes.json()
 
         const list = Array.isArray(sessionsData) ? sessionsData : (sessionsData.rows || sessionsData.sessions || [])
-        const normalizedSessions = list.map(s => ({
+        const processedSessions = list.map(s => ({
           session_id: s.session_id ?? s.id,
           name: s.name ?? s.session_name ?? s.title ?? `Session ${s.session_id || s.id}`,
         }))
         
+        const processedTrades = tradesData.map(processTrade)
+
         setData({
-          trades: tradesData,
-          sessions: normalizedSessions,
+          trades: processedTrades,
+          sessions: processedSessions,
           isLoading: false,
           error: null,
         })
@@ -45,9 +61,10 @@ export function useTrades() {
   }, [])
 
   const addTrade = (newTrade) => {
+    const processedNewTrade = processTrade(newTrade)
     setData(prev => ({
       ...prev,
-      trades: [...prev.trades, newTrade],
+      trades: [...prev.trades, processedNewTrade],
     }))
   }
 

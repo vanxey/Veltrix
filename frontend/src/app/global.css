@@ -1,9 +1,22 @@
 @import "tailwindcss";
 
+@source "../lib";
+
 @layer base {
 
     select,
     option {
         @apply bg-gray-800 text-white;
     }
+}
+
+@theme {
+  --color-profit: #059669;
+  --color-profit-100: #dcfce7;
+  
+  --color-loss: #e11d48;
+  --color-loss-100: #fee2e2;
+
+  --color-dark-700: #374151;
+  --color-dark-800: #1f2937;
 }

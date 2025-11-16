@@ -40,6 +40,20 @@ app.get('/session', async (_req, res) => {
   }
 });
 
+app.get('/trade_calendar', async (req, res) => {
+  try {
+    const { date } = req.query;
+    const { rows } = await pool.query(`SELECT trade_id, exit_date, pnl, outcome 
+                                      FROM "trade" 
+                                      WHERE exit_date >= $1 
+                                      AND exit_date < $1::date + INTERVAL '1 month'`, [date]);
+    res.json(rows);
+  } catch (err) {
+    console.error('GET /trade_calendar error:', err);
+    res.status(500).json({ error: 'Database error' });
+  }
+});
+
 app.get('/trade', async (_req, res) => {
     try {
         const { rows } = await pool.query(`

@@ -28,11 +28,12 @@ export const formatCellValue = (key, value, trade) => {
       break
     case 'pnl':
       const pnl = parseFloat(value)
-      displayValue = `${pnl.toFixed(2)}$`
+      const sign = pnl > 0 ? '+' : ''
+      displayValue = `${sign}${pnl.toFixed(2)}$`
       className = pnl < 0 ? 'text-loss' : 'text-profit'
       break
     case 'is_reviewed':
-      displayValue = value === true ? 'Profit' : 'Loss'
+      displayValue = value === true ? 'Reviewed' : 'Not Reviewed'
       className = value === true ? 'text-profit' : 'text-loss'
       break
     case 'direction':
