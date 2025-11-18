@@ -20,7 +20,7 @@ return(
                     <Link href="/news">News</Link>
                 </nav>
                 <div className="text-base justify-end items-center gap-4 hidden md:flex">
-                    <Link href="/">Login</Link>
+                    <Link href="/login">Login</Link>
                     <Button size="sm">Get started</Button>
                 </div>
                 <button

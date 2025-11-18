@@ -1,7 +1,7 @@
 'use client'
 
 import Button from "@/components/ui/button"
-import PopUp from "@/components/popup"
+import PopUp from "@/components/popup_form"
 import TradeTable from "@/components/trade_table/trade_table"
 import Header from "@/components/header"
 import { useState } from "react"
