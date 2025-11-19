@@ -1,9 +1,11 @@
 import Button from "./ui/button"
 import Image from "next/image"
 import { useState } from "react"
+import { useAuth } from "@/hooks/useAuth"
 
 
 export default function LoginForm({isLogin, toggleIsLogin}){
+    const {login, register, isLoading } = useAuth()
     const [isVisiblePW, setIsVisiblePW] = useState(false)
     const [typePW, setTypePW] = useState("password")
 
@@ -11,7 +13,7 @@ export default function LoginForm({isLogin, toggleIsLogin}){
     const [typeCPW, setTypeCPW] = useState("password")
 
     const [form, setForm] = useState({
-        name: "",
+        username: "",
         email: "",
         password: "",
         confirmPassword: ""
@@ -35,25 +37,52 @@ export default function LoginForm({isLogin, toggleIsLogin}){
         }))
     }
     
-    const handleSubmit = () =>{
+    const handleSubmit = async (e) =>{
+        e.preventDefault()
 
+        if (!isLogin) {
+            if (form.password !== form.confirmPassword) {
+                alert("Passwords do not match")
+                return
+            }
+            try {
+                await register({
+                    username: form.username,
+                    email: form.email,
+                    password: form.password
+                })
+                alert("Account created! Please check your backend console for the verification link.")
+                toggleIsLogin() 
+            } catch (err) {
+                alert(err.message)
+            }
+        } else {
+            try {
+                await login({
+                    email: form.email,
+                    password: form.password
+                })
+            } catch (err) {
+                alert(err.message)
+            }
+        }
     }
 
     return(
-        <div className="grid w-auto h-auto mx-50 bg-slate-100 grid-cols-2 rounded-2xl content-center items-center">
-            <div className="flex flex-col py-10 px-20 gap-5 ">
+        <div className="grid w-auto h-auto md:mx-20 lg:mx-50 bg-slate-100 grid-cols-1  md:grid-cols-[1fr_40%] lg:grid-cols-[1fr_40%] rounded-2xl content-center items-center">
+            <div className="flex flex-col py-5 px-5 md:py-5 md:px-15 lg:py-10 lg:px-20 gap-5 ">
                 <div className="text-black font-bold text-3xl m-2 text-center">
                     {!isLogin ? "Create account" : "Welcome back!" }
                 </div>
-                <form>
+                <form onSubmit={handleSubmit}>
                 <div className="flex flex-col gap-5">
                     {!isLogin && (
                         <input
                             type="text"
-                            name="name"
-                            value={form.name}
+                            name="username"
+                            value={form.username}
                             onChange={handleChange}
-                            placeholder="Name"
+                            placeholder="Username"
                             className="text-gray-700 font-semibold border border-gray-100 bg-white p-2 h-12 rounded-lg w-full focus:outline-none focus:ring-2 focus:ring-blue-400"
                             required
                             />
@@ -108,14 +137,14 @@ export default function LoginForm({isLogin, toggleIsLogin}){
                         
                     <div className="flex flex-col">
                         <Button size="sm" type="submit" className="w-full h-12 shadow-md">
-                            {!isLogin ? "Register" : "Login"}
+                            {isLoading ? "Loading..." : (!isLogin ? "Register" : "Login")}
                         </Button>
                         <div onClick={toggleIsLogin} className="text-slate-500 text-xs pt-2 text-center">
                             {!isLogin 
                             ? <>Already have an account? <span className="text-blue-500 underline hover:cursor-pointer focus:outline-none focus:ring-2 focus:ring-blue-400" 
                                 tabIndex="0" 
                                 aria-label="Click to go to login page."
-                                role="button">Sign in here</span></>
+                                role="button">Login here</span></>
                             : <>Need an account? <span className="text-blue-500 underline hover:cursor-pointer focus:outline-none focus:ring-2 focus:ring-blue-400" 
                                 tabIndex="0" 
                                 aria-label="Click to go to registration page."
@@ -127,7 +156,7 @@ export default function LoginForm({isLogin, toggleIsLogin}){
                 </form>
             </div>
             <div className="flex overflow-hidden p-5 rounded-2xl">
-                <Image src="/login_moon.png" width={1920} height={1920} alt="" style={{objectFit: "cover"}} className="rounded-2xl"/>
+                <Image src="/login_moon.png" width={500} height={500} alt="" style={{objectFit: "cover"}} className="rounded-2xl"/>
             </div>
         </div>
     )

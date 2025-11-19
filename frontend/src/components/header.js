@@ -3,9 +3,11 @@
 import Button from "@/components/ui/button";
 import Link from "next/link";
 import { useState } from "react";
+import { useAuth } from "@/hooks/useAuth";
 
 export default function Header(){
     const [isMobile, setIsMobile] = useState(false)
+    const {user, logout} = useAuth()
 return(
     <header>
             <div className="flex h-16 w-full bg-black  text-white justify-between
@@ -20,8 +22,18 @@ return(
                     <Link href="/news">News</Link>
                 </nav>
                 <div className="text-base justify-end items-center gap-4 hidden md:flex">
-                    <Link href="/login">Login</Link>
-                    <Button size="sm">Get started</Button>
+                    {user ? (
+                        <div className="flex items-center gap-4">
+                            <span className="text-md text-white">Hi, {user.username}</span>
+                            <span>|</span>
+                            <button onClick={logout} className="hover:text-blue-400 hover:cursor-pointer">Logout</button>
+                        </div>
+                    ) : (
+                        <>
+                            <Link href="/login">Login</Link>
+                            <Button size="sm">Get started</Button>
+                        </>
+                    )}
                 </div>
                 <button
                 onClick={() => setIsMobile(!isMobile)}
