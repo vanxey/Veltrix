@@ -51,7 +51,7 @@ export default function Account (){
             <Header />
             <div className="flex flex-col items-center p-10 gap-10">
                 
-                <div className="bg-white p-8 rounded-xl shadow-lg w-full max-w-md">
+                <div className="bg-white p-8 border-gray-100 rounded-xl shadow-lg w-full max-w-md">
                     <h2 className="text-2xl font-bold mb-6 text-gray-800">Account Settings</h2>
                     
                     <div className="flex flex-col gap-4">
@@ -95,9 +95,9 @@ export default function Account (){
                     </div>
                 </div>
 
-                <div className="bg-white border border-red-300 p-8 rounded-xl shadow-md w-full max-w-md">
+                <div className="bg-white border border-gray-100 p-8 rounded-xl shadow-lg w-full max-w-md">
                     <h3 className="text-xl font-bold text-red-700 mb-2">Danger Zone</h3>
-                    <p className="text-sm text-red-600 mb-4">
+                    <p className="text-sm text-black mb-4">
                         Deleting your account will remove all your journal entries and analytics data.
                     </p>
                     
@@ -107,11 +107,11 @@ export default function Account (){
                             placeholder="Enter password to confirm"
                             value={deletePassword}
                             onChange={(e) => setDeletePassword(e.target.value)}
-                            className="w-full border border-red-500 p-2 rounded-lg bg-white focus:outline-none focus:ring-2 focus:ring-red-200"
+                            className="w-full border border-gray-200 p-2 rounded-lg bg-white focus:outline-none focus:ring-2 focus:ring-red-200"
                         />
                         <Button onClick={handleDelete}
                             disabled={!deletePassword || isLoading}
-                            className="bg-red-500 border-red-500 text-white font-bold py-2 px-4 rounded-lg hover:bg-red-700 disabled:opacity-70 transition-colors" >{isLoading ? 'Deleting...' : 'Delete My Account'}</Button>
+                            className="bg-red-500 border-none text-white font-bold py-2 px-4 rounded-lg hover:bg-red-700 disabled:bg-gray-400 disabled:hover:bg-gray-400 disabled:hover:scale-100 disabled:hover:cursor-default transition-colors" >{isLoading ? 'Deleting...' : 'Delete My Account'}</Button>
                     </div>
                 </div>
 

@@ -5,7 +5,7 @@ import LoginForm from "@/components/login_form"
 import { useState } from "react"
 
 export default function Login(){
-    const [isLogin, setIsLogin] = useState(false)
+    const [isLogin, setIsLogin] = useState(true)
 
     const toggleIsLogin = () => {
         setIsLogin(prevMode => !prevMode)
