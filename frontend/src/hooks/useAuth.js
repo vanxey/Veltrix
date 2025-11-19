@@ -75,5 +75,55 @@ export function useAuth() {
     router.push('/login')
   }
 
-  return { user, login, register, logout, isLoading, error }
+  const updateProfile = async (userId, formData) => {
+    setIsLoading(true);
+    setError(null);
+    try {
+      const res = await fetch(`${FETCH_URL}/user/${userId}`, {
+        method: 'PUT',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(formData)
+      });
+
+      const data = await res.json();
+      if (!res.ok) throw new Error(data.error || 'Update failed');
+
+      const updatedUser = { ...user, ...data.user };
+      localStorage.setItem('veltrix_user', JSON.stringify(updatedUser));
+      setUser(updatedUser);
+      
+      return data;
+    } catch (err) {
+      setError(err.message);
+      throw err;
+    } finally {
+      setIsLoading(false);
+    }
+  };
+
+  const deleteAccount = async (userId, password) => {
+    setIsLoading(true);
+    setError(null);
+    try {
+      const res = await fetch(`${FETCH_URL}/user/${userId}`, {
+        method: 'DELETE',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ password })
+      });
+
+      const data = await res.json();
+      if (!res.ok) throw new Error(data.error || 'Delete failed');
+
+
+      logout(); 
+      return data;
+    } catch (err) {
+      setError(err.message);
+      throw err;
+    } finally {
+      setIsLoading(false);
+    }
+  };
+
+  return { user, login, register, logout, updateProfile, deleteAccount, isLoading, error }
 }

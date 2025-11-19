@@ -176,7 +176,7 @@ app.post('/register', async (req, res) => {
   }
 });
 
-app.post('/verify-email', async (req, res) => {
+app.post('/verify_email', async (req, res) => {
   try {
     const { token } = req.body;
 
@@ -194,7 +194,7 @@ app.post('/verify-email', async (req, res) => {
     res.status(200).json({ message: 'Email verified successfully' });
 
   } catch (e) {
-    console.error('POST /verify-email error', e);
+    console.error('POST /verify_email error', e);
     res.status(500).json({ error: 'Server error during verification' });
   }
 });
@@ -228,6 +228,64 @@ app.post('/login', async (req, res) => {
   } catch (e) {
     console.error('POST /login error', e);
     res.status(500).json({ error: 'Server error during login' });
+  }
+});
+
+app.put('/user/:id', async (req, res) => {
+  try {
+    const { id } = req.params;
+    const { name, email } = req.body;
+
+    if (email) {
+      const existing = await pool.query('SELECT * FROM users WHERE email = $1 AND user_id != $2', [email, id]);
+      if (existing.rows.length > 0) {
+        return res.status(400).json({ error: 'Email is already in use' });
+      }
+    }
+
+    const sql = `
+      UPDATE users 
+      SET name = COALESCE($1, name), 
+          email = COALESCE($2, email)
+      WHERE user_id = $3
+      RETURNING user_id, name, email;
+    `;
+    
+    const { rows } = await pool.query(sql, [name, email, id]);
+
+    if (rows.length === 0) {
+      return res.status(404).json({ error: 'User not found' });
+    }
+
+    res.json({ user: rows[0], message: 'Profile updated successfully' });
+  } catch (e) {
+    console.error('PUT /user error', e);
+    res.status(500).json({ error: 'Server error updating profile' });
+  }
+});
+
+app.delete('/user/:id', async (req, res) => {
+  try {
+    const { id } = req.params;
+    const { password } = req.body;
+
+    const userResult = await pool.query('SELECT * FROM users WHERE user_id = $1', [id]);
+    if (userResult.rows.length === 0) return res.status(404).json({ error: 'User not found' });
+    
+    const user = userResult.rows[0];
+    const isMatch = await bcrypt.compare(password, user.password_hash);
+    
+    if (!isMatch) {
+      return res.status(401).json({ error: 'Incorrect password' });
+    }
+
+    await pool.query('DELETE FROM trade WHERE user_id = $1', [id]);
+    await pool.query('DELETE FROM users WHERE user_id = $1', [id]);
+
+    res.json({ message: 'Account deleted successfully' });
+  } catch (e) {
+    console.error('DELETE /user error', e);
+    res.status(500).json({ error: 'Server error deleting account' });
   }
 });
 

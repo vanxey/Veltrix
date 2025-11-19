@@ -21,7 +21,7 @@ export default function VerifyPage() {
 
         const verifyToken = async () => {
             try {
-                const res = await fetch(`${FETCH_URL}/verify-email`, {
+                const res = await fetch(`${FETCH_URL}/verify_email`, {
                     method: 'POST',
                     headers: { 'Content-Type': 'application/json' },
                     body: JSON.stringify({ token })

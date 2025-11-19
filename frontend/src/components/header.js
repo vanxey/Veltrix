@@ -24,7 +24,7 @@ return(
                 <div className="text-base justify-end items-center gap-4 hidden md:flex">
                     {user ? (
                         <div className="flex items-center gap-4">
-                            <span className="text-md text-white">Hi, {user.username}</span>
+                            <span className="text-md text-white hover:cursor-pointer"><Link href="/account">Hi, {user.username}</Link></span>
                             <span>|</span>
                             <button onClick={logout} className="hover:text-blue-400 hover:cursor-pointer">Logout</button>
                         </div>
