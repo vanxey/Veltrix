@@ -2,10 +2,10 @@
 
 import { useState, useEffect } from "react"
 import { FETCH_URL } from "@/lib/constants"
+import { useAuth } from "@/hooks/useAuth"
 
 const processTrade = (trade) => {
   let pnl = parseFloat(trade.pnl) || 0
-
   if (trade.outcome === 'Loss') {
     pnl = -Math.abs(pnl)
   } else if (trade.outcome === 'Win') {
@@ -13,11 +13,11 @@ const processTrade = (trade) => {
   } else if (trade.outcome === 'BE') {
     pnl = 0
   }
-  
   return { ...trade, pnl }
 }
 
 export function useTrades() {
+  const { user } = useAuth()
   const [data, setData] = useState({
     trades: [],
     sessions: [],
@@ -27,8 +27,13 @@ export function useTrades() {
 
   useEffect(() => {
     const loadData = async () => {
+      if (!user) {
+        setData(prev => ({ ...prev, trades: [], isLoading: false }))
+        return
+      }
+
       try {
-        const tradesRes = await fetch(`${FETCH_URL}/trade`)
+        const tradesRes = await fetch(`${FETCH_URL}/trade?user_id=${user.user_id}`)
         if (!tradesRes.ok) throw new Error('Failed to fetch trades')
         const tradesData = await tradesRes.json()
 
@@ -58,23 +63,25 @@ export function useTrades() {
     }
 
     loadData()
-  }, [])
+  }, [user])
 
   const addTrade = async (form) => {
+    if (!user) return
+
     const tradeData = {
-      user_id: null,
+      user_id: user.user_id,
       asset: form.asset,
       direction: form.direction,
-      entry_date: form.entry_date,
-      exit_date: form.exit_date,
+      entryDate: form.entry_date,
+      exitDate: form.exit_date,
       size: Number(form.size),
       pnl: Number(form.pnl) || null,
       outcome: form.outcome || null,
-      session_id: form.session_id || null,
+      sessionId: form.session_id || null,
       strategy: form.strategy || null,
-      is_reviewed: form.is_reviewed ? true : false,
+      isReviewed: form.is_reviewed ? true : false,
       notes: form.notes || null,
-      screenshot_url: null,
+      screenshotUrl: null,
     }
 
     try {
@@ -86,18 +93,16 @@ export function useTrades() {
 
       if (!response.ok) {
         const error = await response.json()
-        console.error("Failed to create trade:", error)
         throw new Error(error.message || 'Failed to create trade')
       }
 
       const result = await response.json()
-      console.log("Trade created:", result)
-      
       const processedNewTrade = processTrade(result)
+      
       setData(prev => ({
         ...prev,
         error: null,
-        trades: [...prev.trades, processedNewTrade],
+        trades: [processedNewTrade, ...prev.trades],
       }))
 
       return processedNewTrade

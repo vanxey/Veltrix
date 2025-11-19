@@ -12,11 +12,18 @@ const getSessions = async (req, res) => {
 
 const getTradeCalendar = async (req, res) => {
   try {
-    const { date } = req.query
-    const { rows } = await pool.query(`SELECT trade_id, exit_date, pnl, outcome 
-                                      FROM "trade" 
-                                      WHERE exit_date >= $1 
-                                      AND exit_date < $1::date + INTERVAL '1 month'`, [date])
+    const { date, user_id } = req.query 
+    
+    // Add WHERE user_id = $2 condition
+    const sql = `
+      SELECT trade_id, exit_date, pnl, outcome 
+      FROM "trade" 
+      WHERE exit_date >= $1 
+      AND exit_date < $1::date + INTERVAL '1 month'
+      AND user_id = $2
+    `
+    
+    const { rows } = await pool.query(sql, [date, user_id])
     res.json(rows)
   } catch (err) {
     console.error('GET /trade_calendar error:', err)
@@ -26,12 +33,16 @@ const getTradeCalendar = async (req, res) => {
 
 const getTrades = async (req, res) => {
     try {
-        const { rows } = await pool.query(`
+        const { user_id } = req.query
+        const sql = `
           SELECT trade.trade_id, trade.asset, trade.entry_date, trade.exit_date, trade.size, trade.pnl, trade.outcome, trade.strategy, trade.is_reviewed, trade.notes, trade.created_at,
           session.name AS session_name
           FROM trade
           JOIN session ON trade.session_id = session.session_id
-        `)
+          WHERE trade.user_id = $1
+          ORDER BY trade.entry_date DESC
+        `
+        const { rows } = await pool.query(sql, [user_id])
         res.json(rows)
     } catch (err) {
         console.error('GET /trade error:', err)
@@ -60,7 +71,7 @@ const deleteTrade = async (req, res) => {
 const createTrade = async (req, res) => {
   try {
     const {
-      userId = null,
+      user_id = null,
       asset,
       direction,
       entryDate,
@@ -85,7 +96,7 @@ const createTrade = async (req, res) => {
     `
 
     const { rows } = await pool.query(sql, [
-      userId, asset, direction, entryDate, exitDate,
+      user_id, asset, direction, entryDate, exitDate,
       size, pnl, outcome, sessionId, strategy, isReviewed, notes,
       screenshotUrl
     ])
