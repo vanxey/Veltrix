@@ -47,9 +47,9 @@ export default function TradeTable({ trades, onDelete }) {
   }, [trades, filterText, sortKey])
 
   return (
-    <div className="overflow-x-auto rounded-lg shadow-lg p-4">
-      {/* --- CONTROLS --- */}
+    <div className="overflow-x-auto rounded-lg shadow-lg p-4 border-1 border-gray-100">
       <div className="flex flex-row justify-end h-10 mb-2 gap-2">
+        <div className="flex grow text-xl font-bold pl-1">Trade Logs</div>
         <div className="flex w-auto">
           <div className="flex flex-col">
             <label className="text-sm px-1">Filter:</label>

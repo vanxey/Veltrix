@@ -1,6 +1,6 @@
 export default function SM_Card_Analytics({icon, title, stat, win_loss, className = "" }){
     return (
-        <div className={`flex flex-col gap-2 shadow-lg border border-gray-100 h-50 w-auto bg-white rounded-xl p-5
+        <div className={`flex flex-col gap-2 shadow-lg border border-gray-100 h-50 w-auto bg-white rounded-xl p-10
             hover:shadow-2xl transition-all duration-300 hover:scale-105 cursor-pointer group
             ${className}`}>
             <div className="flex flex-row text-md font-semibold h-auto p-1 items-center">

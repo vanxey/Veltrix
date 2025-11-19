@@ -6,12 +6,14 @@ import TradeTable from "@/components/trade_table/trade_table"
 import Header from "@/components/header"
 import { useState } from "react"
 import { useTrades } from "@/hooks/useTrades" 
+import { useAuth } from "@/hooks/useAuth"
 
 export default function Journaling() {
   const [isVisible, setIsVisible] = useState(false)
   const [isBlurred, setIsBlurred] = useState(false)
   
   const { trades, sessions, isLoading, deleteTrade, addTrade, error} = useTrades()
+  const { user } = useAuth()
 
   const handleSaveTrade = async (form) => {
     try {
@@ -37,9 +39,9 @@ export default function Journaling() {
     <div className="grid">
       <div className={`grid ${isBlurred ? 'blur-sm' : ''} transition-all duration-300 grid-rows-[auto_1fr_1fr]`}>
         <Header />
-        <div className="w-full h-full p-5 grid gap-4 grid-rows-[auto_1fr_1fr] ">
+        <div className="w-full h-full p-5 grid gap-4 grid-rows-[auto_1fr_1fr]">
           <div className=" flex content-center">
-            <h2 className="text-2xl font-semibold text-black p-2">Trade Log</h2>
+            <h2 className="text-2xl font-semibold text-black p-2">Overview of {user ? `${user.username}'s` : ''} trade logs</h2>
           </div>
           {isLoading && (
             <div className="p-4 text-center text-gray-500">Loading trades...</div>

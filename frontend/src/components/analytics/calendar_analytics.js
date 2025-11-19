@@ -39,8 +39,8 @@ export default function Calendar({ cardTitle, cardDescription }) {
         return MONTHS[currentMonth][0]
     }
     
-    const formatPnl = (pnl) => {
-      const sign = pnl >= 0 ? "+" : "-"
+    const formatPnl = (outcome, pnl) => {
+      const sign = outcome == "Loss" ? "-" : "+"
       return `${sign}${Math.abs(Math.floor(pnl))}$`
     }
 
@@ -102,7 +102,7 @@ export default function Calendar({ cardTitle, cardDescription }) {
                                 {tradeData && (
                                     <div className="flex flex-col h-full text-xs mt-1">
                                         <div className={tradeData.outcome === 'Loss' ? "text-red-600" : "text-green-600"}>
-                                            {formatPnl(tradeData.pnl)}
+                                            {formatPnl(tradeData.outcome, tradeData.pnl)}
                                         </div>
                                         <div className="text-slate-500">
                                             {tradeData.tradeAmount > 1 ? `${tradeData.tradeAmount} trades` : `${tradeData.tradeAmount} trade`}

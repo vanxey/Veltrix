@@ -21,7 +21,7 @@ const getTradeCalendar = async (req, res) => {
 
     if (isAdmin) {
       sql = `
-        SELECT trade_id, exit_date, pnl, outcome 
+        SELECT trade_id, exit_date, pnl, outcome, direction 
         FROM "trade" 
         WHERE exit_date >= $1 
         AND exit_date < $1::date + INTERVAL '1 month'
@@ -29,7 +29,7 @@ const getTradeCalendar = async (req, res) => {
       params = [date]
     } else {
       sql = `
-        SELECT trade_id, exit_date, pnl, outcome 
+        SELECT trade_id, exit_date, pnl, outcome, direction 
         FROM "trade" 
         WHERE exit_date >= $1 
         AND exit_date < $1::date + INTERVAL '1 month'
@@ -57,7 +57,7 @@ const getTrades = async (req, res) => {
 
         if (isAdmin) {
           sql = `
-            SELECT trade.trade_id, trade.asset, trade.entry_date, trade.exit_date, trade.size, trade.pnl, trade.outcome, trade.strategy, trade.is_reviewed, trade.notes, trade.created_at,
+            SELECT trade.trade_id, trade.asset, trade.entry_date, trade.exit_date, trade.size, trade.pnl, trade.outcome, trade.strategy, trade.is_reviewed, trade.notes, trade.created_at, trade.direction,
             session.name AS session_name,
             users.username AS username
             FROM trade
@@ -68,7 +68,7 @@ const getTrades = async (req, res) => {
           params = []
         } else {
           sql = `
-            SELECT trade.trade_id, trade.asset, trade.entry_date, trade.exit_date, trade.size, trade.pnl, trade.outcome, trade.strategy, trade.is_reviewed, trade.notes, trade.created_at,
+            SELECT trade.trade_id, trade.asset, trade.entry_date, trade.exit_date, trade.size, trade.pnl, trade.outcome, trade.strategy, trade.is_reviewed, trade.notes, trade.created_at, trade.direction,
             session.name AS session_name
             FROM trade
             JOIN session ON trade.session_id = session.session_id
