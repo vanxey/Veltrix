@@ -32,7 +32,7 @@ export function useAuth() {
       })
 
       const data = await res.json()
-      console.log(data.user)
+      //console.log(data.user)
       if (!res.ok) throw new Error(data.error || 'Login failed')
 
       localStorage.setItem('veltrix_user', JSON.stringify(data.user))
@@ -75,11 +75,11 @@ export function useAuth() {
     router.push('/login')
   }
 
-  const updateProfile = async (userId, formData) => {
+  const updateProfile = async (user_id, formData) => {
     setIsLoading(true);
     setError(null);
     try {
-      const res = await fetch(`${FETCH_URL}/user/${userId}`, {
+      const res = await fetch(`${FETCH_URL}/user/${user_id}`, {
         method: 'PUT',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(formData)
@@ -101,11 +101,11 @@ export function useAuth() {
     }
   };
 
-  const deleteAccount = async (userId, password) => {
+  const deleteAccount = async (user_id, password) => {
     setIsLoading(true)
     setError(null)
     try {
-      const res = await fetch(`${FETCH_URL}/user/${userId}`, {
+      const res = await fetch(`${FETCH_URL}/user/${user_id}`, {
         method: 'DELETE',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ password })
