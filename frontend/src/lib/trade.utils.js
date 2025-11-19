@@ -1,4 +1,5 @@
 export const COLUMN_CONFIG = [
+  { header: "User", key: "username" },
   { header: "Asset", key: "asset" },
   { header: "Direction", key: "direction" },
   { header: "Entry", key: "entry_date", type: "date" },
