@@ -108,11 +108,11 @@ const createTrade = async (req, res) => {
   try {
     const {
       user_id = null,
-      asset,
-      direction,
-      entry_date,
-      exit_date,
-      size,
+      asset = null,
+      direction = null,
+      entry_date = null,
+      exit_date = null,
+      size = null,
       pnl = null,
       outcome = null,
       session_id = null,

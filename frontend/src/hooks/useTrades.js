@@ -72,16 +72,16 @@ export function useTrades() {
       user_id: user.user_id,
       asset: form.asset,
       direction: form.direction,
-      entryDate: form.entry_date,
-      exitDate: form.exit_date,
+      entry_date: form.entry_date,
+      exit_date: form.exit_date,
       size: Number(form.size),
       pnl: Number(form.pnl) || null,
       outcome: form.outcome || null,
-      sessionId: form.session_id || null,
+      session_id: form.session_id || null,
       strategy: form.strategy || null,
-      isReviewed: form.is_reviewed ? true : false,
+      is_reviewed: form.is_reviewed ? true : false,
       notes: form.notes || null,
-      screenshotUrl: null,
+      screenshot_url: null,
     }
 
     try {
