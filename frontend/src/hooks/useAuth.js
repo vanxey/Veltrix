@@ -85,25 +85,25 @@ export function useAuth() {
         body: JSON.stringify(formData)
       });
 
-      const data = await res.json();
-      if (!res.ok) throw new Error(data.error || 'Update failed');
+      const data = await res.json()
+      if (!res.ok) throw new Error(data.error || 'Update failed')
 
-      const updatedUser = { ...user, ...data.user };
-      localStorage.setItem('veltrix_user', JSON.stringify(updatedUser));
-      setUser(updatedUser);
+      const updatedUser = { ...user, ...data.user }
+      localStorage.setItem('veltrix_user', JSON.stringify(updatedUser))
+      setUser(updatedUser)
       
-      return data;
+      return data
     } catch (err) {
-      setError(err.message);
-      throw err;
+      setError(err.message)
+      throw err
     } finally {
-      setIsLoading(false);
+      setIsLoading(false)
     }
   };
 
   const deleteAccount = async (userId, password) => {
-    setIsLoading(true);
-    setError(null);
+    setIsLoading(true)
+    setError(null)
     try {
       const res = await fetch(`${FETCH_URL}/user/${userId}`, {
         method: 'DELETE',
@@ -111,17 +111,17 @@ export function useAuth() {
         body: JSON.stringify({ password })
       });
 
-      const data = await res.json();
-      if (!res.ok) throw new Error(data.error || 'Delete failed');
+      const data = await res.json()
+      if (!res.ok) throw new Error(data.error || 'Delete failed')
 
 
-      logout(); 
-      return data;
+      logout()
+      return data
     } catch (err) {
-      setError(err.message);
-      throw err;
+      setError(err.message)
+      throw err
     } finally {
-      setIsLoading(false);
+      setIsLoading(false)
     }
   };
 
