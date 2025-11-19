@@ -98,6 +98,11 @@ export function useTrades() {
 
       const result = await response.json()
       const processedNewTrade = processTrade(result)
+
+      const matchedSession = data.sessions.find(s => s.session_id === result.session_id)
+      if (matchedSession) {
+        processedNewTrade.session_name = matchedSession.name
+      }
       
       setData(prev => ({
         ...prev,

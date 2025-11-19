@@ -69,9 +69,11 @@ const getTrades = async (req, res) => {
         } else {
           sql = `
             SELECT trade.trade_id, trade.asset, trade.entry_date, trade.exit_date, trade.size, trade.pnl, trade.outcome, trade.strategy, trade.is_reviewed, trade.notes, trade.created_at, trade.direction,
-            session.name AS session_name
+            session.name AS session_name,
+            users.username AS username
             FROM trade
             JOIN session ON trade.session_id = session.session_id
+            JOIN users ON trade.user_id = users.user_id
             WHERE trade.user_id = $1
             ORDER BY trade.entry_date DESC
           `
