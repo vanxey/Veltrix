@@ -37,7 +37,7 @@ export default function Journaling() {
 
   return (
     <div className="grid">
-      <div className={`grid ${isBlurred ? 'blur-sm' : ''} transition-all duration-300 grid-rows-[auto_1fr_1fr]`}>
+      <div className={`grid ${isBlurred ? 'blur-sm bg-gray-800' : ''} transition-all duration-300 grid-rows-[auto_1fr_1fr]`}>
         <Header />
         <div className="w-full h-full p-5 grid gap-4 grid-rows-[auto_1fr_1fr]">
           <div className=" flex content-center">

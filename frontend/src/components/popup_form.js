@@ -53,14 +53,14 @@ export default function PopUp({ onClose, onSave, isOpen, sessions = [], tags = [
   }, [isOpen])
 
   if (!isOpen) return null
-
+  //console.log(tags[2].tag_color)
   return (
     <div className="w-full h-full grid place-items-center fixed inset-0 z-50">
-      <div className="grid grid-rows-[auto_1fr] bg-gray-800 text-gray-50 max-w-full md:max-w-5xl lg:max-w-6xl w-full max-h-full md:max-h-9/10 py-5 px-10 sm:rounded-xl overflow-auto">
+      <div className="grid grid-rows-[auto_1fr] bg-white text-gray-900 shadow-xl max-w-full md:max-w-2xl lg:max-w-2xl w-full max-h-full md:max-h-full lg:max-h-9/10 py-5 px-10 sm:rounded-xl overflow-auto">
         <div className="flex flex-row justify-between py-4">
-          <div className="font-semi text-xl">Add Trade</div>
+          <div className="font-bold text-2xl">Add Trade</div>
           <svg
-            className="opacity-100 hover:opacity-80"
+            className="opacity-100 hover:opacity-80 hover:cursor-pointer"
             onClick={onClose}
             xmlns="http://www.w3.org/2000/svg"
             width="25"
@@ -81,7 +81,7 @@ export default function PopUp({ onClose, onSave, isOpen, sessions = [], tags = [
           <form onSubmit={handleSubmit}>
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-2 sm:gap-1">
               <div className="flex flex-col">
-                <label className="block text-gray-500 font-medium text-sm">
+                <label className="block text-gray-600 font-medium text-sm pl-1">
                   Asset/Pair:
                 </label>
                 <input
@@ -96,11 +96,11 @@ export default function PopUp({ onClose, onSave, isOpen, sessions = [], tags = [
               </div>
 
               <div className="flex flex-col">
-                <label className="block text-gray-500 font-medium text-sm">
+                <label className="block text-gray-600 font-medium text-sm pl-1">
                   Direction:
                 </label>
                 <select
-                  className="border border-gray-300 rounded-lg w-full h-10 focus:outline-none focus:ring-2 focus:ring-blue-400"
+                  className="pl-1 border bg-white text-gray-400 border-gray-300 rounded-lg w-full h-10 focus:outline-none focus:ring-2 focus:ring-blue-400"
                   name="direction"
                   value={form.direction}
                   onChange={handleChange}
@@ -113,7 +113,7 @@ export default function PopUp({ onClose, onSave, isOpen, sessions = [], tags = [
               </div>
 
               <div className="flex flex-col">
-                <label className="block text-gray-500 font-medium text-sm">
+                <label className="block text-gray-600 font-medium text-sm pl-1">
                   Entry Date:
                 </label>
 
@@ -128,7 +128,7 @@ export default function PopUp({ onClose, onSave, isOpen, sessions = [], tags = [
               </div>
 
               <div className="flex flex-col">
-                <label className="block text-gray-500 font-medium text-sm">
+                <label className="block text-gray-600 font-medium text-sm pl-1">
                   Exit Date:
                 </label>
 
@@ -137,13 +137,13 @@ export default function PopUp({ onClose, onSave, isOpen, sessions = [], tags = [
                   name="exit_date"
                   value={form.exit_date}
                   onChange={handleChange}
-                  className="border border-gray-300 p-2 h-10 rounded-lg w-auto focus:outline-none focus:ring-2 focus:ring-blue-400"
+                  className=" border border-gray-300 p-2 h-10 rounded-lg w-auto focus:outline-none focus:ring-2 focus:ring-blue-400"
                   required
                 />
               </div>
 
               <div className="flex flex-col">
-                <label className="block text-gray-500 font-medium text-sm">
+                <label className="block text-gray-600 font-medium text-sm pl-1">
                   Size:
                 </label>
 
@@ -159,12 +159,12 @@ export default function PopUp({ onClose, onSave, isOpen, sessions = [], tags = [
               </div>
               
               <div className="flex flex-col">
-                <label className="block text-gray-500 font-medium text-sm">
+                <label className="block text-gray-600 font-medium text-sm pl-1">
                   Session:
                 </label>
 
                 <select
-                  className="border border-gray-300 h-10 rounded-lg w-full focus:outline-none focus:ring-2 focus:ring-blue-400"
+                  className="pl-1 border bg-white text-gray-400 border-gray-300 h-10 rounded-lg w-full focus:outline-none focus:ring-2 focus:ring-blue-400"
                   name="session_id"
                   value={form.session_id}
                   onChange={handleChange}
@@ -178,7 +178,7 @@ export default function PopUp({ onClose, onSave, isOpen, sessions = [], tags = [
 
               </div>
               <div className="flex flex-col">
-                <label className="block text-gray-500 font-medium text-sm">
+                <label className="block text-gray-600 font-medium text-sm pl-1">
                   Strategy:
                 </label>
 
@@ -194,12 +194,12 @@ export default function PopUp({ onClose, onSave, isOpen, sessions = [], tags = [
               </div>
 
               <div className="flex flex-col">
-                <label className="block text-gray-500 font-medium text-sm">
+                <label className="block text-gray-600 font-medium text-sm pl-1">
                   Outcome:
                 </label>
 
                 <select
-                  className="border border-gray-300 h-10 rounded-lg w-full focus:outline-none focus:ring-2 focus:ring-blue-400"
+                  className="pl-1 border bg-white text-gray-400 border-gray-300 h-10 rounded-lg w-full focus:outline-none focus:ring-2 focus:ring-blue-400"
                   name="outcome"
                   value={form.outcome}
                   onChange={handleChange}
@@ -213,7 +213,7 @@ export default function PopUp({ onClose, onSave, isOpen, sessions = [], tags = [
               </div>
 
               <div className="flex flex-col">
-                <label className="block text-gray-500 font-medium text-sm">
+                <label className="block text-gray-600 font-medium text-sm pl-1">
                   PnL ($):
                 </label>
 
@@ -229,7 +229,7 @@ export default function PopUp({ onClose, onSave, isOpen, sessions = [], tags = [
               </div>
 
               <div className="flex flex-col sm:col-span-2">
-                <label className="block text-gray-500 font-medium text-sm mb-2">Tags:</label>
+                <label className="block text-gray-600 font-medium text-sm mb-2 pl-1">Tags:</label>
                 <div className="flex flex-wrap gap-2">
                     {tags.map(tag => (
                         <Button
@@ -240,7 +240,7 @@ export default function PopUp({ onClose, onSave, isOpen, sessions = [], tags = [
                             className={`text-xs px-2 py-1 rounded border transition-colors ${
                                 form.tags.includes(tag.tag_id) 
                                 ? getTagColorClass(tag.tag_color) 
-                                : 'bg-white border-gray-300 text-gray-500 hover:border-blue-300'
+                                : 'bg-white border-gray-300 text-gray-500 hover:border-blue-500 hover:text-white' 
                             }`}
                         >
                             {tag.tag_name}
@@ -252,7 +252,7 @@ export default function PopUp({ onClose, onSave, isOpen, sessions = [], tags = [
             </div>
             <div className="grid gap-1">
               <div className="grid grid-cols-1 grid-rows-2">
-                <label className="block text-gray-200 font-medium pt-3">
+                <label className="block text-gray-600 font-medium pt-3 pl-1">
                   Screenshot Upload
                 </label>
                 <input
@@ -267,7 +267,7 @@ export default function PopUp({ onClose, onSave, isOpen, sessions = [], tags = [
 
               <div className="grid grid-cols-1 grid-rows-1">
                 <div className="flex flex-col">
-                  <label className="block text-gray-500 font-medium text-sm">
+                  <label className="block text-gray-600 font-medium text-sm pl-1">
                     Notes & Reflection:
                   </label>
 
@@ -291,7 +291,7 @@ export default function PopUp({ onClose, onSave, isOpen, sessions = [], tags = [
                   }
                   className="h-5 w-5"
                 />
-                <label className="text-gray-500 font-medium text-sm">
+                <label className="text-gray-500 font-medium text-sm pl-1">
                   Reviewed
                 </label>
               </div>
