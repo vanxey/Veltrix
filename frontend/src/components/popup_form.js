@@ -1,7 +1,18 @@
 import { useState, useEffect } from "react"
 import Button from "./ui/button"
 
-export default function PopUp({ onClose, onSave, isOpen, sessions = [] }) {
+const getColorClass = (color) => {
+    const colors = {
+        red: 'bg-red-100 border-red-500 text-red-700',
+        blue: 'bg-blue-100 border-blue-500 text-blue-700',
+        green: 'bg-green-100 border-green-500 text-green-700',
+        orange: 'bg-orange-100 border-orange-500 text-orange-700',
+        purple: 'bg-purple-100 border-purple-500 text-purple-700',
+    }
+    return colors[color] || colors.blue
+}
+
+export default function PopUp({ onClose, onSave, isOpen, sessions = [], tags = [] }) {
   const [form, setForm] = useState({
     asset: "",
     direction: "",
@@ -15,6 +26,7 @@ export default function PopUp({ onClose, onSave, isOpen, sessions = [] }) {
     is_reviewed: false,
     notes: "",
     screenshot: "",
+    tags: [],
   })
 
   const handleChange = (e) => {
@@ -26,6 +38,17 @@ export default function PopUp({ onClose, onSave, isOpen, sessions = [] }) {
     setForm({
       ...form,
       [name]: type === "checkbox" ? checked : finalValue,
+    })
+  }
+
+  const handleTagChange = (tagId) => {
+    setForm(prev => {
+        const isSelected = prev.tags.includes(tagId)
+        if (isSelected) {
+            return { ...prev, tags: prev.tags.filter(id => id !== tagId) }
+        } else {
+            return { ...prev, tags: [...prev.tags, tagId] }
+        }
     })
   }
 
@@ -214,6 +237,28 @@ export default function PopUp({ onClose, onSave, isOpen, sessions = [] }) {
                   required
                 />
               </div>
+
+              <div className="flex flex-col sm:col-span-2">
+                <label className="block text-gray-500 font-medium text-sm mb-2">Tags:</label>
+                <div className="flex flex-wrap gap-2">
+                    {tags.map(tag => (
+                        <Button
+                            key={tag.tag_id}
+                            variant="tertiary"
+                            size="sm"
+                            onClick={() => handleTagChange(tag.tag_id)}
+                            className={`text-xs px-2 py-1 rounded border transition-colors ${
+                                form.tags.includes(tag.tag_id) 
+                                ? getColorClass(tag.tag_color) 
+                                : 'bg-white border-gray-300 text-gray-500 hover:border-blue-300'
+                            }`}
+                        >
+                            {tag.tag_name}
+                        </Button>
+                    ))}
+                </div>
+              </div>
+
             </div>
             <div className="grid gap-1">
               <div className="grid grid-cols-1 grid-rows-2">

@@ -12,7 +12,8 @@ const getSessions = async (req, res) => {
 
 const getTradeCalendar = async (req, res) => {
   try {
-    const { date, user_id } = req.query 
+    const { date, user_id } = req.query
+
     const userCheck = await pool.query('SELECT is_admin FROM users WHERE user_id = $1', [user_id])
     const isAdmin = userCheck.rows.length > 0 && userCheck.rows[0].is_admin
 
@@ -21,7 +22,7 @@ const getTradeCalendar = async (req, res) => {
 
     if (isAdmin) {
       sql = `
-        SELECT trade_id, exit_date, pnl, outcome, direction 
+        SELECT trade_id, exit_date, pnl, outcome 
         FROM "trade" 
         WHERE exit_date >= $1 
         AND exit_date < $1::date + INTERVAL '1 month'
@@ -29,7 +30,7 @@ const getTradeCalendar = async (req, res) => {
       params = [date]
     } else {
       sql = `
-        SELECT trade_id, exit_date, pnl, outcome, direction 
+        SELECT trade_id, exit_date, pnl, outcome 
         FROM "trade" 
         WHERE exit_date >= $1 
         AND exit_date < $1::date + INTERVAL '1 month'
@@ -49,32 +50,51 @@ const getTradeCalendar = async (req, res) => {
 const getTrades = async (req, res) => {
     try {
         const { user_id } = req.query
+
         const userCheck = await pool.query('SELECT is_admin FROM users WHERE user_id = $1', [user_id])
         const isAdmin = userCheck.rows.length > 0 && userCheck.rows[0].is_admin
 
         let sql
         let params
 
+        const tagsSubquery = `
+          COALESCE(
+            json_agg(json_build_object('tag_id', tag.tag_id, 'tag_name', tag.tag_name, 'tag_color', tag.tag_color)) 
+            FILTER (WHERE tag.tag_id IS NOT NULL), 
+            '[]'
+          ) as tags
+        `
+
         if (isAdmin) {
           sql = `
-            SELECT trade.trade_id, trade.asset, trade.entry_date, trade.exit_date, trade.size, trade.pnl, trade.outcome, trade.strategy, trade.is_reviewed, trade.notes, trade.created_at, trade.direction,
-            session.name AS session_name,
-            users.username AS username
+            SELECT trade.trade_id, trade.asset, trade.entry_date, trade.exit_date, trade.size, trade.pnl, trade.outcome, 
+                   trade.strategy, trade.is_reviewed, trade.notes, trade.created_at, trade.direction,
+                   session.name AS session_name,
+                   users.username AS user_name,
+                   ${tagsSubquery}
             FROM trade
             JOIN session ON trade.session_id = session.session_id
-            JOIN users ON trade.user_id = users.user_id
+            LEFT JOIN users ON trade.user_id = users.user_id
+            LEFT JOIN trade_tags ON trade.trade_id = trade_tags.trade_id
+            LEFT JOIN tag ON trade_tags.tag_id = tag.tag_id
+            GROUP BY trade.trade_id, session.name, users.username
             ORDER BY trade.entry_date DESC
           `
           params = []
         } else {
           sql = `
-            SELECT trade.trade_id, trade.asset, trade.entry_date, trade.exit_date, trade.size, trade.pnl, trade.outcome, trade.strategy, trade.is_reviewed, trade.notes, trade.created_at, trade.direction,
-            session.name AS session_name,
-            users.username AS username
+            SELECT trade.trade_id, trade.asset, trade.entry_date, trade.exit_date, trade.size, trade.pnl, trade.outcome, 
+                   trade.strategy, trade.is_reviewed, trade.notes, trade.created_at, trade.direction,
+                   session.name AS session_name,
+                   users.username AS user_name,
+                   ${tagsSubquery}
             FROM trade
             JOIN session ON trade.session_id = session.session_id
-            JOIN users ON trade.user_id = users.user_id
+            LEFT JOIN users ON trade.user_id = users.user_id
+            LEFT JOIN trade_tags ON trade.trade_id = trade_tags.trade_id
+            LEFT JOIN tag ON trade_tags.tag_id = tag.tag_id
             WHERE trade.user_id = $1
+            GROUP BY trade.trade_id, session.name, users.username
             ORDER BY trade.entry_date DESC
           `
           params = [user_id]
@@ -107,42 +127,64 @@ const deleteTrade = async (req, res) => {
 }
 
 const createTrade = async (req, res) => {
+  const client = await pool.connect()
   try {
+    await client.query('BEGIN')
     const {
       user_id = null,
-      asset = null,
-      direction = null,
-      entry_date = null,
-      exit_date = null,
-      size = null,
+      asset,
+      direction,
+      entry_date,
+      exit_date,
+      size,
       pnl = null,
       outcome = null,
       session_id = null,
       strategy = null,
       is_reviewed = false,
       notes = null,
-      screenshot_url = null
+      screenshot_url = null,
+      tags = [] 
     } = req.body
 
-    const sql = `
+    const insertTradeSql = `
       INSERT INTO trade (
         user_id, asset, direction, entry_date, exit_date,
         size, pnl, outcome, session_id, strategy, is_reviewed, notes,
         screenshot_url
       ) VALUES ($1,$2,$3,$4,$5,$6,$7,$8,$9,$10,$11,$12,$13)
-      RETURNING *;
+      RETURNING trade_id, *;
     `
 
-    const { rows } = await pool.query(sql, [
+    const { rows } = await client.query(insertTradeSql, [
       user_id, asset, direction, entry_date, exit_date,
       size, pnl, outcome, session_id, strategy, is_reviewed, notes,
       screenshot_url
     ])
+    
+    const newTrade = rows[0]
 
-    res.status(201).json(rows[0])
+    if (tags && tags.length > 0) {
+      const tagValues = tags.map((_, i) => `($1, $${i + 2})`).join(',')
+      const tagParams = [newTrade.trade_id, ...tags]
+      
+      await client.query(
+        `INSERT INTO trade_tags (trade_id, tag_id) VALUES ${tagValues}`, 
+        tagParams
+      )
+    }
+
+    await client.query('COMMIT')
+
+    res.status(201).json({ ...newTrade, tags })
+
   } catch (e) {
-    console.error('POST /trades', e)
+    await client.query('ROLLBACK')
+    console.error('POST /trades error', e)
     res.status(500).json({ error: 'Server error' })
+  } finally {
+
+    client.release()
   }
 }
 

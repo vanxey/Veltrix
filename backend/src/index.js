@@ -11,6 +11,7 @@ const app = express()
 const authRoutes = require('./routes/authRoutes')
 const userRoutes = require('./routes/userRoutes')
 const tradeRoutes = require('./routes/tradeRoutes')
+const tagRoutes = require('./routes/tagRoutes')
 
 app.use(cors({
   origin: [process.env.LOCAL_FRONTEND_IP_URL, process.env.FRONTEND_URL],
@@ -25,6 +26,7 @@ app.get('/', (_req, res) => res.send('Veltrix Backend Running'))
 app.use('/', authRoutes)
 app.use('/', userRoutes)
 app.use('/', tradeRoutes)
+app.use('/', tagRoutes)
 
 const PORT = process.env.PORT || 4000
 app.listen(PORT, () => {

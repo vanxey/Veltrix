@@ -12,7 +12,7 @@ export default function Journaling() {
   const [isVisible, setIsVisible] = useState(false)
   const [isBlurred, setIsBlurred] = useState(false)
   
-  const { trades, sessions, isLoading, deleteTrade, addTrade, error} = useTrades()
+  const { trades, sessions, tags, isLoading, deleteTrade, addTrade, error} = useTrades()
   const { user } = useAuth()
 
   const handleSaveTrade = async (form) => {
@@ -67,6 +67,7 @@ export default function Journaling() {
           onClose={closePopup}
           onSave={handleSaveTrade}
           sessions={sessions}
+          tags={tags}
         />
       )}
     </div>

@@ -21,6 +21,7 @@ export function useTrades() {
   const [data, setData] = useState({
     trades: [],
     sessions: [],
+    tags: [],
     isLoading: true,
     error: null,
   })
@@ -41,6 +42,10 @@ export function useTrades() {
         if (!sessionsRes.ok) throw new Error('Failed to fetch sessions')
         const sessionsData = await sessionsRes.json()
 
+        const tagsRes = await fetch(`${FETCH_URL}/tags?user_id=${user.user_id}`)
+        if (!tagsRes.ok) throw new Error('Failed to fetch tags')
+        const tagsData = await tagsRes.json()
+
         const list = Array.isArray(sessionsData) ? sessionsData : (sessionsData.rows || sessionsData.sessions || [])
         const processedSessions = list.map(s => ({
           session_id: s.session_id ?? s.id,
@@ -52,6 +57,7 @@ export function useTrades() {
         setData({
           trades: processedTrades,
           sessions: processedSessions,
+          tags: tagsData,
           isLoading: false,
           error: null,
         })
@@ -82,6 +88,7 @@ export function useTrades() {
       is_reviewed: form.is_reviewed ? true : false,
       notes: form.notes || null,
       screenshot_url: null,
+      tags: form.tags || [],
     }
 
     try {
