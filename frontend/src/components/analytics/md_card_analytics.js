@@ -4,20 +4,22 @@ import { Chart as ChartJS, ArcElement, Tooltip, Legend, layouts } from 'chart.js
 import { Doughnut } from 'react-chartjs-2'
 
 ChartJS.register(ArcElement, Tooltip, Legend)
-export default function MD_card_analytics({title, chart_description, win_title, win_data, loss_title, loss_data, className=""}){
+export default function MD_card_analytics({title, chart_description, win_title, win_data, win_rate, loss_title, loss_data, be_title, be_data, className=""}){
     const wins = parseInt(win_data) || 0
     const losses = parseInt(loss_data) || 0
-    const total = wins + losses
-    const winPercentage = total > 0 ? ((wins / total) * 100).toFixed(1) : 0
-    const lossPercentage = total > 0 ? ((losses / total) * 100).toFixed(1) : 0
+    const be = parseInt(be_data) || 0
+
+    const displayWinRate = win_rate !== undefined 
+        ? parseFloat(win_rate).toFixed(1) 
+        : (wins + losses + be > 0 ? ((wins / (wins + losses + be)) * 100).toFixed(1) : 0)
 
     const data = {
         datasets: [
             {
                 responsive: true,
                 label: title,
-                data: [wins, losses],
-                backgroundColor: ['#059669', '#fee2e2'],
+                data: [wins, losses, be],
+                backgroundColor: ['#059669', '#e08b8b', '#f3f4f6'],
                 borderWidth: 0,
                 cutout: "75%",
             },
@@ -34,7 +36,7 @@ export default function MD_card_analytics({title, chart_description, win_title, 
                         <Doughnut data={data} options={{ maintainAspectRatio: false }} />
                     </div>
                     <div className="absolute inset-0 flex flex-col items-center justify-center pointer-events-none">
-                        <div className="text-4xl font-bold">{winPercentage}%</div>
+                        <div className="text-4xl font-bold">{displayWinRate}%</div>
                         <div className="text-gray-600 text-xs">{chart_description}</div>
                     </div>
                 </div>
@@ -55,6 +57,14 @@ export default function MD_card_analytics({title, chart_description, win_title, 
                         <div className="flex">{loss_title}</div>
                     </div>
                     <div className="flex text-2xl font-bold" style={{color: "#e11d48"}}>{loss_data}</div>
+                </div>
+
+                <div className="flex shadow-sm flex-row font-semibold bg-gray-100 h-auto w-full p-4 rounded-2xl">
+                    <div className="flex items-center gap-3 grow pl-7">
+                        {/* <svg xmlns="http://www.w3.org/2000/svg" width="17" height="17" viewBox="0 0 14 14" fill="#000000"><g fill="none" stroke="#e11d48" strokeLinecap="round" strokeLinejoin="round"><path d="M9.5 10.5h4v-4"/><path d="M13.5 10.5L7.85 4.85a.5.5 0 0 0-.7 0l-2.3 2.3a.5.5 0 0 1-.7 0L.5 3.5"/></g></svg> */}
+                        <div className="flex">{be_title}</div>
+                    </div>
+                    <div className="flex text-2xl font-bold" style={{color: "#4f4f4f"}}>{be_data}</div>
                 </div>
             </div>
         </div>

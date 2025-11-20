@@ -1,3 +1,4 @@
+import Link from "next/link";
 import Button from "../ui/button";
 
     const getTableKeys = (rows) =>{
@@ -68,7 +69,7 @@ export default function Table_card_analytics_copy({table_title, table_descriptio
                     <div className="flex text-2xl font-bold">{table_title}</div>
                     <div className="flex text-sm text-gray-500 px-1">{table_description}</div>
                 </div>
-                <Button variant="primary" size="sm" className="font-bold border-1 py-0 px-2 shadow-none">{button_txt}</Button>
+                <Button variant="primary" size="sm" className="font-bold border-1 py-0 px-2 shadow-none"><Link href="/journaling">{button_txt}</Link></Button>
             </div>
             <div className="flex w-full">
 
