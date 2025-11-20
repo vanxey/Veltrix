@@ -56,11 +56,11 @@ export default function PopUp({ onClose, onSave, isOpen, sessions = [], tags = [
   //console.log(tags[2].tag_color)
   return (
     <div className="w-full h-full grid place-items-center fixed inset-0 z-50">
-      <div className="grid grid-rows-[auto_1fr] bg-white text-gray-900 shadow-xl max-w-full md:max-w-2xl lg:max-w-2xl w-full max-h-full md:max-h-full lg:max-h-9/10 py-5 px-10 sm:rounded-xl overflow-auto">
+      <div className="grid grid-rows-[auto_1fr] bg-white text-gray-900 shadow-xl max-w-full md:max-w-2xl lg:max-w-2xl w-full max-h-full md:max-h-full lg:max-h-9/10 py-5 px-10 sm:rounded-xl overflow-hidden">
         <div className="flex flex-row justify-between py-4">
           <div className="font-bold text-2xl">Add Trade</div>
           <svg
-            className="opacity-100 hover:opacity-80 hover:cursor-pointer"
+            className="opacity-100 hover:cursor-pointer rounded-3xl hover:scale-105 hover:bg-red-200 p-0.5 transition-all duration-300"
             onClick={onClose}
             xmlns="http://www.w3.org/2000/svg"
             width="25"
@@ -241,7 +241,7 @@ export default function PopUp({ onClose, onSave, isOpen, sessions = [], tags = [
                             className={`text-xs px-2 py-1 rounded border transition-colors ${
                                 form.tags.includes(tag.tag_id) 
                                 ? getTagColorClass(tag.tag_color) 
-                                : 'bg-white border-gray-300 text-gray-500 hover:border-blue-500 hover:text-white' 
+                                : `bg-white border-gray-300 text-gray-500 hover:border-gray-500 hover:text-white` 
                             }`}
                         >
                             {tag.tag_name}
