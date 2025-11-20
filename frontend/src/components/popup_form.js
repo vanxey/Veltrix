@@ -1,16 +1,6 @@
 import { useState, useEffect } from "react"
 import Button from "./ui/button"
-
-const getColorClass = (color) => {
-    const colors = {
-        red: 'bg-red-100 border-red-500 text-red-700',
-        blue: 'bg-blue-100 border-blue-500 text-blue-700',
-        green: 'bg-green-100 border-green-500 text-green-700',
-        orange: 'bg-orange-100 border-orange-500 text-orange-700',
-        purple: 'bg-purple-100 border-purple-500 text-purple-700',
-    }
-    return colors[color] || colors.blue
-}
+import { getTagColorClass } from "@/lib/trade.utils"
 
 export default function PopUp({ onClose, onSave, isOpen, sessions = [], tags = [] }) {
   const [form, setForm] = useState({
@@ -249,7 +239,7 @@ export default function PopUp({ onClose, onSave, isOpen, sessions = [], tags = [
                             onClick={() => handleTagChange(tag.tag_id)}
                             className={`text-xs px-2 py-1 rounded border transition-colors ${
                                 form.tags.includes(tag.tag_id) 
-                                ? getColorClass(tag.tag_color) 
+                                ? getTagColorClass(tag.tag_color) 
                                 : 'bg-white border-gray-300 text-gray-500 hover:border-blue-300'
                             }`}
                         >

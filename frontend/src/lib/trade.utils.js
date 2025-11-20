@@ -11,9 +11,21 @@ export const COLUMN_CONFIG = [
   { header: "Strategy", key: "strategy" },
   { header: "Profit/Loss", key: "is_reviewed", type: "review_status" },
   { header: "Notes", key: "notes" },
+  { header: "Tags", key: "tags" },
   { header: "Delete", key: "delete_action" },
   { header: "Created", key: "created_at" },
 ]
+
+export const getTagColorClass = (color) => {
+    const colors = {
+        red: 'bg-red-100 border-red-500 text-red-700',
+        blue: 'bg-blue-100 border-blue-500 text-blue-700',
+        green: 'bg-green-100 border-green-500 text-green-700',
+        orange: 'bg-orange-100 border-orange-500 text-orange-700',
+        purple: 'bg-purple-100 border-purple-500 text-purple-700',
+    }
+    return colors[color] || colors.blue
+}
 
 export const formatCellValue = (key, value, trade) => {
   let displayValue = value
@@ -39,6 +51,24 @@ export const formatCellValue = (key, value, trade) => {
       break
     case 'direction':
       displayValue = value === 'buy' ? 'Long' : 'Short'
+      break
+    case 'tags':
+      if (Array.isArray(value) && value.length > 0) {
+        displayValue = (
+          <div className="flex flex-wrap gap-1">
+            {value.map(tag => (
+              <span 
+                key={tag.tag_id} 
+                className={`px-2 py-0.5 rounded text-xs border ${getTagColorClass(tag.tag_color)}`}
+              >
+                {tag.tag_name}
+              </span>
+            ))}
+          </div>
+        )
+      } else {
+        displayValue = <span className="text-gray-400 text-xs">-</span>
+      }
       break
     default:
       displayValue = value

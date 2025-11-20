@@ -70,7 +70,7 @@ const getTrades = async (req, res) => {
             SELECT trade.trade_id, trade.asset, trade.entry_date, trade.exit_date, trade.size, trade.pnl, trade.outcome, 
                    trade.strategy, trade.is_reviewed, trade.notes, trade.created_at, trade.direction,
                    session.name AS session_name,
-                   users.username AS user_name,
+                   users.username AS username,
                    ${tagsSubquery}
             FROM trade
             JOIN session ON trade.session_id = session.session_id
@@ -86,7 +86,7 @@ const getTrades = async (req, res) => {
             SELECT trade.trade_id, trade.asset, trade.entry_date, trade.exit_date, trade.size, trade.pnl, trade.outcome, 
                    trade.strategy, trade.is_reviewed, trade.notes, trade.created_at, trade.direction,
                    session.name AS session_name,
-                   users.username AS user_name,
+                   users.username AS username,
                    ${tagsSubquery}
             FROM trade
             JOIN session ON trade.session_id = session.session_id
