@@ -18,9 +18,9 @@ export default function Account (){
         if (user) {
             setForm({ username: user.username, email: user.email })
         } else {
-            //router.push('/login') 
+            router.push('/login') 
         }
-    }, [user])
+    }, [user, router])
 
     const handleUpdate = async (e) => {
         e.preventDefault()
@@ -56,8 +56,9 @@ export default function Account (){
                     
                     <div className="flex flex-col gap-4">
                         <div>
-                            <label className="text-sm font-bold text-gray-500">Name</label>
+                            <label htmlFor="username" className="text-sm font-bold text-gray-500">Name</label>
                             <input 
+                                id="username"
                                 type="text" 
                                 value={form.username} 
                                 disabled={!isEditing}
@@ -66,8 +67,9 @@ export default function Account (){
                             />
                         </div>
                         <div>
-                            <label className="text-sm font-bold text-gray-500">Email</label>
+                            <label htmlFor="email" className="text-sm font-bold text-gray-500">Email</label>
                             <input 
+                                id="email"
                                 type="email" 
                                 value={form.email} 
                                 disabled={!isEditing}
@@ -103,6 +105,7 @@ export default function Account (){
                     
                     <div className="flex flex-col gap-3">
                         <input 
+                            aria-label="Enter password to confirm delete"
                             type="password" 
                             placeholder="Enter password to confirm"
                             value={deletePassword}

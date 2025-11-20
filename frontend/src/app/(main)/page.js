@@ -10,7 +10,7 @@ export default function Home() {
         <Header />
         <Hero />
       </div>
-      <div className="grid grid-rows-[auto_1fr] h-auto md:h-auto w-full px-5">
+      <div id="services" className="grid grid-rows-[auto_1fr] h-auto md:h-auto w-full px-5">
         <div className="flex flex-col gap-5 place-content-center place-items-center h-full py-20 w-full px-5">
           <div>
             <h1 className="drop-shadow-xl w-auto font-black md:text-5xl text-3xl text-center">
