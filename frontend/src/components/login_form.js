@@ -78,6 +78,7 @@ export default function LoginForm({isLogin, toggleIsLogin}){
                 <div className="flex flex-col gap-5">
                     {!isLogin && (
                         <input
+                            aria-label="Enter Username"
                             type="text"
                             name="username"
                             value={form.username}
@@ -89,6 +90,7 @@ export default function LoginForm({isLogin, toggleIsLogin}){
                     )}
 
                         <input
+                            aria-label="Enter Email"
                             type="email"
                             name="email"
                             value={form.email}
@@ -100,6 +102,7 @@ export default function LoginForm({isLogin, toggleIsLogin}){
 
                         <div className="relative w-full">
                         <input
+                            aria-label="Enter Password"
                             type={typePW}
                             name="password"
                             value={form.password}
@@ -118,6 +121,7 @@ export default function LoginForm({isLogin, toggleIsLogin}){
                       {!isLogin && (
                         <div className="relative w-full">
                         <input
+                            aria-label="Confirm Password"
                             type={typeCPW}
                             name="confirmPassword"
                             value={form.confirmPassword}

@@ -1,8 +1,8 @@
 'use client';
 
 const variants = {
-  primary: "bg-blue-500 hover:bg-blue-600 text-white border border-blue-500",
-  secondary: "border border-blue-500 hover:bg-blue-600 text-blue-500 hover:text-white",
+  primary: "bg-blue-600 hover:bg-blue-700 text-white border border-blue-600",
+  secondary: "border border-blue-600 hover:bg-blue-600 text-blue-500 hover:text-white",
   tertiary: "border text-gray-100 border-gray-500 bg-gray-700 hover:bg-gray-700"
 };
 

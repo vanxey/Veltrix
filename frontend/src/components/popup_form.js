@@ -60,6 +60,8 @@ export default function PopUp({ onClose, onSave, isOpen, sessions = [], tags = [
         <div className="flex flex-row justify-between py-4">
           <div className="font-bold text-2xl">Add Trade</div>
           <svg
+            role="button"
+            aria-label="Close modal"
             className="opacity-100 hover:cursor-pointer rounded-3xl hover:scale-105 hover:bg-red-200 p-0.5 transition-all duration-300"
             onClick={onClose}
             xmlns="http://www.w3.org/2000/svg"
@@ -81,10 +83,11 @@ export default function PopUp({ onClose, onSave, isOpen, sessions = [], tags = [
           <form onSubmit={handleSubmit}>
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-2 sm:gap-1">
               <div className="flex flex-col">
-                <label className="block text-gray-600 font-medium text-sm pl-1">
+                <label htmlFor="asset" className="block text-gray-600 font-medium text-sm pl-1">
                   Asset/Pair:
                 </label>
                 <input
+                  id="asset"
                   type="text"
                   name="asset"
                   value={form.asset}
@@ -96,10 +99,11 @@ export default function PopUp({ onClose, onSave, isOpen, sessions = [], tags = [
               </div>
 
               <div className="flex flex-col">
-                <label className="block text-gray-600 font-medium text-sm pl-1">
+                <label htmlFor="direction" className="block text-gray-600 font-medium text-sm pl-1">
                   Direction:
                 </label>
                 <select
+                  id="direction"
                   className="pl-1 border bg-white text-gray-400 border-gray-300 rounded-lg w-full h-10 focus:outline-none focus:ring-2 focus:ring-blue-400"
                   name="direction"
                   value={form.direction}
@@ -113,11 +117,12 @@ export default function PopUp({ onClose, onSave, isOpen, sessions = [], tags = [
               </div>
 
               <div className="flex flex-col">
-                <label className="block text-gray-600 font-medium text-sm pl-1">
+                <label htmlFor="entry_date" className="block text-gray-600 font-medium text-sm pl-1">
                   Entry Date:
                 </label>
 
                 <input
+                  id="entry_date"
                   type="date"
                   name="entry_date"
                   value={form.entry_date}
@@ -128,11 +133,12 @@ export default function PopUp({ onClose, onSave, isOpen, sessions = [], tags = [
               </div>
 
               <div className="flex flex-col">
-                <label className="block text-gray-600 font-medium text-sm pl-1">
+                <label htmlFor="exit_date" className="block text-gray-600 font-medium text-sm pl-1">
                   Exit Date:
                 </label>
 
                 <input
+                  id="exit_date"
                   type="date"
                   name="exit_date"
                   value={form.exit_date}
@@ -143,11 +149,12 @@ export default function PopUp({ onClose, onSave, isOpen, sessions = [], tags = [
               </div>
 
               <div className="flex flex-col">
-                <label className="block text-gray-600 font-medium text-sm pl-1">
+                <label htmlFor="size" className="block text-gray-600 font-medium text-sm pl-1">
                   Size:
                 </label>
 
                 <input
+                  id="size"
                   type="number"
                   name="size"
                   value={form.size}
@@ -159,11 +166,12 @@ export default function PopUp({ onClose, onSave, isOpen, sessions = [], tags = [
               </div>
               
               <div className="flex flex-col">
-                <label className="block text-gray-600 font-medium text-sm pl-1">
+                <label htmlFor="session_id" className="block text-gray-600 font-medium text-sm pl-1">
                   Session:
                 </label>
 
                 <select
+                  id="session_id"
                   className="pl-1 border bg-white text-gray-400 border-gray-300 h-10 rounded-lg w-full focus:outline-none focus:ring-2 focus:ring-blue-400"
                   name="session_id"
                   value={form.session_id}
@@ -178,11 +186,12 @@ export default function PopUp({ onClose, onSave, isOpen, sessions = [], tags = [
 
               </div>
               <div className="flex flex-col">
-                <label className="block text-gray-600 font-medium text-sm pl-1">
+                <label htmlFor="strategy" className="block text-gray-600 font-medium text-sm pl-1">
                   Strategy:
                 </label>
 
                 <input
+                  id="strategy"
                   type="text"
                   name="strategy"
                   value={form.strategy}
@@ -194,11 +203,12 @@ export default function PopUp({ onClose, onSave, isOpen, sessions = [], tags = [
               </div>
 
               <div className="flex flex-col">
-                <label className="block text-gray-600 font-medium text-sm pl-1">
+                <label htmlFor="outcome" className="block text-gray-600 font-medium text-sm pl-1">
                   Outcome:
                 </label>
 
                 <select
+                  id="outcome"
                   className="pl-1 border bg-white text-gray-400 border-gray-300 h-10 rounded-lg w-full focus:outline-none focus:ring-2 focus:ring-blue-400"
                   name="outcome"
                   value={form.outcome}
@@ -213,11 +223,12 @@ export default function PopUp({ onClose, onSave, isOpen, sessions = [], tags = [
               </div>
 
               <div className="flex flex-col">
-                <label className="block text-gray-600 font-medium text-sm pl-1">
+                <label htmlFor="pnl" className="block text-gray-600 font-medium text-sm pl-1">
                   PnL ($):
                 </label>
 
                 <input
+                  id="pnl"
                   type="number"
                   name="pnl"
                   value={form.pnl}
@@ -229,8 +240,8 @@ export default function PopUp({ onClose, onSave, isOpen, sessions = [], tags = [
               </div>
 
               <div className="flex flex-col sm:col-span-2">
-                <label className="block text-gray-600 font-medium text-sm mb-2 pl-1">Tags:</label>
-                <div className="flex flex-wrap gap-2">
+                <span id="tags_group_label" className="block text-gray-600 font-medium text-sm mb-2 pl-1">Tags:</span>
+                <div role="group" aria-labelledby="tags_group_label" className="flex flex-wrap gap-2">
                     {tags.map(tag => (
                         <Button
                             key={tag.tag_id}

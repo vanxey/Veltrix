@@ -21,7 +21,7 @@ export const getTagColorClass = (color) => {
         red: '!bg-red-200 !border-red-500 !text-red-700',
         blue: '!bg-blue-200 !border-blue-500 !text-blue-700',
         green: '!bg-green-200 !border-green-500 !text-green-700',
-        orange: '!bg-orange-200 !border-orange-500 !text-orange-700',
+        orange: '!bg-orange-200 !border-orange-500 !text-orange-800',
         purple: '!bg-purple-200 !border-purple-500 !text-purple-700',
     }
     return colors[color] || colors.blue
