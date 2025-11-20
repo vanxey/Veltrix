@@ -125,9 +125,9 @@ export function useTrades() {
     }
   }
 
-  const deleteTrade = async (tradeId) => {
+  const deleteTrade = async (trade_id) => {
     try {
-      const response = await fetch(`${FETCH_URL}/trade/${tradeId}`, {
+      const response = await fetch(`${FETCH_URL}/trade/${trade_id}`, {
         method: "DELETE",
       })
 
@@ -138,7 +138,7 @@ export function useTrades() {
       
       setData(prev => ({
         ...prev,
-        trades: prev.trades.filter(trade => trade.trade_id !== tradeId),
+        trades: prev.trades.filter(trade => trade.trade_id !== trade_id),
       }))
 
     } catch (err) {
@@ -146,6 +146,56 @@ export function useTrades() {
       setData(prev => ({ ...prev, error: err.message }))
     }
   }
+
+  const addTag = async (tag_data) => {
+    if (!user) return
+
+    try {
+      const response = await fetch(`${FETCH_URL}/tags`, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+            user_id: user.user_id,
+            tag_name: tag_data.name,
+            tag_type: tag_data.type,
+            tag_color: tag_data.color
+        }),
+      })
+
+      if (!response.ok) throw new Error('Failed to add tag')
+      
+      const newTag = await response.json()
+      setData(prev => ({
+        ...prev,
+        tags: [...prev.tags, newTag].sort((a,b) => a.tag_name.localeCompare(b.tag_name))
+      }))
+      
+    } catch (err) {
+      console.error(err)
+      throw err
+    }
+  }
+
+  const deleteTag = async (tag_id) => {
+    if (!user) return
+
+    try {
+      const response = await fetch(`${FETCH_URL}/tags/${tag_id}`, {
+        method: "DELETE",
+      })
+
+      if (!response.ok) {
+        throw new Error('Failed to delete tag')
+      }
+      setData(prev => ({
+        ...prev,
+        tags: prev.tags.filter(tag => tag.tag_id !== tag_id)
+      }))
+
+    } catch (err) {
+      console.error(err)
+    }
+  }
   
-  return { ...data, addTrade, deleteTrade }
+  return { ...data, addTrade, deleteTrade, addTag, deleteTag }
 }

@@ -80,7 +80,8 @@ export const formatCellValue = (key, value, trade) => {
 
 export const highlightMatch = (text, query) => {
   if (!query) return text 
-  if (typeof text !== "string") text = String(text)
+  if (typeof text !== "string" && typeof text !== "number") return text
+  // if (typeof text !== "string") text = String(text)
 
   const lowerText = text.toLowerCase()
   const lowerQuery = query.toLowerCase()

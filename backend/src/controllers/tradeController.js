@@ -110,16 +110,16 @@ const getTrades = async (req, res) => {
 
 const deleteTrade = async (req, res) => {
   try {
-    const { id } = req.params
-    console.log('Backend received DELETE request for ID:', id)
+    const { trade_id } = req.params
+    console.log('Backend received DELETE request for ID:', trade_id)
 
-    const { rowCount } = await pool.query('DELETE FROM "trade" WHERE trade_id = $1', [id])
+    const { rowCount } = await pool.query('DELETE FROM "trade" WHERE trade_id = $1', [trade_id])
 
     if (rowCount === 0) {
       return res.status(404).json({ error: 'Trade not found' })
     }
 
-    res.status(200).json({ message: `Trade with ID ${id} deleted successfully` })
+    res.status(200).json({ message: `Trade with ID ${trade_id} deleted successfully` })
   } catch (err) {
     console.error('DELETE /trade error:', err)
     res.status(500).json({ error: 'Database error' })

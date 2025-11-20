@@ -25,4 +25,20 @@ const createTag = async (req, res) => {
   }
 }
 
-module.exports = { getTags, createTag }
+const deleteTag = async (req, res) => {
+  try {
+    const { tag_id } = req.params
+    const { rowCount } = await pool.query('DELETE FROM tag WHERE tag_id = $1', [tag_id])
+
+    if (rowCount === 0) {
+      return res.status(404).json({ error: 'Tag not found' })
+    }
+
+    res.json({ message: 'Tag deleted successfully' })
+  } catch (err) {
+    console.error(err)
+    res.status(500).json({ error: 'Database error' })
+  }
+}
+
+module.exports = { getTags, createTag, deleteTag}

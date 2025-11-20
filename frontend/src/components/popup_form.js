@@ -235,6 +235,7 @@ export default function PopUp({ onClose, onSave, isOpen, sessions = [], tags = [
                         <Button
                             key={tag.tag_id}
                             variant="tertiary"
+                            type="button"
                             size="sm"
                             onClick={() => handleTagChange(tag.tag_id)}
                             className={`text-xs px-2 py-1 rounded border transition-colors ${

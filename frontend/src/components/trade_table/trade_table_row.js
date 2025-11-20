@@ -11,10 +11,10 @@ export default function TradeTableRow({ trade, onDelete, filterText }) {
               <td key={key} className="border-b border-gray-200 p-3 text-center">
                 <button
                   onClick={() => onDelete(trade.trade_id)}
-                  className="text-red-600 font-semibold cursor-pointer hover:opacity-50 transition-opacity"
+                  className="text-red-600 cursor-pointer border-1 border-transparent transition-color duration-200 hover:scale-105 hover:border-red-400 hover:shadow-md hover:bg-red-100 hover:border-1 font-semibold text-lg !rounded-4xl h-5 w-5 flex justify-center items-center pb-0.5"
                   aria-label={`Delete trade ${trade.trade_id}`}
                 >
-                  ✖
+                  ×
                 </button>
               </td>
             )
