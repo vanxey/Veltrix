@@ -1,0 +1,1924 @@
+
+<!doctype html>
+<html lang="en" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+      
+      
+        <link rel="canonical" href="https://veltrix-1-g724.onrender.com/reference/api/">
+      
+      
+        <link rel="prev" href="../../tutorials/first-trade/">
+      
+      
+        <link rel="next" href="../datamodel/">
+      
+      
+        
+      
+      
+      <link rel="icon" href="../../assets/images/favicon.png">
+      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.7.0">
+    
+    
+      
+        <title>API Reference - Veltrix Technical Documentation</title>
+      
+    
+    
+      <link rel="stylesheet" href="../../assets/stylesheets/main.618322db.min.css">
+      
+        
+        <link rel="stylesheet" href="../../assets/stylesheets/palette.ab4e12ef.min.css">
+      
+      
+
+
+    
+    
+      
+    
+    
+      
+        
+        
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,300i,400,400i,700,700i%7CRoboto+Mono:400,400i,700,700i&display=fallback">
+        <style>:root{--md-text-font:"Roboto";--md-code-font:"Roboto Mono"}</style>
+      
+    
+    
+    <script>__md_scope=new URL("../..",location),__md_hash=e=>[...e].reduce(((e,_)=>(e<<5)-e+_.charCodeAt(0)),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    
+      
+
+    
+    
+  </head>
+  
+  
+    
+    
+    
+    
+    
+    <body dir="ltr" data-md-color-scheme="slate" data-md-color-primary="blue" data-md-color-accent="indigo">
+  
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="#api-reference" class="md-skip">
+          Skip to content
+        </a>
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+    
+      
+
+<header class="md-header" data-md-component="header">
+  <nav class="md-header__inner md-grid" aria-label="Header">
+    <a href="../.." title="Veltrix Technical Documentation" class="md-header__button md-logo" aria-label="Veltrix Technical Documentation" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
+
+    </a>
+    <label class="md-header__button md-icon" for="__drawer">
+      
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3zm0 5h18v2H3zm0 5h18v2H3z"/></svg>
+    </label>
+    <div class="md-header__title" data-md-component="header-title">
+      <div class="md-header__ellipsis">
+        <div class="md-header__topic">
+          <span class="md-ellipsis">
+            Veltrix Technical Documentation
+          </span>
+        </div>
+        <div class="md-header__topic" data-md-component="header-topic">
+          <span class="md-ellipsis">
+            
+              API Reference
+            
+          </span>
+        </div>
+      </div>
+    </div>
+    
+      
+    
+    
+    
+    
+      
+      
+        <label class="md-header__button md-icon" for="__search">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        </label>
+        <div class="md-search" data-md-component="search" role="dialog">
+  <label class="md-search__overlay" for="__search"></label>
+  <div class="md-search__inner" role="search">
+    <form class="md-search__form" name="search">
+      <input type="text" class="md-search__input" name="query" aria-label="Search" placeholder="Search" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="search-query" required>
+      <label class="md-search__icon md-icon" for="__search">
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11z"/></svg>
+      </label>
+      <nav class="md-search__options" aria-label="Search">
+        
+        <button type="reset" class="md-search__icon md-icon" title="Clear" aria-label="Clear" tabindex="-1">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/></svg>
+        </button>
+      </nav>
+      
+        <div class="md-search__suggest" data-md-component="search-suggest"></div>
+      
+    </form>
+    <div class="md-search__output">
+      <div class="md-search__scrollwrap" tabindex="0" data-md-scrollfix>
+        <div class="md-search-result" data-md-component="search-result">
+          <div class="md-search-result__meta">
+            Initializing search
+          </div>
+          <ol class="md-search-result__list" role="presentation"></ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+      
+    
+    
+      <div class="md-header__source">
+        <a href="https://github.com/vanxey/Veltrix.git" title="Go to repository" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 7.1.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path d="M439.6 236.1 244 40.5c-5.4-5.5-12.8-8.5-20.4-8.5s-15 3-20.4 8.4L162.5 81l51.5 51.5c27.1-9.1 52.7 16.8 43.4 43.7l49.7 49.7c34.2-11.8 61.2 31 35.5 56.7-26.5 26.5-70.2-2.9-56-37.3L240.3 199v121.9c25.3 12.5 22.3 41.8 9.1 55-6.4 6.4-15.2 10.1-24.3 10.1s-17.8-3.6-24.3-10.1c-17.6-17.6-11.1-46.9 11.2-56v-123c-20.8-8.5-24.6-30.7-18.6-45L142.6 101 8.5 235.1C3 240.6 0 247.9 0 255.5s3 15 8.5 20.4l195.6 195.7c5.4 5.4 12.7 8.4 20.4 8.4s15-3 20.4-8.4l194.7-194.7c5.4-5.4 8.4-12.8 8.4-20.4s-3-15-8.4-20.4"/></svg>
+  </div>
+  <div class="md-source__repository">
+    vanxey/Veltrix
+  </div>
+</a>
+      </div>
+    
+  </nav>
+  
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+      
+        
+          
+            
+<nav class="md-tabs" aria-label="Tabs" data-md-component="tabs">
+  <div class="md-grid">
+    <ul class="md-tabs__list">
+      
+        
+  
+  
+  
+  
+    <li class="md-tabs__item">
+      <a href="../.." class="md-tabs__link">
+        
+  
+  
+    
+  
+  Overview
+
+      </a>
+    </li>
+  
+
+      
+        
+  
+  
+  
+  
+    <li class="md-tabs__item">
+      <a href="../../guides/quickstart/" class="md-tabs__link">
+        
+  
+  
+    
+  
+  Getting Started (Procedural)
+
+      </a>
+    </li>
+  
+
+      
+        
+  
+  
+  
+  
+    <li class="md-tabs__item">
+      <a href="../../conceptual/architecture/" class="md-tabs__link">
+        
+  
+  
+    
+  
+  Conceptual Overview (Explanation)
+
+      </a>
+    </li>
+  
+
+      
+        
+  
+  
+  
+  
+    <li class="md-tabs__item">
+      <a href="../../tutorials/first-trade/" class="md-tabs__link">
+        
+  
+  
+    
+  
+  Tutorials
+
+      </a>
+    </li>
+  
+
+      
+        
+  
+  
+  
+    
+  
+  
+    
+    
+      <li class="md-tabs__item md-tabs__item--active">
+        <a href="./" class="md-tabs__link">
+          
+  
+  
+  Reference
+
+        </a>
+      </li>
+    
+  
+
+      
+    </ul>
+  </div>
+</nav>
+          
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+
+  
+
+
+<nav class="md-nav md-nav--primary md-nav--lifted" aria-label="Navigation" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href="../.." title="Veltrix Technical Documentation" class="md-nav__button md-logo" aria-label="Veltrix Technical Documentation" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
+
+    </a>
+    Veltrix Technical Documentation
+  </label>
+  
+    <div class="md-nav__source">
+      <a href="https://github.com/vanxey/Veltrix.git" title="Go to repository" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 7.1.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path d="M439.6 236.1 244 40.5c-5.4-5.5-12.8-8.5-20.4-8.5s-15 3-20.4 8.4L162.5 81l51.5 51.5c27.1-9.1 52.7 16.8 43.4 43.7l49.7 49.7c34.2-11.8 61.2 31 35.5 56.7-26.5 26.5-70.2-2.9-56-37.3L240.3 199v121.9c25.3 12.5 22.3 41.8 9.1 55-6.4 6.4-15.2 10.1-24.3 10.1s-17.8-3.6-24.3-10.1c-17.6-17.6-11.1-46.9 11.2-56v-123c-20.8-8.5-24.6-30.7-18.6-45L142.6 101 8.5 235.1C3 240.6 0 247.9 0 255.5s3 15 8.5 20.4l195.6 195.7c5.4 5.4 12.7 8.4 20.4 8.4s15-3 20.4-8.4l194.7-194.7c5.4-5.4 8.4-12.8 8.4-20.4s-3-15-8.4-20.4"/></svg>
+  </div>
+  <div class="md-source__repository">
+    vanxey/Veltrix
+  </div>
+</a>
+    </div>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../.." class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Overview
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../guides/quickstart/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Getting Started (Procedural)
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../conceptual/architecture/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Conceptual Overview (Explanation)
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../tutorials/first-trade/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Tutorials
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+    
+  
+  
+  
+    
+    
+    
+    
+      
+        
+        
+      
+      
+    
+    
+    <li class="md-nav__item md-nav__item--active md-nav__item--section md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_5" checked>
+        
+          
+          <label class="md-nav__link" for="__nav_5" id="__nav_5_label" tabindex="">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Reference
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_5_label" aria-expanded="true">
+          <label class="md-nav__title" for="__nav_5">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Reference
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+    
+  
+  
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
+      
+      
+        
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    API Reference
+  
+
+    
+  </span>
+  
+  
+
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="./" class="md-nav__link md-nav__link--active">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    API Reference
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#1-authentication-endpoints-register-login-verify_email" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        1. Authentication Endpoints (/register, /login, /verify_email)
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="1. Authentication Endpoints (/register, /login, /verify_email)">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#post-register" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        POST /register
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#post-verify_email" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        POST /verify_email
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#post-login" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        POST /login
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#2-user-management-endpoints-users-useruser_id" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2. User Management Endpoints (/users, /user/:user_id)
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="2. User Management Endpoints (/users, /user/:user_id)">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#get-users" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        GET /users
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#put-useruser_id" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        PUT /user/:user_id
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#delete-useruser_id" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        DELETE /user/:user_id
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#3-trade-and-session-endpoints-trade-trades-session" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        3. Trade and Session Endpoints (/trade, /trades, /session)
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="3. Trade and Session Endpoints (/trade, /trades, /session)">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#get-session" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        GET /session
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#get-trade_calendar" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        GET /trade_calendar
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#get-trade" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        GET /trade
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#post-trades" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        POST /trades
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#delete-tradetrade_id" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        DELETE /trade/:trade_id
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#4-tag-management-endpoints-tags" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        4. Tag Management Endpoints (/tags)
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="4. Tag Management Endpoints (/tags)">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#get-tags" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        GET /tags
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#post-tags" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        POST /tags
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#delete-tagstag_id" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        DELETE /tags/:tag_id
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../datamodel/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Data Model (Glossary)
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../CONTRIBUTING/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Contributor Guide
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+              
+              <div class="md-sidebar md-sidebar--secondary" data-md-component="sidebar" data-md-type="toc" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#1-authentication-endpoints-register-login-verify_email" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        1. Authentication Endpoints (/register, /login, /verify_email)
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="1. Authentication Endpoints (/register, /login, /verify_email)">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#post-register" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        POST /register
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#post-verify_email" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        POST /verify_email
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#post-login" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        POST /login
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#2-user-management-endpoints-users-useruser_id" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2. User Management Endpoints (/users, /user/:user_id)
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="2. User Management Endpoints (/users, /user/:user_id)">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#get-users" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        GET /users
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#put-useruser_id" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        PUT /user/:user_id
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#delete-useruser_id" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        DELETE /user/:user_id
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#3-trade-and-session-endpoints-trade-trades-session" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        3. Trade and Session Endpoints (/trade, /trades, /session)
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="3. Trade and Session Endpoints (/trade, /trades, /session)">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#get-session" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        GET /session
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#get-trade_calendar" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        GET /trade_calendar
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#get-trade" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        GET /trade
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#post-trades" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        POST /trades
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#delete-tradetrade_id" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        DELETE /trade/:trade_id
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#4-tag-management-endpoints-tags" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        4. Tag Management Endpoints (/tags)
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="4. Tag Management Endpoints (/tags)">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#get-tags" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        GET /tags
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#post-tags" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        POST /tags
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#delete-tagstag_id" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        DELETE /tags/:tag_id
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+          
+          
+            <div class="md-content" data-md-component="content">
+              
+              <article class="md-content__inner md-typeset">
+                
+                  
+
+
+  
+  
+
+
+<h1 id="api-reference">API Reference</h1>
+<p>This document provides a complete reference for all RESTful endpoints exposed by the Veltrix Express.js backend.</p>
+<h2 id="1-authentication-endpoints-register-login-verify_email">1. Authentication Endpoints (<code>/register</code>, <code>/login</code>, <code>/verify_email</code>)</h2>
+<p>Controller: <code>backend/src/controllers/authController.js</code></p>
+<hr />
+<h3 id="post-register"><code>POST /register</code></h3>
+<p>Handles user registration, creates a new user in the database, and sends a verification email.</p>
+<table>
+<thead>
+<tr>
+<th style="text-align: left;">Property</th>
+<th style="text-align: left;">Type</th>
+<th style="text-align: left;">Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align: left;"><strong>Request Body</strong></td>
+<td style="text-align: left;"><code>object</code></td>
+<td style="text-align: left;">Contains user credentials.</td>
+</tr>
+<tr>
+<td style="text-align: left;"><code>req.body.username</code></td>
+<td style="text-align: left;"><code>string</code></td>
+<td style="text-align: left;">The desired username.</td>
+</tr>
+<tr>
+<td style="text-align: left;"><code>req.body.email</code></td>
+<td style="text-align: left;"><code>string</code></td>
+<td style="text-align: left;">The user's email address.</td>
+</tr>
+<tr>
+<td style="text-align: left;"><code>req.body.password</code></td>
+<td style="text-align: left;"><code>string</code></td>
+<td style="text-align: left;">The user's chosen password (plain text).</td>
+</tr>
+</tbody>
+</table>
+<table>
+<thead>
+<tr>
+<th style="text-align: left;">Response Code</th>
+<th style="text-align: left;">Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align: left;"><strong>201 Created</strong></td>
+<td style="text-align: left;">Success message with instructions to check email.</td>
+</tr>
+<tr>
+<td style="text-align: left;"><strong>400 Bad Request</strong></td>
+<td style="text-align: left;">Error if user already exists.</td>
+</tr>
+<tr>
+<td style="text-align: left;"><strong>500 Internal Server Error</strong></td>
+<td style="text-align: left;">Server error during registration or email sending.</td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h3 id="post-verify_email"><code>POST /verify_email</code></h3>
+<p>Verifies a user's email address using a token sent in the registration email.</p>
+<table>
+<thead>
+<tr>
+<th style="text-align: left;">Property</th>
+<th style="text-align: left;">Type</th>
+<th style="text-align: left;">Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align: left;"><strong>Request Body</strong></td>
+<td style="text-align: left;"><code>object</code></td>
+<td style="text-align: left;">Contains the verification token.</td>
+</tr>
+<tr>
+<td style="text-align: left;"><code>req.body.token</code></td>
+<td style="text-align: left;"><code>string</code></td>
+<td style="text-align: left;">The unique verification token.</td>
+</tr>
+</tbody>
+</table>
+<table>
+<thead>
+<tr>
+<th style="text-align: left;">Response Code</th>
+<th style="text-align: left;">Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align: left;"><strong>200 OK</strong></td>
+<td style="text-align: left;">Success message.</td>
+</tr>
+<tr>
+<td style="text-align: left;"><strong>400 Bad Request</strong></td>
+<td style="text-align: left;">Error for invalid or expired token.</td>
+</tr>
+<tr>
+<td style="text-align: left;"><strong>500 Internal Server Error</strong></td>
+<td style="text-align: left;">Server error during verification.</td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h3 id="post-login"><code>POST /login</code></h3>
+<p>Handles user login and returns essential user data upon success.</p>
+<table>
+<thead>
+<tr>
+<th style="text-align: left;">Property</th>
+<th style="text-align: left;">Type</th>
+<th style="text-align: left;">Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align: left;"><strong>Request Body</strong></td>
+<td style="text-align: left;"><code>object</code></td>
+<td style="text-align: left;">Contains login credentials.</td>
+</tr>
+<tr>
+<td style="text-align: left;"><code>req.body.email</code></td>
+<td style="text-align: left;"><code>string</code></td>
+<td style="text-align: left;">The user's email address.</td>
+</tr>
+<tr>
+<td style="text-align: left;"><code>req.body.password</code></td>
+<td style="text-align: left;"><code>string</code></td>
+<td style="text-align: left;">The user's password (plain text).</td>
+</tr>
+</tbody>
+</table>
+<table>
+<thead>
+<tr>
+<th style="text-align: left;">Response Code</th>
+<th style="text-align: left;">Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align: left;"><strong>200 OK</strong></td>
+<td style="text-align: left;">Success object containing the user's non-sensitive profile data (<code>user_id</code>, <code>username</code>, <code>email</code>, <code>is_admin</code>) and a message.</td>
+</tr>
+<tr>
+<td style="text-align: left;"><strong>401 Unauthorized</strong></td>
+<td style="text-align: left;">Error for invalid credentials.</td>
+</tr>
+<tr>
+<td style="text-align: left;"><strong>403 Forbidden</strong></td>
+<td style="text-align: left;">Error if the email is not verified.</td>
+</tr>
+<tr>
+<td style="text-align: left;"><strong>500 Internal Server Error</strong></td>
+<td style="text-align: left;">Server error during login.</td>
+</tr>
+</tbody>
+</table>
+<h2 id="2-user-management-endpoints-users-useruser_id">2. User Management Endpoints (<code>/users</code>, <code>/user/:user_id</code>)</h2>
+<p>Controller: <code>backend/src/controllers/userController.js</code></p>
+<hr />
+<h3 id="get-users"><code>GET /users</code></h3>
+<p>Retrieves a list of all users, ordered by creation date (DESC). <strong>Restricted to administrators.</strong></p>
+<table>
+<thead>
+<tr>
+<th style="text-align: left;">Property</th>
+<th style="text-align: left;">Type</th>
+<th style="text-align: left;">Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align: left;"><strong>Query Parameter</strong></td>
+<td style="text-align: left;"><code>object</code></td>
+<td style="text-align: left;">Authentication check.</td>
+</tr>
+<tr>
+<td style="text-align: left;"><code>req.query.user_id</code></td>
+<td style="text-align: left;"><code>string</code></td>
+<td style="text-align: left;">The ID of the authenticated user.</td>
+</tr>
+</tbody>
+</table>
+<table>
+<thead>
+<tr>
+<th style="text-align: left;">Response Code</th>
+<th style="text-align: left;">Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align: left;"><strong>200 OK</strong></td>
+<td style="text-align: left;">An array of all user objects (admin only).</td>
+</tr>
+<tr>
+<td style="text-align: left;"><strong>403 Forbidden</strong></td>
+<td style="text-align: left;">Access Forbidden: Only administrators can view all users.</td>
+</tr>
+<tr>
+<td style="text-align: left;"><strong>500 Internal Server Error</strong></td>
+<td style="text-align: left;">Database error.</td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h3 id="put-useruser_id"><code>PUT /user/:user_id</code></h3>
+<p>Updates a user's profile (username and/or email).</p>
+<table>
+<thead>
+<tr>
+<th style="text-align: left;">Property</th>
+<th style="text-align: left;">Type</th>
+<th style="text-align: left;">Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align: left;"><strong>Route Parameter</strong></td>
+<td style="text-align: left;"><code>string</code></td>
+<td style="text-align: left;">The ID of the user to update.</td>
+</tr>
+<tr>
+<td style="text-align: left;"><strong>Request Body</strong></td>
+<td style="text-align: left;"><code>object</code></td>
+<td style="text-align: left;">New profile data.</td>
+</tr>
+<tr>
+<td style="text-align: left;"><code>req.body.username</code></td>
+<td style="text-align: left;"><code>string</code></td>
+<td style="text-align: left;">The new username.</td>
+</tr>
+<tr>
+<td style="text-align: left;"><code>req.body.email</code></td>
+<td style="text-align: left;"><code>string</code></td>
+<td style="text-align: left;">The new email address.</td>
+</tr>
+</tbody>
+</table>
+<table>
+<thead>
+<tr>
+<th style="text-align: left;">Response Code</th>
+<th style="text-align: left;">Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align: left;"><strong>200 OK</strong></td>
+<td style="text-align: left;">Success object with the updated user data.</td>
+</tr>
+<tr>
+<td style="text-align: left;"><strong>400 Bad Request</strong></td>
+<td style="text-align: left;">Error if the provided email is already in use by another user.</td>
+</tr>
+<tr>
+<td style="text-align: left;"><strong>404 Not Found</strong></td>
+<td style="text-align: left;">Error if the <code>user_id</code> is not found.</td>
+</tr>
+<tr>
+<td style="text-align: left;"><strong>500 Internal Server Error</strong></td>
+<td style="text-align: left;">Server error during profile update.</td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h3 id="delete-useruser_id"><code>DELETE /user/:user_id</code></h3>
+<p>Deletes a user account and all associated trades. <strong>Requires password confirmation.</strong></p>
+<table>
+<thead>
+<tr>
+<th style="text-align: left;">Property</th>
+<th style="text-align: left;">Type</th>
+<th style="text-align: left;">Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align: left;"><strong>Route Parameter</strong></td>
+<td style="text-align: left;"><code>string</code></td>
+<td style="text-align: left;">The ID of the user whose account should be deleted.</td>
+</tr>
+<tr>
+<td style="text-align: left;"><strong>Request Body</strong></td>
+<td style="text-align: left;"><code>object</code></td>
+<td style="text-align: left;">Password confirmation.</td>
+</tr>
+<tr>
+<td style="text-align: left;"><code>req.body.password</code></td>
+<td style="text-align: left;"><code>string</code></td>
+<td style="text-align: left;">The user's current password (plain text).</td>
+</tr>
+</tbody>
+</table>
+<table>
+<thead>
+<tr>
+<th style="text-align: left;">Response Code</th>
+<th style="text-align: left;">Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align: left;"><strong>200 OK</strong></td>
+<td style="text-align: left;">Success message.</td>
+</tr>
+<tr>
+<td style="text-align: left;"><strong>401 Unauthorized</strong></td>
+<td style="text-align: left;">Error for incorrect password.</td>
+</tr>
+<tr>
+<td style="text-align: left;"><strong>404 Not Found</strong></td>
+<td style="text-align: left;">Error if the <code>user_id</code> is not found.</td>
+</tr>
+<tr>
+<td style="text-align: left;"><strong>500 Internal Server Error</strong></td>
+<td style="text-align: left;">Server error during account deletion.</td>
+</tr>
+</tbody>
+</table>
+<h2 id="3-trade-and-session-endpoints-trade-trades-session">3. Trade and Session Endpoints (<code>/trade</code>, <code>/trades</code>, <code>/session</code>)</h2>
+<p>Controller: <code>backend/src/controllers/tradeController.js</code></p>
+<hr />
+<h3 id="get-session"><code>GET /session</code></h3>
+<p>Retrieves a list of all predefined trading sessions.</p>
+<table>
+<thead>
+<tr>
+<th style="text-align: left;">Response Code</th>
+<th style="text-align: left;">Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align: left;"><strong>200 OK</strong></td>
+<td style="text-align: left;">An array of session objects.</td>
+</tr>
+<tr>
+<td style="text-align: left;"><strong>500 Internal Server Error</strong></td>
+<td style="text-align: left;">Database error.</td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h3 id="get-trade_calendar"><code>GET /trade_calendar</code></h3>
+<p>Retrieves trade data for a specific month, optimized for the calendar view. Filters by <code>user_id</code> unless the user is an admin.</p>
+<table>
+<thead>
+<tr>
+<th style="text-align: left;">Property</th>
+<th style="text-align: left;">Type</th>
+<th style="text-align: left;">Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align: left;"><strong>Query Parameter</strong></td>
+<td style="text-align: left;"><code>object</code></td>
+<td style="text-align: left;">Filtering parameters.</td>
+</tr>
+<tr>
+<td style="text-align: left;"><code>req.query.date</code></td>
+<td style="text-align: left;"><code>string</code></td>
+<td style="text-align: left;">A date string (e.g., '2024-01-01') representing the start of the month to query.</td>
+</tr>
+<tr>
+<td style="text-align: left;"><code>req.query.user_id</code></td>
+<td style="text-align: left;"><code>string</code></td>
+<td style="text-align: left;">The ID of the authenticated user.</td>
+</tr>
+</tbody>
+</table>
+<table>
+<thead>
+<tr>
+<th style="text-align: left;">Response Code</th>
+<th style="text-align: left;">Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align: left;"><strong>200 OK</strong></td>
+<td style="text-align: left;">An array of simplified trade objects (<code>trade_id</code>, <code>exit_date</code>, <code>pnl</code>, <code>outcome</code>).</td>
+</tr>
+<tr>
+<td style="text-align: left;"><strong>500 Internal Server Error</strong></td>
+<td style="text-align: left;">Database error.</td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h3 id="get-trade"><code>GET /trade</code></h3>
+<p>Retrieves all detailed trades for a specific user, or all trades for an admin. Joins with session and tags data.</p>
+<table>
+<thead>
+<tr>
+<th style="text-align: left;">Property</th>
+<th style="text-align: left;">Type</th>
+<th style="text-align: left;">Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align: left;"><strong>Query Parameter</strong></td>
+<td style="text-align: left;"><code>object</code></td>
+<td style="text-align: left;">User filtering.</td>
+</tr>
+<tr>
+<td style="text-align: left;"><code>req.query.user_id</code></td>
+<td style="text-align: left;"><code>string</code></td>
+<td style="text-align: left;">The ID of the authenticated user.</td>
+</tr>
+</tbody>
+</table>
+<table>
+<thead>
+<tr>
+<th style="text-align: left;">Response Code</th>
+<th style="text-align: left;">Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align: left;"><strong>200 OK</strong></td>
+<td style="text-align: left;">An array of detailed trade objects including <code>session_name</code> and <code>tags</code>.</td>
+</tr>
+<tr>
+<td style="text-align: left;"><strong>500 Internal Server Error</strong></td>
+<td style="text-align: left;">Database error.</td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h3 id="post-trades"><code>POST /trades</code></h3>
+<p>Creates a new trade record in the database and optionally links it to tags.</p>
+<table>
+<thead>
+<tr>
+<th style="text-align: left;">Property</th>
+<th style="text-align: left;">Type</th>
+<th style="text-align: left;">Default</th>
+<th style="text-align: left;">Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align: left;"><strong>Request Body</strong></td>
+<td style="text-align: left;"><code>object</code></td>
+<td style="text-align: left;">-</td>
+<td style="text-align: left;">Trade details.</td>
+</tr>
+<tr>
+<td style="text-align: left;"><code>user_id</code></td>
+<td style="text-align: left;"><code>string</code></td>
+<td style="text-align: left;">-</td>
+<td style="text-align: left;">ID of the user creating the trade.</td>
+</tr>
+<tr>
+<td style="text-align: left;"><code>asset</code></td>
+<td style="text-align: left;"><code>string</code></td>
+<td style="text-align: left;">-</td>
+<td style="text-align: left;">Trading asset/pair.</td>
+</tr>
+<tr>
+<td style="text-align: left;"><code>direction</code></td>
+<td style="text-align: left;"><code>('Buy'\|'Sell')</code></td>
+<td style="text-align: left;">-</td>
+<td style="text-align: left;">Trade direction.</td>
+</tr>
+<tr>
+<td style="text-align: left;"><code>entry_date</code></td>
+<td style="text-align: left;"><code>string</code></td>
+<td style="text-align: left;">-</td>
+<td style="text-align: left;">Entry timestamp/date.</td>
+</tr>
+<tr>
+<td style="text-align: left;"><code>exit_date</code></td>
+<td style="text-align: left;"><code>string</code></td>
+<td style="text-align: left;">-</td>
+<td style="text-align: left;">Exit timestamp/date.</td>
+</tr>
+<tr>
+<td style="text-align: left;"><code>size</code></td>
+<td style="text-align: left;"><code>number</code></td>
+<td style="text-align: left;">-</td>
+<td style="text-align: left;">Position size/lot size.</td>
+</tr>
+<tr>
+<td style="text-align: left;"><code>pnl</code></td>
+<td style="text-align: left;"><code>number</code></td>
+<td style="text-align: left;"><code>null</code></td>
+<td style="text-align: left;">Profit and Loss amount.</td>
+</tr>
+<tr>
+<td style="text-align: left;"><code>outcome</code></td>
+<td style="text-align: left;"><code>('Win'\|'Loss'\|'BE')</code></td>
+<td style="text-align: left;"><code>null</code></td>
+<td style="text-align: left;">Trade outcome.</td>
+</tr>
+<tr>
+<td style="text-align: left;"><code>session_id</code></td>
+<td style="text-align: left;"><code>string</code></td>
+<td style="text-align: left;"><code>null</code></td>
+<td style="text-align: left;">The ID of the associated session.</td>
+</tr>
+<tr>
+<td style="text-align: left;"><code>strategy</code></td>
+<td style="text-align: left;"><code>string</code></td>
+<td style="text-align: left;"><code>null</code></td>
+<td style="text-align: left;">The strategy used for the trade.</td>
+</tr>
+<tr>
+<td style="text-align: left;"><code>is_reviewed</code></td>
+<td style="text-align: left;"><code>boolean</code></td>
+<td style="text-align: left;"><code>false</code></td>
+<td style="text-align: left;">Whether the trade has been reviewed.</td>
+</tr>
+<tr>
+<td style="text-align: left;"><code>notes</code></td>
+<td style="text-align: left;"><code>string</code></td>
+<td style="text-align: left;"><code>null</code></td>
+<td style="text-align: left;">Notes and reflection for the trade.</td>
+</tr>
+<tr>
+<td style="text-align: left;"><code>tags</code></td>
+<td style="text-align: left;"><code>string[]</code></td>
+<td style="text-align: left;"><code>[]</code></td>
+<td style="text-align: left;">An array of tag IDs (UUIDs) to associate with the trade.</td>
+</tr>
+</tbody>
+</table>
+<table>
+<thead>
+<tr>
+<th style="text-align: left;">Response Code</th>
+<th style="text-align: left;">Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align: left;"><strong>201 Created</strong></td>
+<td style="text-align: left;">The newly created trade object including its tags.</td>
+</tr>
+<tr>
+<td style="text-align: left;"><strong>500 Internal Server Error</strong></td>
+<td style="text-align: left;">Server error during creation or tag association.</td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h3 id="delete-tradetrade_id"><code>DELETE /trade/:trade_id</code></h3>
+<p>Deletes a single trade record by its ID.</p>
+<table>
+<thead>
+<tr>
+<th style="text-align: left;">Property</th>
+<th style="text-align: left;">Type</th>
+<th style="text-align: left;">Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align: left;"><strong>Route Parameter</strong></td>
+<td style="text-align: left;"><code>string</code></td>
+<td style="text-align: left;">The ID of the trade to delete.</td>
+</tr>
+</tbody>
+</table>
+<table>
+<thead>
+<tr>
+<th style="text-align: left;">Response Code</th>
+<th style="text-align: left;">Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align: left;"><strong>200 OK</strong></td>
+<td style="text-align: left;">Success message.</td>
+</tr>
+<tr>
+<td style="text-align: left;"><strong>404 Not Found</strong></td>
+<td style="text-align: left;">Error if the trade ID is not found.</td>
+</tr>
+<tr>
+<td style="text-align: left;"><strong>500 Internal Server Error</strong></td>
+<td style="text-align: left;">Database error.</td>
+</tr>
+</tbody>
+</table>
+<h2 id="4-tag-management-endpoints-tags">4. Tag Management Endpoints (<code>/tags</code>)</h2>
+<p>Controller: <code>backend/src/controllers/tagController.js</code></p>
+<hr />
+<h3 id="get-tags"><code>GET /tags</code></h3>
+<p>Retrieves all custom tags belonging to a specific user.</p>
+<table>
+<thead>
+<tr>
+<th style="text-align: left;">Property</th>
+<th style="text-align: left;">Type</th>
+<th style="text-align: left;">Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align: left;"><strong>Query Parameter</strong></td>
+<td style="text-align: left;"><code>object</code></td>
+<td style="text-align: left;">Filtering parameter.</td>
+</tr>
+<tr>
+<td style="text-align: left;"><code>req.query.user_id</code></td>
+<td style="text-align: left;"><code>string</code></td>
+<td style="text-align: left;">The ID of the authenticated user.</td>
+</tr>
+</tbody>
+</table>
+<table>
+<thead>
+<tr>
+<th style="text-align: left;">Response Code</th>
+<th style="text-align: left;">Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align: left;"><strong>200 OK</strong></td>
+<td style="text-align: left;">An array of tag objects.</td>
+</tr>
+<tr>
+<td style="text-align: left;"><strong>500 Internal Server Error</strong></td>
+<td style="text-align: left;">Database error.</td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h3 id="post-tags"><code>POST /tags</code></h3>
+<p>Creates a new tag associated with a user.</p>
+<table>
+<thead>
+<tr>
+<th style="text-align: left;">Property</th>
+<th style="text-align: left;">Type</th>
+<th style="text-align: left;">Default</th>
+<th style="text-align: left;">Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align: left;"><strong>Request Body</strong></td>
+<td style="text-align: left;"><code>object</code></td>
+<td style="text-align: left;">-</td>
+<td style="text-align: left;">New tag details.</td>
+</tr>
+<tr>
+<td style="text-align: left;"><code>req.body.user_id</code></td>
+<td style="text-align: left;"><code>string</code></td>
+<td style="text-align: left;">-</td>
+<td style="text-align: left;">The ID of the user creating the tag.</td>
+</tr>
+<tr>
+<td style="text-align: left;"><code>req.body.tag_name</code></td>
+<td style="text-align: left;"><code>string</code></td>
+<td style="text-align: left;">-</td>
+<td style="text-align: left;">The name of the new tag (e.g., 'Impulse').</td>
+</tr>
+<tr>
+<td style="text-align: left;"><code>req.body.tag_type</code></td>
+<td style="text-align: left;"><code>string</code></td>
+<td style="text-align: left;"><code>'general'</code></td>
+<td style="text-align: left;">The category of the tag (e.g., 'Strategy', 'Psychology').</td>
+</tr>
+<tr>
+<td style="text-align: left;"><code>req.body.tag_color</code></td>
+<td style="text-align: left;"><code>string</code></td>
+<td style="text-align: left;"><code>'blue'</code></td>
+<td style="text-align: left;">The color code/name for the tag display.</td>
+</tr>
+</tbody>
+</table>
+<table>
+<thead>
+<tr>
+<th style="text-align: left;">Response Code</th>
+<th style="text-align: left;">Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align: left;"><strong>201 Created</strong></td>
+<td style="text-align: left;">The newly created tag object.</td>
+</tr>
+<tr>
+<td style="text-align: left;"><strong>500 Internal Server Error</strong></td>
+<td style="text-align: left;">Database error.</td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h3 id="delete-tagstag_id"><code>DELETE /tags/:tag_id</code></h3>
+<p>Deletes a tag specified by its ID. Deletes all associated <code>trade_tags</code> entries via CASCADE.</p>
+<table>
+<thead>
+<tr>
+<th style="text-align: left;">Property</th>
+<th style="text-align: left;">Type</th>
+<th style="text-align: left;">Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align: left;"><strong>Route Parameter</strong></td>
+<td style="text-align: left;"><code>string</code></td>
+<td style="text-align: left;">The ID of the tag to delete.</td>
+</tr>
+</tbody>
+</table>
+<table>
+<thead>
+<tr>
+<th style="text-align: left;">Response Code</th>
+<th style="text-align: left;">Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align: left;"><strong>200 OK</strong></td>
+<td style="text-align: left;">Success message.</td>
+</tr>
+<tr>
+<td style="text-align: left;"><strong>404 Not Found</strong></td>
+<td style="text-align: left;">Error if the tag ID is not found.</td>
+</tr>
+<tr>
+<td style="text-align: left;"><strong>500 Internal Server Error</strong></td>
+<td style="text-align: left;">Database error.</td>
+</tr>
+</tbody>
+</table>
+
+
+
+
+
+
+
+
+
+
+
+
+                
+              </article>
+            </div>
+          
+          
+<script>var target=document.getElementById(location.hash.slice(1));target&&target.name&&(target.checked=target.name.startsWith("__tabbed_"))</script>
+        </div>
+        
+      </main>
+      
+        <footer class="md-footer">
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-copyright">
+  
+  
+    Made with
+    <a href="https://squidfunk.github.io/mkdocs-material/" target="_blank" rel="noopener">
+      Material for MkDocs
+    </a>
+  
+</div>
+      
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    <div class="md-dialog" data-md-component="dialog">
+      <div class="md-dialog__inner md-typeset"></div>
+    </div>
+    
+    
+    
+      
+      
+      <script id="__config" type="application/json">{"annotate": null, "base": "../..", "features": ["navigation.tabs", "navigation.instant", "search.suggest", "search.highlight"], "search": "../../assets/javascripts/workers/search.7a47a382.min.js", "tags": null, "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}, "version": null}</script>
+    
+    
+      <script src="../../assets/javascripts/bundle.e71a0d61.min.js"></script>
+      
+    
+  </body>
+</html>
