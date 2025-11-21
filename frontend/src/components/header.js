@@ -50,6 +50,7 @@ return(
                         <div className="hover:bg-blue-600 h-full w-full p-4 rounded-b-lg justify-center flex"><Link href="/analytics">Analytics</Link></div>
                         <div className="hover:bg-blue-600 h-full w-full p-4 rounded-b-lg justify-center flex"><Link href="/news">News</Link></div>
                         <div className="hover:bg-blue-600 h-full w-full p-4 rounded-b-lg justify-center flex"><Link href="/login">Login</Link></div>
+                        {user &&(<div className="hover:bg-blue-600 h-full w-full p-4 rounded-b-lg justify-center flex" onClick={logout}>Logout</div>)}
                        <div className="hover:bg-blue-600 h-full w-full p-4 rounded-b-lg justify-center flex"><Link href="/account">Account</Link></div>
                     </div>
                 )}

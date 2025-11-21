@@ -7,7 +7,7 @@ import { useAuth } from '@/hooks/useAuth'
 import { useRouter } from 'next/navigation'
 
 export default function Account (){
-    const {user, updateProfile, deleteAccount, isLoading, error } = useAuth()
+    const {user, updateProfile, deleteAccount, isLoading, logout, error } = useAuth()
     const router = useRouter()
     
     const [form, setForm] = useState({ username: '', email: '' })
@@ -97,6 +97,10 @@ export default function Account (){
                             )}
                         </div>
                     </div>
+                </div>
+
+                <div className="bg-white border border-gray-100 p-8 rounded-xl shadow-lg w-full max-w-md">
+                     <Button variant="secondary" className="w-full" onClick={logout}>Logout</Button>
                 </div>
 
                 <div className="bg-white border border-gray-100 p-8 rounded-xl shadow-lg w-full max-w-md">

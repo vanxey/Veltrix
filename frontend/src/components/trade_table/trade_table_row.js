@@ -5,7 +5,7 @@ export default function TradeTableRow({ trade, onDelete, filterText }) {
     <tr className="hover:bg-gray-50 transition-colors">
       {COLUMN_CONFIG
         .filter((col) => !["created_at"].includes(col.key))
-        .map(({ key }) => {
+        .map(({ key, className: colClasses}) => {
           if (key === "delete_action") {
             return (
               <td key={key} className="border-b border-gray-200 p-3 text-center">
@@ -26,7 +26,7 @@ export default function TradeTableRow({ trade, onDelete, filterText }) {
           return (
             <td
               key={key}
-              className={`border-b border-gray-200 p-3 ${className}`}
+              className={`border-b border-gray-200 p-3 ${colClasses || ""}`}
             >
               {highlighted}
             </td>
