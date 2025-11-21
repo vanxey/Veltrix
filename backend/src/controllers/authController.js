@@ -12,7 +12,11 @@ const register = async (req, res) => {
 
     const { username, email, password } = req.body
 
-    const existingUser = await client.query('SELECT * FROM users WHERE email = $1', [email])
+    const existingUser = await client.query(
+      'SELECT * FROM users WHERE email = $1',
+      [email]
+    )
+
     if (existingUser.rows.length > 0) {
       await client.query('ROLLBACK')
       return res.status(400).json({ error: 'User already exists' })
@@ -27,15 +31,13 @@ const register = async (req, res) => {
       VALUES ($1, $2, $3, $4)
       RETURNING user_id, username, email
     `
-    const { rows } = await client.query(userSql, [username, email, passwordHash, verificationToken])
-    const newUser = rows[0]
 
-    for (const tag of DEFAULT_TAGS) {
-      await client.query(
-        'INSERT INTO tag (user_id, tag_name, tag_type, tag_color) VALUES ($1, $2, $3, $4)',
-        [newUser.user_id, tag.name, tag.type, tag.color]
-      )
-    }
+    const { rows } = await client.query(userSql, [
+      username,
+      email,
+      passwordHash,
+      verificationToken
+    ])
 
     await client.query('COMMIT')
 
@@ -53,18 +55,16 @@ const register = async (req, res) => {
           <a href="${verifyLink}" style="background-color: #126eee; color: #ffffff; padding: 14px 28px; text-decoration: none; border-radius: 10px; font-weight: bold; font-family: sans-serif; display: inline-block;">Verify Account</a>
         `
       })
-      console.log(`[EMAIL SENT] to ${email}`)
     } catch (emailError) {
       console.error("WARNING: Failed to send email:", emailError.message)
     }
 
-    res.status(201).json({ 
-      message: 'Registration successful. Please check your email to verify your account.' 
+    res.status(201).json({
+      message: 'Registration successful. Please check your email to verify your account.'
     })
 
   } catch (e) {
     await client.query('ROLLBACK')
-    console.error('POST /register error', e)
     res.status(500).json({ error: 'Server error during registration' })
   } finally {
     client.release()
@@ -87,9 +87,7 @@ const verifyEmail = async (req, res) => {
     }
 
     res.status(200).json({ message: 'Email verified successfully' })
-
   } catch (e) {
-    console.error('POST /verify_email error', e)
     res.status(500).json({ error: 'Server error during verification' })
   }
 }
@@ -114,18 +112,16 @@ const login = async (req, res) => {
       return res.status(403).json({ error: 'Please verify your email before logging in' })
     }
 
-    res.status(200).json({ 
-      user: { 
-        user_id: user.user_id, 
-        username: user.username, 
+    res.status(200).json({
+      user: {
+        user_id: user.user_id,
+        username: user.username,
         email: user.email,
-        is_admin: user.is_admin 
-      }, 
-      message: 'Login successful' 
+        is_admin: user.is_admin
+      },
+      message: 'Login successful'
     })
-
   } catch (e) {
-    console.error('POST /login error', e)
     res.status(500).json({ error: 'Server error during login' })
   }
 }
