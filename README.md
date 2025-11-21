@@ -19,7 +19,7 @@ A full-stack web application designed to empower traders by providing tools to l
   - Outcome
   - Strategy
   - Notes
-  - Session affiliation
+  - Session
 
 - **Dynamic Trade Log**: View all logged trades in an interactive table with:
   - Filtering capabilities
@@ -38,7 +38,7 @@ A full-stack web application designed to empower traders by providing tools to l
 
 - **Framework**: [Next.js](https://nextjs.org/) (React) - Fast, scalable, and SEO-friendly user interface
 - **Styling**: [TailwindCSS](https://tailwindcss.com/) - Utility-first CSS for rapid UI development
-- **State Management**: React Hooks (`useState`, `useEffect`, `useMemo`) and Custom Hooks (`useTrades`)
+- **State Management**: React Hooks (`useState`, `useEffect`, `useMemo`) and Custom Hooks (`useTrades`, `useAuth`)
 - **Routing**: Next.js Router
 - **Testing**: [Jest](https://jestjs.io/) & [React Testing Library](https://testing-library.com/docs/react-testing-library/intro/)
 
@@ -77,32 +77,41 @@ cd frontend
 npm install
 
 # Install backend dependencies
-cd ../backend
+cd backend
 npm install
 ```
 
 ### 3. Set Up PostgreSQL Database
 
 1. Start your PostgreSQL service
-2. Create a new database for the application
-3. Run the database migration scripts (if provided)
+2. Import the provided DB Schema (/backend/db/schema.sql)
 
-### 4. Configure Environment Variables
+### 4. Set up Resend.com for Email verification
+1. Create an account on Resend.com
+2. Copy the API KEY into env.local
+3. Go to /backend/src/controllers/authController.js => go to line 55 => replace email with the mail you have signed up with at Resend.com => instead it should look like this: "example.email@gmail.com"
+4. Save file
+
+### 5. Configure Environment Variables
 
 Create `.env` files for both frontend and backend with the necessary configuration:
 
-**Backend `.env`:**
+**Backend `.env.local`:**
 ```env
-DATABASE_URL=postgresql://username:password@localhost:5432/veltrix
-PORT=5000
+NODE_ENV=development
+DATABASE_URL=postgresql://[username]:[password]@localhost:5432[db_name]
+FRONTEND_URL=http://localhost:3000
+RESEND_API_KEY=[Key from resend.com]
+EMAIL_FROM=[Veltrix] <onboarding@resend.dev>
+PORT=4000
 ```
 
 **Frontend `.env.local`:**
 ```env
-NEXT_PUBLIC_API_URL=http://localhost:5000
+NEXT_PUBLIC_API_URL=http://localhost:4000
 ```
 
-### 5. Run the Application
+### 6. Run the Application
 
 **Start the backend server:**
 ```bash
@@ -117,6 +126,7 @@ npm run dev
 ```
 
 The application should now be running at `http://localhost:3000`
+The backend should now be running at `http://localhost:4000`
 
 ## 🧪 Testing
 
@@ -126,26 +136,22 @@ Run the test suite:
 # Frontend tests
 cd frontend
 npm test
-
-# Backend tests
-cd backend
-npm test
 ```
 
 ## 📁 Project Structure
 
 ```
 Veltrix/
-├── frontend/          # Next.js frontend application
-│   ├── components/    # React components
-│   ├── pages/         # Next.js pages
-│   ├── styles/        # TailwindCSS styles
-│   └── hooks/         # Custom React hooks
-├── backend/           # Express.js backend API
-│   ├── routes/        # API routes
-│   ├── controllers/   # Request handlers
-│   ├── models/        # Database models
-│   └── middleware/    # Express middleware
+├── frontend/             # Next.js frontend
+│   ├── components/       # UI components
+│   ├── pages/            # Routes and views
+│   ├── styles/           # TailwindCSS config and styles
+│   └── hooks/            # Custom React hooks
+├── backend/              # Express API
+│   ├── index.js          # Entry point for the API server
+│   ├── routes/           # API route definitions
+│   ├── controllers/      # Business logic / request handlers
+│   └── db/               # DB Schema
 └── README.md
 ```
 
@@ -157,3 +163,4 @@ This project is open source and available under the MIT License.
 - Built with Next.js, Express.js, and PostgreSQL
 - Styled with TailwindCSS
 - Tested with Jest and React Testing Library
+
