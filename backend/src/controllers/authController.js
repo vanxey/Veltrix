@@ -12,55 +12,69 @@ const transporter = nodemailer.createTransport({
 })
 
 const register = async (req, res) => {
+  const client = await pool.connect()
   try {
+    await client.query('BEGIN')
+
     const { username, email, password } = req.body
 
-    const existingUser = await pool.query('SELECT * FROM users WHERE email = $1', [email])
+    const existingUser = await client.query('SELECT * FROM users WHERE email = $1', [email])
     if (existingUser.rows.length > 0) {
+      await client.query('ROLLBACK')
       return res.status(400).json({ error: 'User already exists' })
     }
 
     const salt = await bcrypt.genSalt(10)
     const passwordHash = await bcrypt.hash(password, salt)
-
     const verificationToken = crypto.randomBytes(32).toString('hex')
 
     const sql = `
       INSERT INTO users (username, email, password_hash, verification_token)
       VALUES ($1, $2, $3, $4)
+      RETURNING user_id, username, email
     `
-    await pool.query(sql, [username, email, passwordHash, verificationToken])
+    await client.query(sql, [username, email, passwordHash, verificationToken])
 
-    const frontendUrl = process.env.FRONTEND_URL
-    const verifyLink = `${frontendUrl}/verify?token=${verificationToken}`
+    await client.query('COMMIT')
 
-    const mailOptions = {
-      from: process.env.EMAIL_USER,
-      to: email,
-      subject: 'Verify your Veltrix Account',
-      html: `
-        <h1 style="margin: 0; font-size: 32px; line-height: 40px; font-family: sans-serif;">
-                Welcome to<br>
-                <span style="color: #126eee; font-family: sans-serif;">Veltrix</span>
-            </h1>
-            <p style="font-size: 16px; margin: 20px 0 30px 0; color: #000; font-family: sans-serif;">
-                Hi ${username}, please verify your account by clicking the link below:
-            </p>
-            <a href="${verifyLink}" style="font-family: sans-serif; background-color: #126eee; color: #ffffff; padding: 14px 28px; text-decoration: none; border-radius: 10px; font-weight: bold; font-size: 16px; display: inline-block;">
-                Verify Account
-            </a>
-      `
+    try {
+      const frontendUrl = process.env.FRONTEND_URL
+      const verifyLink = `${frontendUrl}/verify?token=${verificationToken}`
+
+      const mailOptions = {
+        from: `"Veltrix Support" <${process.env.EMAIL_USER}>`,
+        to: email,
+        subject: 'Verify your Veltrix Account',
+        html: `
+          <h1 style="margin: 0; font-size: 32px; line-height: 40px; font-family: sans-serif;">
+                  Welcome to<br>
+                  <span style="color: #126eee; font-family: sans-serif;">Veltrix</span>
+              </h1>
+              <p style="font-size: 16px; margin: 20px 0 30px 0; color: #000; font-family: sans-serif;">
+                  Hi ${username}, please verify your account by clicking the link below:
+              </p>
+              <a href="${verifyLink}" style="font-family: sans-serif; background-color: #126eee; color: #ffffff; padding: 14px 28px; text-decoration: none; border-radius: 10px; font-weight: bold; font-size: 16px; display: inline-block;">
+                  Verify Account
+              </a>
+        `
+      }
+
+      await transporter.sendMail(mailOptions)
+      console.log(`[EMAIL SENT] to ${email}`)
+    } catch (emailError) {
+      console.error("WARNING: Failed to send verification email:", emailError.message)
     }
-
-    await transporter.sendMail(mailOptions)
 
     res.status(201).json({ 
       message: 'Registration successful. Please check your email to verify your account.' 
     })
 
   } catch (e) {
+    await client.query('ROLLBACK')
     console.error('POST /register error', e)
     res.status(500).json({ error: 'Server error during registration' })
+  } finally {
+    client.release()
   }
 }
 
@@ -108,7 +122,12 @@ const login = async (req, res) => {
     }
 
     res.status(200).json({ 
-      user: { user_id: user.user_id, username: user.username, email: user.email }, 
+      user: { 
+        user_id: user.user_id, 
+        username: user.username, 
+        email: user.email,
+        is_admin: user.is_admin 
+      }, 
       message: 'Login successful' 
     })
 
