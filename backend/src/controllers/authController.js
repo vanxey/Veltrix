@@ -4,7 +4,9 @@ const crypto = require('crypto')
 const nodemailer = require('nodemailer')
 
 const transporter = nodemailer.createTransport({
-  service: 'gmail',
+  host: "smtp.gmail.com",
+  port: 465,
+  secure: true,
   auth: {
     user: process.env.EMAIL_USER,
     pass: process.env.EMAIL_PASS
@@ -28,18 +30,20 @@ const register = async (req, res) => {
     const passwordHash = await bcrypt.hash(password, salt)
     const verificationToken = crypto.randomBytes(32).toString('hex')
 
-    const sql = `
+    const userSql = `
       INSERT INTO users (username, email, password_hash, verification_token)
       VALUES ($1, $2, $3, $4)
       RETURNING user_id, username, email
     `
-    await client.query(sql, [username, email, passwordHash, verificationToken])
+    await client.query(userSql, [username, email, passwordHash, verificationToken])
 
     await client.query('COMMIT')
 
     try {
-      const frontendUrl = process.env.FRONTEND_URL
+      const frontendUrl = process.env.FRONTEND_URL || process.env.LOCAL_FRONTEND_IP_URL || 'http://localhost:3000'
       const verifyLink = `${frontendUrl}/verify?token=${verificationToken}`
+
+      console.log(`[MANUAL VERIFY] If email fails, click here: ${verifyLink}`)
 
       const mailOptions = {
         from: `"Veltrix Support" <${process.env.EMAIL_USER}>`,
@@ -66,7 +70,7 @@ const register = async (req, res) => {
     }
 
     res.status(201).json({ 
-      message: 'Registration successful. Please check your email to verify your account.' 
+      message: 'Registration successful. Please check your email (or server logs) to verify your account.' 
     })
 
   } catch (e) {
