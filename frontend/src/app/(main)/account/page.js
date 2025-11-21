@@ -15,12 +15,14 @@ export default function Account (){
     const [isEditing, setIsEditing] = useState(false)
 
     useEffect(() => {
-        if (user) {
-            setForm({ username: user.username, email: user.email })
-        } else {
-            //router.push('/login') 
+        if (!isLoading) {
+            if (user) {
+                setForm({ username: user.username, email: user.email })
+            } else {
+                router.push('/login') 
+            }
         }
-    }, [user])
+    }, [user, isLoading, router])
 
     const handleUpdate = async (e) => {
         e.preventDefault()
