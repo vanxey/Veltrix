@@ -9,6 +9,7 @@ const TOKEN_EXPIRATION_HOURS = 24
 
 const register = async (req, res) => {
   const client = await pool.connect()
+
   try {
     await client.query('BEGIN')
 
@@ -45,27 +46,53 @@ const register = async (req, res) => {
 
     await client.query('COMMIT')
 
-    // send email asynchronously
     const frontendUrl = process.env.FRONTEND_URL
     const verifyLink = `${frontendUrl}/verify?token=${verificationToken}`
 
-    resend.emails.send({
-      from: process.env.EMAIL_FROM,
-      to: email,
-      subject: 'Verify your Veltrix Account',
-      html: `
-        <h1 style="margin: 0; font-size: 32px; font-family: sans-serif;">Welcome to <span style="color: #126eee;">Veltrix</span></h1>
-        <p style="font-size: 16px; font-family: sans-serif;">Hi ${username}, please verify your account:</p>
-        <a href="${verifyLink}" style="background-color: #126eee; color: #ffffff; padding: 14px 28px; text-decoration: none; border-radius: 10px; font-weight: bold; font-family: sans-serif; display: inline-block;">Verify Account</a>
-      `
-    }).then(() => console.log(`[EMAIL SENT] to ${email}`))
-      .catch(err => console.error('EMAIL ERROR:', err))
+    try {
+      const { data, error } = await resend.emails.send({
+        from: process.env.EMAIL_FROM,
+        to: email,
+        subject: 'Verify your Veltrix Account',
+        html: `
+          <h1 style="margin: 0; font-size: 32px; font-family: sans-serif;">
+            Welcome to <span style="color: #126eee;">Veltrix</span>
+          </h1>
+          <p style="font-size: 16px; font-family: sans-serif;">
+            Hi ${username}, please verify your account:
+          </p>
+          <a
+            href="${verifyLink}"
+            style="
+              background-color: #126eee;
+              color: #ffffff;
+              padding: 14px 28px;
+              text-decoration: none;
+              border-radius: 10px;
+              font-weight: bold;
+              font-family: sans-serif;
+              display: inline-block;
+            "
+          >
+            Verify Account
+          </a>
+        `
+      })
+
+      if (error) {
+        console.error('RESEND ERROR:', error)
+      } else {
+        console.log('[EMAIL SENT]', data)
+      }
+    } catch (emailErr) {
+      console.error('RESEND UNEXPECTED ERROR:', emailErr)
+    }
 
     res.status(201).json({
       message: 'Registration successful. Please check your email to verify your account.'
     })
-
   } catch (e) {
+    console.error('REGISTER ERROR:', e)
     await client.query('ROLLBACK')
     res.status(500).json({ error: 'Server error during registration' })
   } finally {
@@ -76,13 +103,16 @@ const register = async (req, res) => {
 const verifyEmail = async (req, res) => {
   try {
     const { token } = req.body
-    if (!token) return res.status(400).json({ error: "Missing token" })
+    if (!token) return res.status(400).json({ error: 'Missing token' })
 
     const result = await pool.query(
       `
       UPDATE users
-      SET is_verified = TRUE, verification_token = NULL, verification_token_expires_at = NULL
-      WHERE verification_token = $1 AND verification_token_expires_at > NOW()
+      SET is_verified = TRUE,
+          verification_token = NULL,
+          verification_token_expires_at = NULL
+      WHERE verification_token = $1
+        AND verification_token_expires_at > NOW()
       RETURNING *
       `,
       [token]
@@ -94,6 +124,7 @@ const verifyEmail = async (req, res) => {
 
     res.status(200).json({ message: 'Email verified successfully' })
   } catch (e) {
+    console.error('VERIFY EMAIL ERROR:', e)
     res.status(500).json({ error: 'Server error during verification' })
   }
 }
@@ -102,7 +133,11 @@ const login = async (req, res) => {
   try {
     const { email, password } = req.body
 
-    const { rows } = await pool.query('SELECT * FROM users WHERE email = $1', [email])
+    const { rows } = await pool.query(
+      'SELECT * FROM users WHERE email = $1',
+      [email]
+    )
+
     if (rows.length === 0) {
       return res.status(401).json({ error: 'Invalid credentials' })
     }
@@ -128,6 +163,7 @@ const login = async (req, res) => {
       message: 'Login successful'
     })
   } catch (e) {
+    console.error('LOGIN ERROR:', e)
     res.status(500).json({ error: 'Server error during login' })
   }
 }
