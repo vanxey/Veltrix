@@ -1,17 +1,9 @@
 const pool = require('../db')
 const bcrypt = require('bcryptjs')
 const crypto = require('crypto')
-const nodemailer = require('nodemailer')
+const { Resend } = require('resend')
 
-const transporter = nodemailer.createTransport({
-  host: "smtp.gmail.com",
-  port: 465,
-  secure: true,
-  auth: {
-    user: process.env.EMAIL_USER,
-    pass: process.env.EMAIL_PASS
-  }
-})
+const resend = new Resend(process.env.RESEND_API_KEY)
 
 const register = async (req, res) => {
   const client = await pool.connect()
@@ -35,42 +27,39 @@ const register = async (req, res) => {
       VALUES ($1, $2, $3, $4)
       RETURNING user_id, username, email
     `
-    await client.query(userSql, [username, email, passwordHash, verificationToken])
+    const { rows } = await client.query(userSql, [username, email, passwordHash, verificationToken])
+    const newUser = rows[0]
+
+    for (const tag of DEFAULT_TAGS) {
+      await client.query(
+        'INSERT INTO tag (user_id, tag_name, tag_type, tag_color) VALUES ($1, $2, $3, $4)',
+        [newUser.user_id, tag.name, tag.type, tag.color]
+      )
+    }
 
     await client.query('COMMIT')
 
     try {
-      const frontendUrl = process.env.FRONTEND_URL || process.env.LOCAL_FRONTEND_IP_URL || 'http://localhost:3000'
+      const frontendUrl = process.env.FRONTEND_URL
       const verifyLink = `${frontendUrl}/verify?token=${verificationToken}`
 
-      console.log(`[MANUAL VERIFY] If email fails, click here: ${verifyLink}`)
-
-      const mailOptions = {
-        from: `"Veltrix Support" <${process.env.EMAIL_USER}>`,
+      await resend.emails.send({
+        from: 'onboarding@resend.dev',
         to: email,
         subject: 'Verify your Veltrix Account',
         html: `
-          <h1 style="margin: 0; font-size: 32px; line-height: 40px; font-family: sans-serif;">
-                  Welcome to<br>
-                  <span style="color: #126eee; font-family: sans-serif;">Veltrix</span>
-              </h1>
-              <p style="font-size: 16px; margin: 20px 0 30px 0; color: #000; font-family: sans-serif;">
-                  Hi ${username}, please verify your account by clicking the link below:
-              </p>
-              <a href="${verifyLink}" style="font-family: sans-serif; background-color: #126eee; color: #ffffff; padding: 14px 28px; text-decoration: none; border-radius: 10px; font-weight: bold; font-size: 16px; display: inline-block;">
-                  Verify Account
-              </a>
+          <h1 style="margin: 0; font-size: 32px; font-family: sans-serif;">Welcome to <span style="color: #126eee;">Veltrix</span></h1>
+          <p style="font-size: 16px; font-family: sans-serif;">Hi ${username}, please verify your account:</p>
+          <a href="${verifyLink}" style="background-color: #126eee; color: #ffffff; padding: 14px 28px; text-decoration: none; border-radius: 10px; font-weight: bold; font-family: sans-serif; display: inline-block;">Verify Account</a>
         `
-      }
-
-      await transporter.sendMail(mailOptions)
+      })
       console.log(`[EMAIL SENT] to ${email}`)
     } catch (emailError) {
-      console.error("WARNING: Failed to send verification email:", emailError.message)
+      console.error("WARNING: Failed to send email:", emailError.message)
     }
 
     res.status(201).json({ 
-      message: 'Registration successful. Please check your email (or server logs) to verify your account.' 
+      message: 'Registration successful. Please check your email to verify your account.' 
     })
 
   } catch (e) {
