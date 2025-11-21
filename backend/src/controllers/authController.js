@@ -46,7 +46,7 @@ const register = async (req, res) => {
       const verifyLink = `${frontendUrl}/verify?token=${verificationToken}`
 
       await resend.emails.send({
-        from: 'onboarding@resend.dev',
+        from: process.env.EMAIL_FROM,
         to: email,
         subject: 'Verify your Veltrix Account',
         html: `
