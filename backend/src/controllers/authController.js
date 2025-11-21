@@ -31,7 +31,7 @@ const register = async (req, res) => {
     `
     await pool.query(sql, [username, email, passwordHash, verificationToken])
 
-    const frontendUrl = process.env.LOCAL_FRONTEND_IP_URL
+    const frontendUrl = process.env.FRONTEND_URL
     const verifyLink = `${frontendUrl}/verify?token=${verificationToken}`
 
     const mailOptions = {

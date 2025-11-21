@@ -14,7 +14,7 @@ const tradeRoutes = require('./routes/tradeRoutes')
 const tagRoutes = require('./routes/tagRoutes')
 
 app.use(cors({
-  origin: [process.env.LOCAL_FRONTEND_IP_URL, process.env.FRONTEND_URL],
+  origin: [ process.env.FRONTEND_URL, process.env.LOCAL_FRONTEND_IP_URL],
   methods: ["GET", "POST", "PUT", "DELETE"],
   allowedHeaders: ["Content-Type", "Authorization"],
   credentials: true,
