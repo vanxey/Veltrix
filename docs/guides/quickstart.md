@@ -41,19 +41,28 @@ npm install
 ### Environment Configuration
 
 **Backend** (`backend/.env.local`):
-```env
-NODE_ENV=development
-DATABASE_URL=postgresql://[username]:[password]@localhost:5432/[db_name]
-FRONTEND_URL=http://localhost:3000
-RESEND_API_KEY=[your-resend-api-key]
-EMAIL_FROM=[Veltrix] <onboarding@resend.dev>
-PORT=4000
-```
+
+Table: Environment Variables
+
+| Variable              | Description                                                      | Example Value                                                     |
+|-----------------------|------------------------------------------------------------------|-------------------------------------------------------------------|
+| NODE_ENV              | Set to `development` for local database configuration.           | development                                                       |
+| DATABASE_URL          | Connection string for your local PostgreSQL instance.            | postgresql://[username]:[password]@localhost:5432/[db_name]       |
+| FRONTEND_URL          | The URL of the Next.js frontend (used for email verification).   | http://localhost:3000                                             |
+| LOCAL_FRONTEND_IP_URL | Local IP for CORS configuration.                                 | http://192.168.x.x:3000                                           |
+| RESEND_API_KEY        | Key for email services (Resend.com).                             | [Key from resend.com]                                             |
+| EMAIL_FROM            | Sender email address for verification.                           | [Veltrix] <onboarding@resend.dev>                                 |
+| PORT                  | Port for the Express.js backend.                                 | 4000                                                              |
+
 
 **Frontend** (`frontend/.env.local`):
-```env
-NEXT_PUBLIC_API_URL=http://localhost:4000
-```
+
+Table: Frontend Environment Variable
+
+| Variable             | Description                                 | Example Value          |
+|----------------------|---------------------------------------------|-------------------------|
+| NEXT_PUBLIC_API_URL  | URL of the backend API used by Next.js.     | http://localhost:4000   |
+
 
 ### Running the Application
 
@@ -67,5 +76,6 @@ cd frontend
 npm run dev
 ```
 
-Access the application at **http://localhost:3000**
+**Frontend:** Access the application at **http://localhost:3000**
+**Backend:**Access the application at **http://localhost:4000**
 
