@@ -5,20 +5,26 @@ import { FETCH_URL } from '@/lib/constants'
 import { useRouter } from 'next/navigation'
 
 export function useAuth() {
-  const [isLoading, setIsLoading] = useState(false)
+  const [isLoading, setIsLoading] = useState(true) 
   const [error, setError] = useState(null)
   const [user, setUser] = useState(null)
   const router = useRouter()
 
   useEffect(() => {
-    const storedUser = localStorage.getItem('veltrix_user')
-    if (storedUser) {
-      try {
-        setUser(JSON.parse(storedUser))
-      } catch (e) {
-        console.error("Failed to parse user data", e)
+    const checkLocalUser = () => {
+      const storedUser = localStorage.getItem('veltrix_user')
+      if (storedUser) {
+        try {
+          setUser(JSON.parse(storedUser))
+        } catch (e) {
+          console.error("Failed to parse user data", e)
+          localStorage.removeItem('veltrix_user') 
+        }
       }
+      setIsLoading(false)
     }
+
+    checkLocalUser()
   }, [])
 
   const login = async (form) => {
@@ -32,7 +38,6 @@ export function useAuth() {
       })
 
       const data = await res.json()
-      //console.log(data.user)
       if (!res.ok) throw new Error(data.error || 'Login failed')
 
       localStorage.setItem('veltrix_user', JSON.stringify(data.user))
@@ -113,7 +118,6 @@ export function useAuth() {
 
       const data = await res.json()
       if (!res.ok) throw new Error(data.error || 'Delete failed')
-
 
       logout()
       return data

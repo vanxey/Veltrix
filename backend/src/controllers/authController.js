@@ -31,7 +31,7 @@ const register = async (req, res) => {
     `
     await pool.query(sql, [username, email, passwordHash, verificationToken])
 
-    const frontendUrl = process.env.FRONTEND_URL || process.env.LOCAL_FRONTEND_IP_URL
+    const frontendUrl = process.env.LOCAL_FRONTEND_IP_URL
     const verifyLink = `${frontendUrl}/verify?token=${verificationToken}`
 
     const mailOptions = {
@@ -39,20 +39,16 @@ const register = async (req, res) => {
       to: email,
       subject: 'Verify your Veltrix Account',
       html: `
-        <div style="background-color: #000000; padding: 50px 20px; width: 100%; font-family: sans-serif;">
-        <div style="max-width: 600px; margin: 0 auto; text-align: center; color: white;">
-            <h1 style="margin: 0; font-size: 32px; line-height: 40px;">
+        <h1 style="margin: 0; font-size: 32px; line-height: 40px; font-family: sans-serif;">
                 Welcome to<br>
-                <span style="color: #126eee;">Veltrix</span>
+                <span style="color: #126eee; font-family: sans-serif;">Veltrix</span>
             </h1>
-            <p style="font-size: 16px; margin: 20px 0 30px 0; color: #cccccc;">
+            <p style="font-size: 16px; margin: 20px 0 30px 0; color: #000; font-family: sans-serif;">
                 Hi ${username}, please verify your account by clicking the link below:
             </p>
-            <a href="${verifyLink}" style="background-color: #126eee; color: #ffffff; padding: 14px 28px; text-decoration: none; border-radius: 10px; font-weight: bold; font-size: 16px; display: inline-block;">
+            <a href="${verifyLink}" style="font-family: sans-serif; background-color: #126eee; color: #ffffff; padding: 14px 28px; text-decoration: none; border-radius: 10px; font-weight: bold; font-size: 16px; display: inline-block;">
                 Verify Account
             </a>
-        </div>
-    </div>
       `
     }
 

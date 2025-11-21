@@ -51,7 +51,7 @@ export default function LoginForm({isLogin, toggleIsLogin}){
                     email: form.email,
                     password: form.password
                 })
-                alert("Account created! Please check your backend console for the verification link.")
+                alert("Account created! Please check your email for the verification link.")
                 toggleIsLogin() 
             } catch (err) {
                 alert(err.message)
