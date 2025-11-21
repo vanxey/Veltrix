@@ -18,6 +18,14 @@ export const MONTHS = {
     11: ["December", 31]
 }
 
+/**
+ * Generates an array representing a calendar grid for a month.
+ * It prepends null values for days before the first of the month.
+ *
+ * @param {number} daysInMonth - The total number of days in the current month (e.g., 30, 31).
+ * @param {number} daysFromMonday - The number of empty spots needed at the start of the grid (0 for Monday, 6 for Sunday).
+ * @returns {Array<number|null>} An array of day numbers and null placeholders.
+ */
 export const getDaysInMonthGrid = (daysInMonth, daysFromMonday) => {
     const days = [
         ...Array(daysFromMonday).fill(null),
@@ -26,6 +34,20 @@ export const getDaysInMonthGrid = (daysInMonth, daysFromMonday) => {
     return days
 }
 
+/**
+ * Processes raw trade data for a month into a Map optimized for calendar display.
+ * It aggregates PnL and counts of trades for each day.
+ *
+ * @param {Array<object>} data - An array of trade objects for a specific month.
+ * @param {number} data[].pnl - The PnL value of the trade.
+ * @param {('Win'|'Loss'|'BE')} data[].outcome - The outcome of the trade.
+ * @param {string} data[].exit_date - The date the trade exited (used to determine the day).
+ * @returns {Map<number, object>} A Map where the key is the day of the month (number) and the value is the aggregated trade data.
+ * @returns {object} MapValue - Aggregated data for a day.
+ * @returns {number} MapValue.pnl - Total PnL for the day.
+ * @returns {number} MapValue.tradeAmount - Total number of trades for the day.
+ * @returns {('Loss'|'Win'|'BE')} MapValue.outcome - The aggregate outcome (defaults to Loss if any trade was a Loss).
+ */
 export const processCalendarData = (data) => {
     const processedData = new Map()
 
