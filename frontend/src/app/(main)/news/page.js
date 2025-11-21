@@ -12,7 +12,7 @@ export default function News(){
     return(
         <div className="grid grid-rows-[auto_1fr] max-w-screen h-auto">
             <Header />
-            <div className="flex flex-col py-10 px-50 gap-10">
+            <div className="flex flex-col py-10 px-10 md:px-30 lg:px-50 gap-10">
                 <div className="flex flex-row gap-3">
 
                 <div className="flex items-center"><svg xmlns="http://www.w3.org/2000/svg" width="40" height="40" viewBox="0 0 24 24"><path fill="none" stroke="#000" strokeLinecap="round" strokeLinejoin="round" strokeWidth="1.5" d="M17.25 4.75H6.75a3.5 3.5 0 0 0-3.5 3.5v9.5a3.5 3.5 0 0 0 3.5 3.5h10.5a3.5 3.5 0 0 0 3.5-3.5v-9.5a3.5 3.5 0 0 0-3.5-3.5m-14 4.5h17.5M7.361 4.75v-2m9.25 2v-2"/></svg></div>
