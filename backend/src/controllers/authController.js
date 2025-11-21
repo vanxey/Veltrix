@@ -5,6 +5,8 @@ const { Resend } = require('resend')
 
 const resend = new Resend(process.env.RESEND_API_KEY)
 
+const TOKEN_EXPIRATION_HOURS = 24
+
 const register = async (req, res) => {
   const client = await pool.connect()
   try {
@@ -25,10 +27,11 @@ const register = async (req, res) => {
     const salt = await bcrypt.genSalt(10)
     const passwordHash = await bcrypt.hash(password, salt)
     const verificationToken = crypto.randomBytes(32).toString('hex')
+    const expiresAt = new Date(Date.now() + TOKEN_EXPIRATION_HOURS * 60 * 60 * 1000)
 
     const userSql = `
-      INSERT INTO users (username, email, password_hash, verification_token)
-      VALUES ($1, $2, $3, $4)
+      INSERT INTO users (username, email, password_hash, verification_token, verification_token_expires_at)
+      VALUES ($1, $2, $3, $4, $5)
       RETURNING user_id, username, email
     `
 
@@ -36,28 +39,27 @@ const register = async (req, res) => {
       username,
       email,
       passwordHash,
-      verificationToken
+      verificationToken,
+      expiresAt
     ])
 
     await client.query('COMMIT')
 
-    try {
-      const frontendUrl = process.env.FRONTEND_URL
-      const verifyLink = `${frontendUrl}/verify?token=${verificationToken}`
+    // send email asynchronously
+    const frontendUrl = process.env.FRONTEND_URL
+    const verifyLink = `${frontendUrl}/verify?token=${verificationToken}`
 
-      await resend.emails.send({
-        from: process.env.EMAIL_FROM,
-        to: email,
-        subject: 'Verify your Veltrix Account',
-        html: `
-          <h1 style="margin: 0; font-size: 32px; font-family: sans-serif;">Welcome to <span style="color: #126eee;">Veltrix</span></h1>
-          <p style="font-size: 16px; font-family: sans-serif;">Hi ${username}, please verify your account:</p>
-          <a href="${verifyLink}" style="background-color: #126eee; color: #ffffff; padding: 14px 28px; text-decoration: none; border-radius: 10px; font-weight: bold; font-family: sans-serif; display: inline-block;">Verify Account</a>
-        `
-      })
-    } catch (emailError) {
-      console.error("WARNING: Failed to send email:", emailError.message)
-    }
+    resend.emails.send({
+      from: process.env.EMAIL_FROM,
+      to: email,
+      subject: 'Verify your Veltrix Account',
+      html: `
+        <h1 style="margin: 0; font-size: 32px; font-family: sans-serif;">Welcome to <span style="color: #126eee;">Veltrix</span></h1>
+        <p style="font-size: 16px; font-family: sans-serif;">Hi ${username}, please verify your account:</p>
+        <a href="${verifyLink}" style="background-color: #126eee; color: #ffffff; padding: 14px 28px; text-decoration: none; border-radius: 10px; font-weight: bold; font-family: sans-serif; display: inline-block;">Verify Account</a>
+      `
+    }).then(() => console.log(`[EMAIL SENT] to ${email}`))
+      .catch(err => console.error('EMAIL ERROR:', err))
 
     res.status(201).json({
       message: 'Registration successful. Please check your email to verify your account.'
@@ -74,11 +76,15 @@ const register = async (req, res) => {
 const verifyEmail = async (req, res) => {
   try {
     const { token } = req.body
-
     if (!token) return res.status(400).json({ error: "Missing token" })
 
     const result = await pool.query(
-      'UPDATE users SET is_verified = TRUE, verification_token = NULL WHERE verification_token = $1 RETURNING *',
+      `
+      UPDATE users
+      SET is_verified = TRUE, verification_token = NULL, verification_token_expires_at = NULL
+      WHERE verification_token = $1 AND verification_token_expires_at > NOW()
+      RETURNING *
+      `,
       [token]
     )
 
