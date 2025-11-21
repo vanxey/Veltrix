@@ -44,12 +44,13 @@ return(
               
             </div>
               {isMobile && (
-                    <div className="md:hidden flex flex-col sm:flex-row bg-black border-t border-blue-200 text-white rounded-b-lg place-items-center justify-between">
+                    <div className="md:hidden flex flex-col sm:flex-row bg-black border-t border-blue-200 text-white place-items-center justify-between">
                         <div className="hover:bg-blue-600 h-full w-full p-4 rounded-b-lg justify-center flex"><Link href="/">Home</Link></div>
                         <div className="hover:bg-blue-600 h-full w-full p-4 rounded-b-lg justify-center flex"><Link href="/journaling">Journaling</Link></div>
                         <div className="hover:bg-blue-600 h-full w-full p-4 rounded-b-lg justify-center flex"><Link href="/analytics">Analytics</Link></div>
                         <div className="hover:bg-blue-600 h-full w-full p-4 rounded-b-lg justify-center flex"><Link href="/news">News</Link></div>
                         <div className="hover:bg-blue-600 h-full w-full p-4 rounded-b-lg justify-center flex"><Link href="/login">Login</Link></div>
+                       <div className="hover:bg-blue-600 h-full w-full p-4 rounded-b-lg justify-center flex"><Link href="/account">Account</Link></div>
                     </div>
                 )}
     </header>

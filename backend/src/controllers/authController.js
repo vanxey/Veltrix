@@ -1,6 +1,15 @@
 const pool = require('../db')
 const bcrypt = require('bcryptjs')
 const crypto = require('crypto')
+const nodemailer = require('nodemailer')
+
+const transporter = nodemailer.createTransport({
+  service: 'gmail',
+  auth: {
+    user: process.env.EMAIL_USER,
+    pass: process.env.EMAIL_PASS
+  }
+})
 
 const register = async (req, res) => {
   try {
@@ -19,12 +28,35 @@ const register = async (req, res) => {
     const sql = `
       INSERT INTO users (username, email, password_hash, verification_token)
       VALUES ($1, $2, $3, $4)
-      RETURNING user_id, username, email
     `
-    const { rows } = await pool.query(sql, [username, email, passwordHash, verificationToken])
+    await pool.query(sql, [username, email, passwordHash, verificationToken])
 
-    const verifyLink = `${process.env.LOCAL_FRONTEND_IP_URL}/verify?token=${verificationToken}`
-    console.log(`[MOCK EMAIL] Verify here: ${verifyLink}`)
+    const frontendUrl = process.env.FRONTEND_URL || process.env.LOCAL_FRONTEND_IP_URL
+    const verifyLink = `${frontendUrl}/verify?token=${verificationToken}`
+
+    const mailOptions = {
+      from: process.env.EMAIL_USER,
+      to: email,
+      subject: 'Verify your Veltrix Account',
+      html: `
+        <div style="background-color: #000000; padding: 50px 20px; width: 100%; font-family: sans-serif;">
+        <div style="max-width: 600px; margin: 0 auto; text-align: center; color: white;">
+            <h1 style="margin: 0; font-size: 32px; line-height: 40px;">
+                Welcome to<br>
+                <span style="color: #126eee;">Veltrix</span>
+            </h1>
+            <p style="font-size: 16px; margin: 20px 0 30px 0; color: #cccccc;">
+                Hi ${username}, please verify your account by clicking the link below:
+            </p>
+            <a href="${verifyLink}" style="background-color: #126eee; color: #ffffff; padding: 14px 28px; text-decoration: none; border-radius: 10px; font-weight: bold; font-size: 16px; display: inline-block;">
+                Verify Account
+            </a>
+        </div>
+    </div>
+      `
+    }
+
+    await transporter.sendMail(mailOptions)
 
     res.status(201).json({ 
       message: 'Registration successful. Please check your email to verify your account.' 

@@ -18,9 +18,9 @@ export default function Account (){
         if (user) {
             setForm({ username: user.username, email: user.email })
         } else {
-            router.push('/login') 
+            //router.push('/login') 
         }
-    }, [user, router])
+    }, [user])
 
     const handleUpdate = async (e) => {
         e.preventDefault()

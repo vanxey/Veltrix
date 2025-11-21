@@ -8,7 +8,7 @@ export default function TradeTable({ trades, onDelete }) {
   
   const headers = COLUMN_CONFIG
     .filter(col => !["created_at"].includes(col.key))
-    .map(col => col.header)
+    // .map(col => col.header)
 
   const filteredAndSortedTrades = useMemo(() => {
     let filtered = trades
@@ -48,13 +48,14 @@ export default function TradeTable({ trades, onDelete }) {
 
   return (
     <div className="overflow-x-auto rounded-lg shadow-lg p-4 border-1 border-gray-100">
-      <div className="flex flex-row justify-end h-10 mb-2 gap-2">
+      <div className="flex flex-col md:flex-row lg:flex-row justify-end mb-2 gap-2">
         <div className="flex grow text-xl font-bold pl-1">Trade Logs</div>
-        <div className="flex w-auto">
-          <div className="flex flex-col">
-            <label className="text-sm px-1">Filter:</label>
-            <input 
-              className="w-50 border rounded-2xl border-gray-200 text-sm px-2" 
+        <div className="flex w-full md:w-auto">
+          <div className="flex flex-col w-full">
+            <label htmlFor="filter" className="text-sm px-1">Filter:</label>
+            <input
+              id="filter" 
+              className="w-full md:w-50 border rounded-2xl border-gray-200 text-sm px-2" 
               type="text"
               placeholder="Search..."
               value={filterText}
@@ -62,11 +63,12 @@ export default function TradeTable({ trades, onDelete }) {
             />
           </div>
         </div>
-        <div className="flex w-auto">
-          <div className="flex flex-col">
-            <label className="text-sm px-1">Sort:</label>
+        <div className="flex w-full md:w-auto">
+          <div className="flex flex-col w-full">
+            <label htmlFor="sort" className="text-sm px-1">Sort:</label>
             <select 
-              className="bg-dark-800 text-white w-50 rounded-2xl text-sm px-2"
+              id="sort"
+              className="w-full md:w-50 bg-dark-800 text-white rounded-2xl text-sm px-2"
               value={sortKey}
               onChange={(e) => setSortKey(e.target.value)}
             >
@@ -87,9 +89,9 @@ export default function TradeTable({ trades, onDelete }) {
       <table className="min-w-full border border-gray-200 text-sm rounded-lg overflow-hidden">
         <thead className="bg-gray-700 text-white font-semibold">
           <tr>
-            {headers.map((header) => (
-              <th key={header} className="border-b border-gray-200 p-3 text-left">
-                {header}
+            {headers.map((col) => (
+              <th key={col.key} className={`border-b border-gray-200 p-3 text-left ${col.className || ""}`}>
+                {col.header}
               </th>
             ))}
           </tr>

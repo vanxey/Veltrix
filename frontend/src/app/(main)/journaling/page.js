@@ -77,7 +77,7 @@ export default function Journaling() {
             <TradeTable trades={trades} onDelete={deleteTrade} className=""/>
           )}
 
-          <Button onClick={openPopup}>Add Journal</Button>
+          <Button onClick={openPopup} className="w-full md:w-50">Add Journal</Button>
           <TagsForm tags={tags} onAddTag={handleSaveTag} onDeleteTag={handleDeleteTag} />
         </div>
         
