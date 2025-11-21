@@ -1,0 +1,30 @@
+site_name: Veltrix Technical Documentation
+site_url: https://veltrix-1-g724.onrender.com/
+repo_url: https://github.com/vanxey/Veltrix.git
+repo_name: vanxey/Veltrix
+
+theme:
+  name: material
+  palette:
+    scheme: slate
+    primary: blue
+  features:
+    - navigation.tabs
+    - navigation.instant
+    - search.suggest
+    - search.highlight
+
+nav:
+    - Overview: index.md
+    - Getting Started (Procedural): guides/quickstart.md
+    - Conceptual Overview (Explanation): conceptual/architecture.md
+    - Tutorials: tutorials/first-trade.md
+    - Reference:
+        - API Reference: reference/api.md
+        - Data Model (Glossary): reference/datamodel.md
+        - Contributor Guide: CONTRIBUTING.md
+
+markdown_extensions:
+  - admonition
+  - pymdownx.details
+  - pymdownx.superfences

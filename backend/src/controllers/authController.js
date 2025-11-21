@@ -7,6 +7,19 @@ const resend = new Resend(process.env.RESEND_API_KEY)
 
 const TOKEN_EXPIRATION_HOURS = 24
 
+/**
+ * Handles user registration, creates a new user in the database, and sends a verification email.
+ *
+ * @param {object} req - Express request object.
+ * @param {object} req.body - Request body containing user credentials.
+ * @param {string} req.body.username - The desired username.
+ * @param {string} req.body.email - The user's email address.
+ * @param {string} req.body.password - The user's chosen password (plain text).
+ * @param {object} res - Express response object.
+ * @returns {object} 201 - Success message with instructions to check email.
+ * @returns {object} 400 - Error if user already exists.
+ * @returns {object} 500 - Server error during registration or email sending.
+ */
 const register = async (req, res) => {
   const client = await pool.connect()
 
@@ -100,6 +113,17 @@ const register = async (req, res) => {
   }
 }
 
+/**
+ * Verifies a user's email address using a token sent in the registration email.
+ *
+ * @param {object} req - Express request object.
+ * @param {object} req.body - Request body containing the verification token.
+ * @param {string} req.body.token - The unique verification token.
+ * @param {object} res - Express response object.
+ * @returns {object} 200 - Success message.
+ * @returns {object} 400 - Error for invalid or expired token.
+ * @returns {object} 500 - Server error during verification.
+ */
 const verifyEmail = async (req, res) => {
   try {
     const { token } = req.body
@@ -129,6 +153,19 @@ const verifyEmail = async (req, res) => {
   }
 }
 
+/**
+ * Handles user login and returns essential user data upon success.
+ *
+ * @param {object} req - Express request object.
+ * @param {object} req.body - Request body containing login credentials.
+ * @param {string} req.body.email - The user's email address.
+ * @param {string} req.body.password - The user's password (plain text).
+ * @param {object} res - Express response object.
+ * @returns {object} 200 - Success object containing the user's non-sensitive profile data and a message.
+ * @returns {object} 401 - Error for invalid credentials.
+ * @returns {object} 403 - Error if the email is not verified.
+ * @returns {object} 500 - Server error during login.
+ */
 const login = async (req, res) => {
   try {
     const { email, password } = req.body
