@@ -33,14 +33,17 @@ Stores user authentication and profile data.
 
 Table: User Table Schema
 
-| Column        | Data Type      | Constraint/Description                               |
-|---------------|----------------|-------------------------------------------------------|
-| user_id       | UUID           | Primary Key.                                         |
-| username      | VARCHAR(255)   | Not Null, Unique.                                    |
-| email         | VARCHAR(255)   | Not Null, Unique.                                    |
-| password_hash | VARCHAR(255)   | Not Null.                                            |
-| is_verified   | BOOLEAN        | Default false, email verification status.            |
-| is_admin      | BOOLEAN        | Default false, administrator privileges.             |
+| Column                       | Data Type      | Constraint/Description                                   |
+|------------------------------|----------------|-----------------------------------------------------------|
+| user_id                      | UUID           | Primary Key.                                              |
+| username                     | VARCHAR(255)   | Not Null, Unique.                                         |
+| email                        | VARCHAR(255)   | Not Null, Unique.                                         |
+| password_hash                | VARCHAR(255)   | Not Null.                                                 |
+| is_verified                  | BOOLEAN        | Default false, email verification status.                 |
+| is_admin                     | BOOLEAN        | Default false, administrator privileges.                  |
+| verification_token           | VARCHAR        | Stored as a hash.                                         |
+| verification_token_expires_at| TIMESTAMP      | Expiration timestamp for email verification token.        |
+
 
 `session`
 

@@ -10,10 +10,10 @@ A full-stack web application designed to empower traders by providing tools to l
 
 **All detailed installation instructions, architecture overviews, API references, and contribution guides have been moved to our documentation site:**
 
-[**Read the Veltrix Documentation**](https://your-docs-url-here/) 
+[**Read the Veltrix Documentation**](https://vanxey.github.io/Veltrix/) 
 
-* [**Quick Start & Installation**](guides/quickstart.md)
-* [**Contributor's Guide**](CONTRIBUTING.md)
+* [**Quick Start & Installation**](docs/guides/quickstart.md)
+* [**Contributor's Guide**](docs/CONTRIBUTING.md)
 
 ## License
 
