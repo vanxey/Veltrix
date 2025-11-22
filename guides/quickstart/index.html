@@ -867,8 +867,9 @@ npm<span class="w"> </span>install
 <ol>
 <li>Create an account at <a href="https://resend.com">Resend.com</a></li>
 <li>Copy your API key</li>
-<li>Update <code>backend/src/controllers/authController.js</code> line 55 with your Resend email</li>
+<li>Update <code>backend/src/controllers/authController.js</code> at <strong>line 70</strong> with your Resend email</li>
 </ol>
+<p><strong>Note</strong>: The verification link is using localhost (localhost:3000/verify?token=[verification_token]) =&gt; if you want to verify on your phone or other devices use the IP of your hosting device instead of localhost e.g. (192.168.x.x:3000/verify?token=[verification_token])</p>
 <h3 id="environment-configuration">Environment Configuration</h3>
 <p><strong>Backend</strong> (<code>backend/.env.local</code>):</p>
 <p>Table: Environment Variables</p>
