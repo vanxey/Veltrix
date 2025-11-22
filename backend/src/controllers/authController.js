@@ -1,3 +1,5 @@
+//FOR CHANGING EMAIL VERFICATION TO LOCAL GO TO LINE 70 instead of 55!!!
+
 const pool = require('../db')
 const bcrypt = require('bcryptjs')
 const crypto = require('crypto')
@@ -65,7 +67,7 @@ const register = async (req, res) => {
     try {
       const { data, error } = await resend.emails.send({
         from: process.env.EMAIL_FROM,
-        to: email,
+        to: email, //Change to email used in resend.com for reveiving a verfication link per email locally!! Note: link is using localhost if you want to verify on your phone or other devices use the IP of your hosting device
         subject: 'Verify your Veltrix Account',
         html: `
           <h1 style="margin: 0; font-size: 32px; font-family: sans-serif;">

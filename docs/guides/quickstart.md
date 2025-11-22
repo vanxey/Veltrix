@@ -36,7 +36,9 @@ npm install
 
 1. Create an account at [Resend.com](https://resend.com)
 2. Copy your API key
-3. Update `backend/src/controllers/authController.js` line 55 with your Resend email
+3. Update `backend/src/controllers/authController.js` at **line 70** with your Resend email
+
+ **Note**: The verification link is using localhost (localhost:3000/verify?token=[verification_token]) => if you want to verify on your phone or other devices use the IP of your hosting device instead of localhost e.g. (192.168.x.x:3000/verify?token=[verification_token])
 
 ### Environment Configuration
 
