@@ -1,16 +1,16 @@
 # API Reference
 
-This document provides a complete reference for all RESTful endpoints exposed by the Veltrix Express.js backend.
+This document covers all the RESTful endpoints exposed by the Veltrix Express.js backend. Endpoints are grouped by controller and resource type — if you're looking for a specific route, the section headings should get you there quickly.
 
-## 1. Authentication Endpoints (`/register`, `/login`, `/verify_email`)
+## 1. Authentication Endpoints 
 
-Controller: `backend/src/controllers/authController.js`
+**Controller:** `backend/src/controllers/authController.js`
 
 ---
 
 ### `POST /register`
 
-Handles user registration, creates a new user in the database, and sends a verification email.
+Creates a new user account and sends a verification email via Resend. The user won't be able to log in until the email is verified.
 
 | Property | Type | Description |
 | :--- | :--- | :--- |
@@ -29,7 +29,7 @@ Handles user registration, creates a new user in the database, and sends a verif
 
 ### `POST /verify_email`
 
-Verifies a user's email address using a token sent in the registration email.
+Verifies a user's email address using the token sent in the registration email. Tokens expire, so if the user tries to verify too late they'll need to re-register.
 
 | Property | Type | Description |
 | :--- | :--- | :--- |
@@ -61,9 +61,9 @@ Handles user login and returns essential user data upon success.
 | **403 Forbidden**| Error if the email is not verified. |
 | **500 Internal Server Error**| Server error during login. |
 
-## 2. User Management Endpoints (`/users`, `/user/:user_id`)
+## 2. User Management Endpoints
 
-Controller: `backend/src/controllers/userController.js`
+**Controller:** `backend/src/controllers/userController.js`
 
 ---
 
@@ -106,7 +106,7 @@ Updates a user's profile (username and/or email).
 
 ### `DELETE /user/:user_id`
 
-Deletes a user account and all associated trades. **Requires password confirmation.**
+Deletes a user account and all associated trades. **Requires password confirmation.** The backend checks it via `bcryptjs.compare` before doing anything.
 
 | Property | Type | Description |
 | :--- | :--- | :--- |
@@ -121,9 +121,9 @@ Deletes a user account and all associated trades. **Requires password confirmati
 | **404 Not Found**| Error if the `user_id` is not found. |
 | **500 Internal Server Error**| Server error during account deletion. |
 
-## 3. Trade and Session Endpoints (`/trade`, `/trades`, `/session`)
+## 3. Trade and Session Endpoints
 
-Controller: `backend/src/controllers/tradeController.js`
+**Controller:** `backend/src/controllers/tradeController.js`
 
 ---
 
@@ -140,7 +140,7 @@ Retrieves a list of all predefined trading sessions.
 
 ### `GET /trade_calendar`
 
-Retrieves trade data for a specific month, optimized for the calendar view. Filters by `user_id` unless the user is an admin.
+Returns trade data for a specific month, formatted for the calendar view. Filters by `user_id` unless the requester is an admin, in which case all trades are returned.
 
 | Property | Type | Description |
 | :--- | :--- | :--- |
@@ -213,9 +213,9 @@ Deletes a single trade record by its ID.
 | **404 Not Found**| Error if the trade ID is not found. |
 | **500 Internal Server Error**| Database error. |
 
-## 4. Tag Management Endpoints (`/tags`)
+## 4. Tag Management Endpoints
 
-Controller: `backend/src/controllers/tagController.js`
+**Controller:** `backend/src/controllers/tagController.js`
 
 ---
 
