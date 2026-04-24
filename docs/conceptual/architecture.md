@@ -1,6 +1,6 @@
 # System Architecture
 
-Veltrix is built using a standard 3-Tier architecture, separating the presentation layer (Frontend), the application logic layer (Backend), and the data layer (Database).
+Veltrix is built using a standard 3-tier architecture, separating the presentation layer (Frontend), the application logic layer (Backend), and the data layer (Database). The reason for keeping these three tiers separate is straightforward — the frontend never talks to the database directly and the database doesn't need to know anything about how the UI works. It keeps things easier to debug and change independently.
 
 ### Tier 1: Presentation Layer (Frontend)
 
@@ -25,5 +25,26 @@ Veltrix is built using a standard 3-Tier architecture, separating the presentati
 
 ## Data Flow Diagram (3-Tier Model)
 
+The flow is uni-directional from the browser to the database. The Express.js API is the only thing that talks to PostgreSQL directly — the frontend never bypasses it.
 
-The flow is uni-directional from the browser to the database, enforced by the Express.js API acting as the sole intermediary for all persistent data operations.
+```mermaid
+flowchart LR
+    A["Browser\nNext.js Frontend"]
+    B["Express.js API\nNode.js Backend"]
+    C[("PostgreSQL\nDatabase")]
+
+    A -->|"HTTP fetch requests\n(JSON)"| B
+    B -->|"SQL queries\n(via pg client)"| C
+    C -->|"Result sets"| B
+    B -->|"JSON responses"| A
+```
+
+---
+
+## Summary
+
+| Layer | Technology | Responsibility |
+|---|---|---|
+| Presentation | Next.js, TailwindCSS | UI rendering, routing, state |
+| Application | Node.js, Express.js | API, business logic, auth |
+| Data | PostgreSQL | Persistent storage |
