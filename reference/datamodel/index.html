@@ -613,6 +613,17 @@
       <ul class="md-nav__list">
         
           <li class="md-nav__item">
+  <a href="#enumerated-types" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Enumerated Types
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
   <a href="#core-tables" class="md-nav__link">
     <span class="md-ellipsis">
       
@@ -620,6 +631,45 @@
       
     </span>
   </a>
+  
+    <nav class="md-nav" aria-label="Core Tables">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#session" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        session
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#tag" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        tag
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#trade" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        trade
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
   
 </li>
         
@@ -733,6 +783,17 @@
       <ul class="md-nav__list">
         
           <li class="md-nav__item">
+  <a href="#enumerated-types" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Enumerated Types
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
   <a href="#core-tables" class="md-nav__link">
     <span class="md-ellipsis">
       
@@ -740,6 +801,45 @@
       
     </span>
   </a>
+  
+    <nav class="md-nav" aria-label="Core Tables">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#session" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        session
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#tag" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        tag
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#trade" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        trade
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
   
 </li>
         
@@ -780,7 +880,7 @@
 
 
 <h1 id="data-model">Data Model</h1>
-<p>This document details the PostgreSQL database schema and defines key, domain-specific terminology (Glossary) used throughout the Veltrix application.</p>
+<p>This document covers the PostgreSQL database schema for Veltrix and defines the domain-specific terminology used throughout the application. If a term in the UI or API response is unclear, the glossary below is the first place to check.</p>
 <h2 id="1-glossary-of-terms">1. Glossary of Terms</h2>
 <p>Table: Key Trading Terms</p>
 <table>
@@ -793,34 +893,35 @@
 </thead>
 <tbody>
 <tr>
-<td>P&amp;L</td>
-<td>Profit and Loss. The financial outcome of a trade. In the database, stored as <code>NUMERIC(20,8)</code>.</td>
+<td><strong>P&amp;L</strong></td>
+<td>Profit and Loss — the financial outcome of a trade. Stored in the database as <code>NUMERIC(20,8)</code>.</td>
 <td>Analytics, Trade Records</td>
 </tr>
 <tr>
-<td>Outcome</td>
-<td>The binary result of a trade: Win, Loss, or BE (Break Even).</td>
+<td><strong>Outcome</strong></td>
+<td>The result of a trade: <code>Win</code>, <code>Loss</code>, or <code>BE</code> (Break Even).</td>
 <td>Trade Records, Analytics</td>
 </tr>
 <tr>
-<td>Session</td>
-<td>A user-defined grouping of trades, often corresponding to major market periods (e.g., London Session, New York Session).</td>
+<td><strong>Session</strong></td>
+<td>A user-defined grouping of trades, typically corresponding to a major market period (e.g., London Session, New York Session).</td>
 <td>Trade Grouping</td>
 </tr>
 <tr>
-<td>Direction</td>
-<td>The trade type: Buy (Long) or Sell (Short).</td>
+<td><strong>Direction</strong></td>
+<td>The trade type: <code>Buy</code> (Long) or <code>Sell</code> (Short).</td>
 <td>Trade Records</td>
 </tr>
 <tr>
-<td>Tag</td>
-<td>User-defined labels for organizing trades by strategy, psychology, or market condition.</td>
+<td><strong>Tag</strong></td>
+<td>A user-defined label for organising trades by strategy, psychology, or market condition.</td>
 <td>Trade Records, Filtering</td>
 </tr>
 </tbody>
 </table>
 <h2 id="2-database-schema-references">2. Database Schema references</h2>
-<p>The database uses PostgreSQL and the <code>uuid-ossp</code> extension to generate UUID primary keys.</p>
+<p>The database runs on PostgreSQL and uses the <code>uuid-ossp</code> extension to generate UUID primary keys for all core tables.</p>
+<h3 id="enumerated-types">Enumerated Types</h3>
 <p>Table: Enumerated Types (Enums)</p>
 <table>
 <thead>
@@ -832,18 +933,18 @@
 </thead>
 <tbody>
 <tr>
-<td>trade_direction</td>
-<td>'Buy', 'Sell'</td>
+<td><code>trade_direction</code></td>
+<td><code>'Buy'</code>, <code>'Sell'</code></td>
 <td>The direction of the trade.</td>
 </tr>
 <tr>
-<td>trade_outcome</td>
-<td>'Win', 'Loss', 'BE'</td>
-<td>The final result of the trade ('BE' stands for Break Even).</td>
+<td><code>trade_outcome</code></td>
+<td><code>'Win'</code>, <code>'Loss'</code>, <code>'BE'</code></td>
+<td>The final result of the trade (<code>'BE'</code> = Break Even).</td>
 </tr>
 <tr>
-<td>news_impact_level</td>
-<td>'High', 'Medium', 'Low'</td>
+<td><code>news_impact_level</code></td>
+<td><code>'High'</code>, <code>'Medium'</code>, <code>'Low'</code></td>
 <td>The market impact level of an economic event.</td>
 </tr>
 </tbody>
@@ -857,53 +958,53 @@
 <tr>
 <th>Column</th>
 <th>Data Type</th>
-<th>Constraint/Description</th>
+<th>Constraint / Description</th>
 </tr>
 </thead>
 <tbody>
 <tr>
-<td>user_id</td>
-<td>UUID</td>
+<td><code>user_id</code></td>
+<td><code>UUID</code></td>
 <td>Primary Key.</td>
 </tr>
 <tr>
-<td>username</td>
-<td>VARCHAR(255)</td>
+<td><code>username</code></td>
+<td><code>VARCHAR(255)</code></td>
 <td>Not Null, Unique.</td>
 </tr>
 <tr>
-<td>email</td>
-<td>VARCHAR(255)</td>
+<td><code>email</code></td>
+<td><code>VARCHAR(255)</code></td>
 <td>Not Null, Unique.</td>
 </tr>
 <tr>
-<td>password_hash</td>
-<td>VARCHAR(255)</td>
+<td><code>password_hash</code></td>
+<td><code>VARCHAR(255)</code></td>
 <td>Not Null.</td>
 </tr>
 <tr>
-<td>is_verified</td>
-<td>BOOLEAN</td>
-<td>Default false, email verification status.</td>
+<td><code>is_verified</code></td>
+<td><code>BOOLEAN</code></td>
+<td>Default <code>false</code> — email verification status.</td>
 </tr>
 <tr>
-<td>is_admin</td>
-<td>BOOLEAN</td>
-<td>Default false, administrator privileges.</td>
+<td><code>is_admin</code></td>
+<td><code>BOOLEAN</code></td>
+<td>Default <code>false</code> — administrator privileges.</td>
 </tr>
 <tr>
-<td>verification_token</td>
-<td>VARCHAR</td>
+<td><code>verification_token</code></td>
+<td><code>VARCHAR</code></td>
 <td>Stored as a hash.</td>
 </tr>
 <tr>
-<td>verification_token_expires_at</td>
-<td>TIMESTAMP</td>
-<td>Expiration timestamp for email verification token.</td>
+<td><code>verification_token_expires_at</code></td>
+<td><code>TIMESTAMP</code></td>
+<td>Expiration timestamp for the email verification token.</td>
 </tr>
 </tbody>
 </table>
-<p><code>session</code></p>
+<h4 id="session"><code>session</code></h4>
 <p>Stores custom trade session periods (e.g., London, Asia).</p>
 <p>Table: Session Table Schema</p>
 <table>
@@ -911,33 +1012,33 @@
 <tr>
 <th>Column</th>
 <th>Data Type</th>
-<th>Constraint/Description</th>
+<th>Constraint / Description</th>
 </tr>
 </thead>
 <tbody>
 <tr>
-<td>session_id</td>
-<td>UUID</td>
+<td><code>session_id</code></td>
+<td><code>UUID</code></td>
 <td>Primary Key.</td>
 </tr>
 <tr>
-<td>name</td>
-<td>VARCHAR(20)</td>
+<td><code>name</code></td>
+<td><code>VARCHAR(20)</code></td>
 <td>Not Null, Unique.</td>
 </tr>
 <tr>
-<td>start_time</td>
-<td>TIMESTAMP</td>
+<td><code>start_time</code></td>
+<td><code>TIMESTAMP</code></td>
 <td></td>
 </tr>
 <tr>
-<td>end_time</td>
-<td>TIMESTAMP</td>
+<td><code>end_time</code></td>
+<td><code>TIMESTAMP</code></td>
 <td></td>
 </tr>
 </tbody>
 </table>
-<p><code>tag</code></p>
+<h4 id="tag"><code>tag</code></h4>
 <p>Stores user-specific tags for categorizing trades (e.g., 'Double Bottom', 'Over-leveraged').</p>
 <p>Table: Tag Table Schema</p>
 <table>
@@ -945,33 +1046,33 @@
 <tr>
 <th>Column</th>
 <th>Data Type</th>
-<th>Constraint/Description</th>
+<th>Constraint / Description</th>
 </tr>
 </thead>
 <tbody>
 <tr>
-<td>tag_id</td>
-<td>UUID</td>
+<td><code>tag_id</code></td>
+<td><code>UUID</code></td>
 <td>Primary Key.</td>
 </tr>
 <tr>
-<td>user_id</td>
-<td>UUID</td>
-<td>Foreign Key to users (ON DELETE CASCADE).</td>
+<td><code>user_id</code></td>
+<td><code>UUID</code></td>
+<td>Foreign Key → <code>users</code> (ON DELETE CASCADE).</td>
 </tr>
 <tr>
-<td>tag_name</td>
-<td>VARCHAR(50)</td>
+<td><code>tag_name</code></td>
+<td><code>VARCHAR(50)</code></td>
 <td>Not Null.</td>
 </tr>
 <tr>
-<td>tag_type</td>
-<td>VARCHAR(20)</td>
-<td>Not Null (e.g., 'Strategy', 'Psychology').</td>
+<td><code>tag_type</code></td>
+<td><code>VARCHAR(20)</code></td>
+<td>Not Null (e.g., <code>'Strategy'</code>, <code>'Psychology'</code>).</td>
 </tr>
 </tbody>
 </table>
-<p><code>trade</code></p>
+<h4 id="trade"><code>trade</code></h4>
 <p>The core table storing all logged trade details.</p>
 <p>Table: Trade Table Schema</p>
 <table>
@@ -979,68 +1080,68 @@
 <tr>
 <th>Column</th>
 <th>Data Type</th>
-<th>Constraint/Description</th>
+<th>Constraint / Description</th>
 </tr>
 </thead>
 <tbody>
 <tr>
-<td>trade_id</td>
-<td>UUID</td>
+<td><code>trade_id</code></td>
+<td><code>UUID</code></td>
 <td>Primary Key.</td>
 </tr>
 <tr>
-<td>user_id</td>
-<td>UUID</td>
-<td>Foreign Key to users (ON DELETE CASCADE).</td>
+<td><code>user_id</code></td>
+<td><code>UUID</code></td>
+<td>Foreign Key → <code>users</code> (ON DELETE CASCADE).</td>
 </tr>
 <tr>
-<td>session_id</td>
-<td>UUID</td>
-<td>Foreign Key to session (ON DELETE CASCADE).</td>
+<td><code>session_id</code></td>
+<td><code>UUID</code></td>
+<td>Foreign Key → <code>session</code> (ON DELETE CASCADE).</td>
 </tr>
 <tr>
-<td>asset</td>
-<td>VARCHAR(50)</td>
-<td>Trading pair/asset.</td>
+<td><code>asset</code></td>
+<td><code>VARCHAR(50)</code></td>
+<td>Trading pair or asset (e.g., <code>EUR/USD</code>).</td>
 </tr>
 <tr>
-<td>direction</td>
-<td>trade_direction</td>
-<td>'Buy' or 'Sell'.</td>
+<td><code>direction</code></td>
+<td><code>trade_direction</code></td>
+<td><code>'Buy'</code> or <code>'Sell'</code>.</td>
 </tr>
 <tr>
-<td>size</td>
-<td>NUMERIC(20,8)</td>
+<td><code>size</code></td>
+<td><code>NUMERIC(20,8)</code></td>
 <td>Position size / lot size.</td>
 </tr>
 <tr>
-<td>pnl</td>
-<td>NUMERIC(20,8)</td>
+<td><code>pnl</code></td>
+<td><code>NUMERIC(20,8)</code></td>
 <td>Profit/Loss amount.</td>
 </tr>
 <tr>
-<td>entry_date</td>
-<td>TIMESTAMP</td>
+<td><code>entry_date</code></td>
+<td><code>TIMESTAMP</code></td>
 <td>Not Null.</td>
 </tr>
 <tr>
-<td>exit_date</td>
-<td>TIMESTAMP</td>
+<td><code>exit_date</code></td>
+<td><code>TIMESTAMP</code></td>
 <td></td>
 </tr>
 <tr>
-<td>outcome</td>
-<td>trade_outcome</td>
-<td>'Win', 'Loss', or 'BE' (Not Null).</td>
+<td><code>outcome</code></td>
+<td><code>trade_outcome</code></td>
+<td><code>'Win'</code>, <code>'Loss'</code>, or <code>'BE'</code> — Not Null.</td>
 </tr>
 <tr>
-<td>is_reviewed</td>
-<td>BOOLEAN</td>
-<td>Default false.</td>
+<td><code>is_reviewed</code></td>
+<td><code>BOOLEAN</code></td>
+<td>Default <code>false</code>.</td>
 </tr>
 <tr>
-<td>updated_at</td>
-<td>TIMESTAMP</td>
+<td><code>updated_at</code></td>
+<td><code>TIMESTAMP</code></td>
 <td>Automatically updated on row change.</td>
 </tr>
 </tbody>
@@ -1058,16 +1159,16 @@
 </thead>
 <tbody>
 <tr>
-<td>trade_tags</td>
-<td>Links a trade (<code>trade_id</code>) to multiple tags (<code>tag_id</code>).</td>
-<td>(trade_id, tag_id)</td>
-<td>trade (ON DELETE CASCADE), tag (ON DELETE CASCADE)</td>
+<td><code>trade_tags</code></td>
+<td>Links a trade to one or more tags.</td>
+<td><code>(trade_id, tag_id)</code></td>
+<td><code>trade</code> (ON DELETE CASCADE), <code>tag</code> (ON DELETE CASCADE)</td>
 </tr>
 <tr>
-<td>news_article_tags</td>
-<td>Links a news article (<code>article_id</code>) to multiple tags (<code>tag_id</code>).</td>
-<td>(article_id, tag_id)</td>
-<td>news_article, tag (ON DELETE CASCADE)</td>
+<td><code>news_article_tags</code></td>
+<td>Links a news article to one or more tags.</td>
+<td><code>(article_id, tag_id)</code></td>
+<td><code>news_article</code>, <code>tag</code> (ON DELETE CASCADE)</td>
 </tr>
 </tbody>
 </table>

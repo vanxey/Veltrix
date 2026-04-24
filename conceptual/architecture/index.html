@@ -496,6 +496,17 @@
   
 </li>
       
+        <li class="md-nav__item">
+  <a href="#summary" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Summary
+      
+    </span>
+  </a>
+  
+</li>
+      
     </ul>
   
 </nav>
@@ -742,6 +753,17 @@
   
 </li>
       
+        <li class="md-nav__item">
+  <a href="#summary" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Summary
+      
+    </span>
+  </a>
+  
+</li>
+      
     </ul>
   
 </nav>
@@ -763,7 +785,7 @@
 
 
 <h1 id="system-architecture">System Architecture</h1>
-<p>Veltrix is built using a standard 3-Tier architecture, separating the presentation layer (Frontend), the application logic layer (Backend), and the data layer (Database).</p>
+<p>Veltrix is built using a standard 3-tier architecture, separating the presentation layer (Frontend), the application logic layer (Backend), and the data layer (Database). The reason for keeping these three tiers separate is straightforward — the frontend never talks to the database directly and the database doesn't need to know anything about how the UI works. It keeps things easier to debug and change independently.</p>
 <h3 id="tier-1-presentation-layer-frontend">Tier 1: Presentation Layer (Frontend)</h3>
 <ul>
 <li><strong>Role:</strong> Handles all user interaction, rendering, client-side routing, and state management.</li>
@@ -788,7 +810,45 @@
 <li><strong>Access:</strong> Managed by the backend via the <code>pg</code> library and configured using the <code>DATABASE_URL</code> environment variable. The schema defines tables for <code>users</code>, <code>trade</code>, <code>session</code>, and various junction tables.</li>
 </ul>
 <h2 id="data-flow-diagram-3-tier-model">Data Flow Diagram (3-Tier Model)</h2>
-<p>The flow is uni-directional from the browser to the database, enforced by the Express.js API acting as the sole intermediary for all persistent data operations.</p>
+<p>The flow is uni-directional from the browser to the database. The Express.js API is the only thing that talks to PostgreSQL directly — the frontend never bypasses it.</p>
+<div class="highlight"><pre><span></span><code>flowchart LR
+    A[&quot;Browser\nNext.js Frontend&quot;]
+    B[&quot;Express.js API\nNode.js Backend&quot;]
+    C[(&quot;PostgreSQL\nDatabase&quot;)]
+
+    A --&gt;|&quot;HTTP fetch requests\n(JSON)&quot;| B
+    B --&gt;|&quot;SQL queries\n(via pg client)&quot;| C
+    C --&gt;|&quot;Result sets&quot;| B
+    B --&gt;|&quot;JSON responses&quot;| A
+</code></pre></div>
+<hr />
+<h2 id="summary">Summary</h2>
+<table>
+<thead>
+<tr>
+<th>Layer</th>
+<th>Technology</th>
+<th>Responsibility</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Presentation</td>
+<td>Next.js, TailwindCSS</td>
+<td>UI rendering, routing, state</td>
+</tr>
+<tr>
+<td>Application</td>
+<td>Node.js, Express.js</td>
+<td>API, business logic, auth</td>
+</tr>
+<tr>
+<td>Data</td>
+<td>PostgreSQL</td>
+<td>Persistent storage</td>
+</tr>
+</tbody>
+</table>
 
 
 

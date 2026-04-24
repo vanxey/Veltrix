@@ -852,7 +852,7 @@ git<span class="w"> </span>clone<span class="w"> </span>https://github.com/vanxe
 npm<span class="w"> </span>install
 
 <span class="c1"># 3. Install backend dependencies</span>
-<span class="nb">cd</span><span class="w">  </span>backend
+<span class="nb">cd</span><span class="w">  </span>../backend
 npm<span class="w"> </span>install
 </code></pre></div>
 <h3 id="database-setup">Database Setup</h3>
@@ -864,6 +864,7 @@ npm<span class="w"> </span>install
 </code></pre></div></li>
 </ol>
 <h3 id="email-service-setup-resend">Email Service Setup (Resend)</h3>
+<p>Veltrix uses <a href="https://resend.com">Resend</a> to send email verification links on registration.</p>
 <ol>
 <li>Create an account at <a href="https://resend.com">Resend.com</a></li>
 <li>Copy your API key</li>
@@ -871,6 +872,7 @@ npm<span class="w"> </span>install
 </ol>
 <p><strong>Note</strong>: The verification link is using localhost (localhost:3000/verify?token=[verification_token]) =&gt; if you want to verify on your phone or other devices use the IP of your hosting device instead of localhost e.g. (192.168.x.x:3000/verify?token=[verification_token])</p>
 <h3 id="environment-configuration">Environment Configuration</h3>
+<p>Create the following <code>.env.local</code> files before starting the application. Without these the app won't connect to the database or send emails.</p>
 <p><strong>Backend</strong> (<code>backend/.env.local</code>):</p>
 <p>Table: Environment Variables</p>
 <table>
@@ -883,39 +885,39 @@ npm<span class="w"> </span>install
 </thead>
 <tbody>
 <tr>
-<td>NODE_ENV</td>
+<td><code>NODE_ENV</code></td>
 <td>Set to <code>development</code> for local database configuration.</td>
-<td>development</td>
+<td><code>development</code></td>
 </tr>
 <tr>
-<td>DATABASE_URL</td>
+<td><code>DATABASE_URL</code></td>
 <td>Connection string for your local PostgreSQL instance.</td>
-<td>postgresql://[username]:[password]@localhost:5432/[db_name]</td>
+<td><code>postgresql://[username]:[password]@localhost:5432/[db_name]</code></td>
 </tr>
 <tr>
-<td>FRONTEND_URL</td>
-<td>The URL of the Next.js frontend (used for email verification).</td>
-<td>http://localhost:3000</td>
+<td><code>FRONTEND_URL</code></td>
+<td>URL of the Next.js frontend, used for email verification links.</td>
+<td><code>http://localhost:3000</code></td>
 </tr>
 <tr>
-<td>LOCAL_FRONTEND_IP_URL</td>
+<td><code>LOCAL_FRONTEND_IP_URL</code></td>
 <td>Local IP for CORS configuration.</td>
-<td>http://192.168.x.x:3000</td>
+<td><code>http://192.168.x.x:3000</code></td>
 </tr>
 <tr>
-<td>RESEND_API_KEY</td>
-<td>Key for email services (Resend.com).</td>
-<td>[Key from resend.com]</td>
+<td><code>RESEND_API_KEY</code></td>
+<td>API key from Resend.com.</td>
+<td><code>re_...</code></td>
 </tr>
 <tr>
-<td>EMAIL_FROM</td>
-<td>Sender email address for verification.</td>
-<td>[Veltrix] <a href="&#109;&#97;&#105;&#108;&#116;&#111;&#58;&#111;&#110;&#98;&#111;&#97;&#114;&#100;&#105;&#110;&#103;&#64;&#114;&#101;&#115;&#101;&#110;&#100;&#46;&#100;&#101;&#118;">&#111;&#110;&#98;&#111;&#97;&#114;&#100;&#105;&#110;&#103;&#64;&#114;&#101;&#115;&#101;&#110;&#100;&#46;&#100;&#101;&#118;</a></td>
+<td><code>EMAIL_FROM</code></td>
+<td>Sender address for verification emails.</td>
+<td><code>Veltrix &lt;onboarding@resend.dev&gt;</code></td>
 </tr>
 <tr>
-<td>PORT</td>
+<td><code>PORT</code></td>
 <td>Port for the Express.js backend.</td>
-<td>4000</td>
+<td><code>4000</code></td>
 </tr>
 </tbody>
 </table>
@@ -931,13 +933,14 @@ npm<span class="w"> </span>install
 </thead>
 <tbody>
 <tr>
-<td>NEXT_PUBLIC_API_URL</td>
+<td><code>NEXT_PUBLIC_API_URL</code></td>
 <td>URL of the backend API used by Next.js.</td>
-<td>http://localhost:4000</td>
+<td><code>http://localhost:4000</code></td>
 </tr>
 </tbody>
 </table>
 <h3 id="running-the-application">Running the Application</h3>
+<p>Open two terminal windows and run each service separately:</p>
 <div class="highlight"><pre><span></span><code><span class="c1"># Terminal 1: Start backend</span>
 <span class="nb">cd</span><span class="w"> </span>backend
 npm<span class="w"> </span>run<span class="w"> </span>dev
