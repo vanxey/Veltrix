@@ -19,7 +19,7 @@ cd frontend
 npm install
 
 # 3. Install backend dependencies
-cd  backend
+cd  ../backend
 npm install
 ```
 
@@ -34,6 +34,8 @@ npm install
 
 ### Email Service Setup (Resend)
 
+Veltrix uses [Resend](https://resend.com) to send email verification links on registration.
+
 1. Create an account at [Resend.com](https://resend.com)
 2. Copy your API key
 3. Update `backend/src/controllers/authController.js` at **line 70** with your Resend email
@@ -42,31 +44,35 @@ npm install
 
 ### Environment Configuration
 
+Create the following `.env.local` files before starting the application. Without these the app won't connect to the database or send emails.
+
 **Backend** (`backend/.env.local`):
 
 Table: Environment Variables
 
-| Variable              | Description                                                      | Example Value                                                     |
-|-----------------------|------------------------------------------------------------------|-------------------------------------------------------------------|
-| NODE_ENV              | Set to `development` for local database configuration.           | development                                                       |
-| DATABASE_URL          | Connection string for your local PostgreSQL instance.            | postgresql://[username]:[password]@localhost:5432/[db_name]       |
-| FRONTEND_URL          | The URL of the Next.js frontend (used for email verification).   | http://localhost:3000                                             |
-| LOCAL_FRONTEND_IP_URL | Local IP for CORS configuration.                                 | http://192.168.x.x:3000                                           |
-| RESEND_API_KEY        | Key for email services (Resend.com).                             | [Key from resend.com]                                             |
-| EMAIL_FROM            | Sender email address for verification.                           | [Veltrix] <onboarding@resend.dev>                                 |
-| PORT                  | Port for the Express.js backend.                                 | 4000                                                              |
+| Variable | Description | Example Value |
+|---|---|---|
+| `NODE_ENV` | Set to `development` for local database configuration. | `development` |
+| `DATABASE_URL` | Connection string for your local PostgreSQL instance. | `postgresql://[username]:[password]@localhost:5432/[db_name]` |
+| `FRONTEND_URL` | URL of the Next.js frontend, used for email verification links. | `http://localhost:3000` |
+| `LOCAL_FRONTEND_IP_URL` | Local IP for CORS configuration. | `http://192.168.x.x:3000` |
+| `RESEND_API_KEY` | API key from Resend.com. | `re_...` |
+| `EMAIL_FROM` | Sender address for verification emails. | `Veltrix <onboarding@resend.dev>` |
+| `PORT` | Port for the Express.js backend. | `4000` |
 
 
 **Frontend** (`frontend/.env.local`):
 
 Table: Frontend Environment Variable
 
-| Variable             | Description                                 | Example Value          |
-|----------------------|---------------------------------------------|-------------------------|
-| NEXT_PUBLIC_API_URL  | URL of the backend API used by Next.js.     | http://localhost:4000   |
+| Variable | Description | Example Value |
+|---|---|---|
+| `NEXT_PUBLIC_API_URL` | URL of the backend API used by Next.js. | `http://localhost:4000` |
 
 
 ### Running the Application
+
+Open two terminal windows and run each service separately:
 
 ```bash
 # Terminal 1: Start backend
