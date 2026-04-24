@@ -1,14 +1,14 @@
 # Contributor Guide for Veltrix
 
-Veltrix is an open-source project, and we welcome contributions from the community. By participating in this project, you agree to abide by our code of conduct.
+Veltrix is open source and contributions are welcome — whether that's fixing a bug, improving the docs, or adding a feature. Before submitting anything, read through this guide so your contribution fits the existing structure and standards.
 
 ## Getting Started
 
-Please ensure you have completed the local setup defined in the [Getting Started (Procedural)](guides/quickstart.md) guide before proceeding.
+Complete the local setup in the [Getting Started guide](guides/quickstart.md) before making any changes. This makes sure your environment matches the expected configuration.
 
 ## Project Structure
 
-Veltrix uses a monorepo structure separating the frontend and backend applications.
+Veltrix uses a monorepo layout, with the frontend and backend kept as separate applications under the same repository root.
 
 | Directory | Role | Key Technologies |
 | :--- | :--- | :--- |
@@ -72,3 +72,4 @@ We use a standard fork and feature-branch workflow.
 5. Push your branch to your fork.
 6. Create a Pull Request (PR) targeting the main branch of the original repository.
 7. Ensure all tests pass and respond to any review comments.
+
